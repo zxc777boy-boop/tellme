@@ -3,73 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TellMe | Messenger</title>
+    <title>Tellme | Твой мир</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body id="main-body" class="auth-page">
+<body id="main-body">
 
-<div id="auth-screen" class="screen-container">
-    <div class="auth-card">
-        <h1 class="logo-text">Tell me</h1>
-        <div class="inputs">
+<div id="auth-screen" class="full-display">
+    <div class="glass-card">
+        <h1 class="brand-logo">Tellme</h1>
+        <div class="input-fields">
             <input type="email" id="email" placeholder="Почта" value="zxc777boy@gmail.com">
             <input type="text" id="username" placeholder="@username" value="@click">
             <input type="password" id="pass" placeholder="Пароль">
             <input type="password" id="pass-confirm" placeholder="Повтор пароля">
         </div>
-        <button class="main-btn" onclick="handleAuth()">Войти в мир</button>
+        <button class="action-btn" onclick="startApp()">Войти в мир</button>
     </div>
 </div>
 
-<div id="app-screen" class="app-container" style="display: none;">
-    <aside class="sidebar">
-        <div class="side-header">
-            <input type="text" placeholder="Поиск по юзернейму..." oninput="searchPeople()">
+<div id="app-screen" class="main-app" style="display: none;">
+    <aside class="mac-sidebar">
+        <div class="search-box">
+            <input type="text" placeholder="Поиск людей..." oninput="filterList()">
         </div>
-        <div class="chat-list">
+        <div class="chat-list" id="chats">
             <div class="chat-item active">
-                <div class="avatar">TM</div>
-                <div class="info">
-                    <span class="nick">TellMe Support</span>
-                    <span class="preview">Добро пожаловать в TellMe!</span>
+                <div class="avatar-circle">TM</div>
+                <div class="chat-meta">
+                    <span class="nick">Tellme Support</span>
+                    <span class="text">Добро пожаловать!</span>
                 </div>
             </div>
         </div>
-        <button class="settings-trigger" onclick="toggleSettings(true)">⚙️ Настройки</button>
+        <div class="sidebar-bottom">
+            <button class="settings-btn" onclick="openSettings()">⚙️ Настройки</button>
+        </div>
     </aside>
 
-    <main class="chat-area">
-        <div id="chat-content">
-            <div class="chat-header"><h2>TellMe Support</h2></div>
-            <div class="messages" id="msg-box">
-                <div class="msg bot">Привет! Теперь ты в системе. Попробуй изменить профиль.</div>
+    <section class="chat-viewport">
+        <div id="messages-view">
+            <div class="top-bar"><h2>Tellme Support</h2></div>
+            <div class="history" id="chat-history">
+                <div class="bubble received">Вы успешно вошли в систему!</div>
             </div>
-            <div class="input-bar">
-                <input type="text" id="m-input" placeholder="Написать сообщение...">
-                <button onclick="sendMsg()">Отправить</button>
+            <div class="input-row">
+                <input type="text" id="m-input" placeholder="Напишите сообщение...">
+                <button class="send-btn" onclick="sendMsg()">></button>
             </div>
         </div>
 
-        <div id="settings-panel" style="display: none;">
-            <div class="set-header">
-                <h3>Профиль</h3>
-                <button onclick="toggleSettings(false)">✕</button>
+        <div id="settings-view" style="display: none;">
+            <div class="top-bar">
+                <h2>Настройки профиля</h2>
+                <button class="close-btn" onclick="closeSettings()">✕</button>
             </div>
-            <div class="set-body">
-                <div class="profile-pic" id="p-avatar">?</div>
-                <input type="file" id="file-up" hidden>
-                <button class="sub-btn" onclick="document.getElementById('file-up').click()">Сменить аватарку</button>
-                
-                <label>Юзернейм</label>
-                <input type="text" id="set-nick" placeholder="Минимум 3 символа">
-                
-                <label>Описание</label>
-                <textarea id="set-bio" placeholder="О себе..."></textarea>
-                
-                <button class="save-btn" onclick="saveData()">Сохранить</button>
+            <div class="settings-body">
+                <div class="profile-preview">
+                    <div class="large-avatar">?</div>
+                    <button class="upload-btn">Сменить аватарку</button>
+                </div>
+                <div class="form-group">
+                    <label>Юзернейм</label>
+                    <input type="text" id="u-change" placeholder="Мин. 3 символа">
+                    <label>Описание</label>
+                    <textarea id="bio-change" placeholder="Расскажите о себе..."></textarea>
+                    <button class="save-btn" onclick="saveData()">Сохранить изменения</button>
+                </div>
             </div>
         </div>
-    </main>
+    </section>
 </div>
 
 <script src="script.js"></script>
