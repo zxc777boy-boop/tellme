@@ -36,57 +36,59 @@
     
     <div id="settings-drawer" class="settings-drawer">
         <div class="drawer-header">
-            <h3>Настройки</h3>
+            <h3>Профиль</h3>
             <button class="close-drawer" onclick="closeSettings()">✕</button>
         </div>
-        <div class="settings-body">
-            <div class="profile-preview">
+        <div class="settings-body mac-settings">
+            <div class="profile-main">
                 <div class="large-avatar" id="display-avatar">?</div>
-                <div class="copy-nick-wrapper" onclick="copyToClipboard()">
+                
+                <div class="nick-row">
                     <span id="user-display-nick">@username</span>
-                    <small>Нажми, чтобы скопировать</small>
+                    <button class="edit-icon-btn" onclick="editUsername()">✏️</button>
                 </div>
-                <button class="upload-btn">Сменить фото</button>
+            </div>
+
+            <div class="settings-section">
+                <h4>Описание</h4>
+                <textarea id="bio-change" placeholder="Расскажите о себе..."></textarea>
+                <button class="mac-save-btn" onclick="saveData()">Сохранить</button>
+            </div>
+
+            <div class="settings-section">
+                <h4>Темы</h4>
+                <div class="theme-picker">
+                    <button class="theme-opt pink-opt" onclick="changeTheme('pink')"></button>
+                    <button class="theme-opt blue-opt" onclick="changeTheme('blue')"></button>
+                    <button class="theme-opt dark-opt" onclick="changeTheme('dark')"></button>
+                    <button class="theme-opt white-opt" onclick="changeTheme('white')"></button>
+                </div>
             </div>
 
             <div class="settings-section">
                 <h4>Конфиденциальность</h4>
-                <div class="menu-list">
-                    <button onclick="openModal('аватарки')">Скрыть аватарку</button>
-                    <button onclick="openModal('юзернейма')">Скрыть юзернейм</button>
-                    <button onclick="openModal('описания')">Скрыть описание</button>
+                <div class="mac-menu">
+                    <button onclick="openModal('аватарки')">Скрыть аватарку <span>></span></button>
+                    <button onclick="openModal('юзернейма')">Скрыть юзернейм <span>></span></button>
                 </div>
-            </div>
-
-            <div class="settings-section">
-                <h4>Темы оформления</h4>
-                <div class="theme-grid">
-                    <button class="t-btn t-pink" onclick="changeTheme('pink')">Розовый</button>
-                    <button class="t-btn t-blue" onclick="changeTheme('blue')">Синий</button>
-                    <button class="t-btn t-dark" onclick="changeTheme('dark')">Тёмная</button>
-                    <button class="t-btn t-white" onclick="changeTheme('white')">Светлая</button>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>О себе</label>
-                <textarea id="bio-change" placeholder="Расскажите о себе..."></textarea>
-                <button class="save-btn" onclick="saveData()">Сохранить</button>
             </div>
         </div>
     </div>
 
     <aside class="mac-sidebar">
-        <div class="sidebar-top">
+        <div class="sidebar-header">
             <button class="settings-icon-btn" onclick="openSettings()">⚙️</button>
-            <input type="text" id="search-input" placeholder="Поиск...">
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="search-input" placeholder="Поиск...">
+            </div>
         </div>
         <div class="chat-list" id="chats">
             <div class="chat-item active">
                 <div class="avatar-circle">TM</div>
                 <div class="chat-meta">
                     <span class="nick">Tellme Support</span>
-                    <span class="text-preview">Добро пожаловать!</span>
+                    <span class="text-preview">Вы в системе!</span>
                 </div>
             </div>
         </div>
@@ -95,11 +97,13 @@
     <section class="chat-viewport">
         <div class="top-bar"><h2>Tellme Support</h2></div>
         <div class="history" id="chat-history">
-            <div class="bubble received">Поздравляем! Теперь ты в системе. Попробуй изменить тему или профиль.</div>
+            <div class="bubble received">Поздравляем! Визуал обновлен. Попробуй новый поиск и шторку настроек.</div>
         </div>
         <div class="input-row">
-            <input type="text" id="m-input" placeholder="Сообщение...">
-            <button class="send-btn" onclick="sendMsg()">></button>
+            <input type="text" id="m-input" placeholder="Напишите сообщение...">
+            <button class="round-send-btn" onclick="sendMsg()">
+                <span class="arrow-icon">></span>
+            </button>
         </div>
     </section>
 </div>
