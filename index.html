@@ -6,10 +6,21 @@
     <title>Tellme | Твой мир</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body id="main-body">
+<body id="main-body" class="theme-default">
+
+<div id="privacy-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h4 id="modal-title">Настройка</h4>
+        <div class="modal-btns">
+            <button class="pub-btn" onclick="setPrivacy('public')">Публичный</button>
+            <button class="priv-btn" onclick="setPrivacy('hidden')">Скрытый</button>
+        </div>
+        <button class="modal-close" onclick="closeModal()">Отмена</button>
+    </div>
+</div>
 
 <div id="auth-screen" class="full-display">
-    <div class="glass-card">
+    <div class="glass-card auth-card">
         <h1 class="brand-logo">Tellme</h1>
         <div class="input-fields">
             <input type="email" id="email" placeholder="Почта" value="zxc777boy@gmail.com">
@@ -22,54 +33,73 @@
 </div>
 
 <div id="app-screen" class="main-app" style="display: none;">
+    
+    <div id="settings-drawer" class="settings-drawer">
+        <div class="drawer-header">
+            <h3>Настройки</h3>
+            <button class="close-drawer" onclick="closeSettings()">✕</button>
+        </div>
+        <div class="settings-body">
+            <div class="profile-preview">
+                <div class="large-avatar" id="display-avatar">?</div>
+                <div class="copy-nick-wrapper" onclick="copyToClipboard()">
+                    <span id="user-display-nick">@username</span>
+                    <small>Нажми, чтобы скопировать</small>
+                </div>
+                <button class="upload-btn">Сменить фото</button>
+            </div>
+
+            <div class="settings-section">
+                <h4>Конфиденциальность</h4>
+                <div class="menu-list">
+                    <button onclick="openModal('аватарки')">Скрыть аватарку</button>
+                    <button onclick="openModal('юзернейма')">Скрыть юзернейм</button>
+                    <button onclick="openModal('описания')">Скрыть описание</button>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h4>Темы оформления</h4>
+                <div class="theme-grid">
+                    <button class="t-btn t-pink" onclick="changeTheme('pink')">Розовый</button>
+                    <button class="t-btn t-blue" onclick="changeTheme('blue')">Синий</button>
+                    <button class="t-btn t-dark" onclick="changeTheme('dark')">Тёмная</button>
+                    <button class="t-btn t-white" onclick="changeTheme('white')">Светлая</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>О себе</label>
+                <textarea id="bio-change" placeholder="Расскажите о себе..."></textarea>
+                <button class="save-btn" onclick="saveData()">Сохранить описание</button>
+            </div>
+        </div>
+    </div>
+
     <aside class="mac-sidebar">
-        <div class="search-box">
-            <input type="text" placeholder="Поиск людей..." oninput="filterList()">
+        <div class="sidebar-top">
+            <button class="settings-icon-btn" onclick="openSettings()">⚙️</button>
+            <input type="text" id="search-input" placeholder="Поиск по Tellme...">
         </div>
         <div class="chat-list" id="chats">
             <div class="chat-item active">
                 <div class="avatar-circle">TM</div>
                 <div class="chat-meta">
                     <span class="nick">Tellme Support</span>
-                    <span class="text">Добро пожаловать!</span>
+                    <span class="text-preview">Вы успешно вошли!</span>
                 </div>
             </div>
-        </div>
-        <div class="sidebar-bottom">
-            <button class="settings-btn" onclick="openSettings()">⚙️ Настройки</button>
         </div>
     </aside>
 
     <section class="chat-viewport">
-        <div id="messages-view">
-            <div class="top-bar"><h2>Tellme Support</h2></div>
-            <div class="history" id="chat-history">
-                <div class="bubble received">Вы успешно вошли в систему!</div>
-            </div>
-            <div class="input-row">
-                <input type="text" id="m-input" placeholder="Напишите сообщение...">
-                <button class="send-btn" onclick="sendMsg()">></button>
-            </div>
+        <div class="top-bar"><h2>Tellme Support</h2></div>
+        <div class="history" id="chat-history">
+            <div class="bubble received">Добро пожаловать в Tellme! Нажми на шестерёнку, чтобы сменить тему или скрыть данные.</div>
         </div>
-
-        <div id="settings-view" style="display: none;">
-            <div class="top-bar">
-                <h2>Настройки профиля</h2>
-                <button class="close-btn" onclick="closeSettings()">✕</button>
-            </div>
-            <div class="settings-body">
-                <div class="profile-preview">
-                    <div class="large-avatar">?</div>
-                    <button class="upload-btn">Сменить аватарку</button>
-                </div>
-                <div class="form-group">
-                    <label>Юзернейм</label>
-                    <input type="text" id="u-change" placeholder="Мин. 3 символа">
-                    <label>Описание</label>
-                    <textarea id="bio-change" placeholder="Расскажите о себе..."></textarea>
-                    <button class="save-btn" onclick="saveData()">Сохранить изменения</button>
-                </div>
-            </div>
+        <div class="input-row">
+            <input type="text" id="m-input" placeholder="Напишите сообщение...">
+            <button class="send-btn" onclick="sendMsg()">></button>
         </div>
     </section>
 </div>
