@@ -1,63 +1,59 @@
-function handleAuth() {
+// ГАРАНТИРОВАННОЕ ПЕРЕКЛЮЧЕНИЕ
+function startApp() {
     const user = document.getElementById('username').value;
     const pass = document.getElementById('pass').value;
-    const confirm = document.getElementById('pass-confirm').value;
 
-    // Проверка ника
+    // Проверка на длину ника
     if (user.length < 3) {
-        alert("Юзернейм должен быть от 3 символов!");
+        alert("Ник Tellme должен быть не короче 3 символов!");
         return;
     }
 
-    // Логика перехода
-    // В реальном приложении тут был бы запрос к базе, но у нас фронтенд-симуляция
+    // Скрываем регистрацию
     document.getElementById('auth-screen').style.display = 'none';
+    
+    // Показываем соцсеть
     document.getElementById('app-screen').style.display = 'flex';
     
-    // Передаем ник в настройки
-    document.getElementById('set-nick').value = user;
-    
-    console.log("Вход выполнен под ником: " + user);
+    // Переносим данные в настройки
+    document.getElementById('u-change').value = user;
+
+    console.log("Tellme успешно загружен. Приятного общения!");
 }
 
-function toggleSettings(show) {
-    const panel = document.getElementById('settings-panel');
-    const chat = document.getElementById('chat-content');
-    if (show) {
-        panel.style.display = 'block';
-        chat.style.display = 'none';
-    } else {
-        panel.style.display = 'none';
-        chat.style.display = 'block';
-    }
+function openSettings() {
+    document.getElementById('messages-view').style.display = 'none';
+    document.getElementById('settings-view').style.display = 'block';
 }
 
-function saveData() {
-    const newNick = document.getElementById('set-nick').value;
-    if (newNick.length < 3) {
-        alert("Ник слишком короткий!");
-        return;
-    }
-    alert("Данные профиля TellMe сохранены!");
-    toggleSettings(false);
+function closeSettings() {
+    document.getElementById('settings-view').style.display = 'none';
+    document.getElementById('messages-view').style.display = 'block';
 }
 
 function sendMsg() {
     const input = document.getElementById('m-input');
-    const box = document.getElementById('msg-box');
+    const history = document.getElementById('chat-history');
     if (input.value.trim() !== "") {
-        const div = document.createElement('div');
-        div.className = "msg user";
-        div.style.textAlign = "right";
-        div.style.margin = "10px 0";
-        div.innerHTML = `<span style="background:rgba(255,255,255,0.2); padding:8px 15px; border-radius:15px;">${input.value}</span>`;
-        box.appendChild(div);
+        const msg = document.createElement('div');
+        msg.className = "bubble";
+        msg.style.marginLeft = "auto";
+        msg.style.background = "#fff";
+        msg.style.color = "#8E2DE2";
+        msg.style.marginTop = "10px";
+        msg.textContent = input.value;
+        history.appendChild(msg);
         input.value = "";
-        box.scrollTop = box.scrollHeight;
+        history.scrollTop = history.scrollHeight;
     }
 }
 
-function searchPeople() {
-    // Просто визуальный эффект поиска
-    console.log("Поиск запущен...");
+function saveData() {
+    const checkNick = document.getElementById('u-change').value;
+    if(checkNick.length < 3) {
+        alert("Слишком короткий ник!");
+    } else {
+        alert("Ваш профиль в Tellme обновлен!");
+        closeSettings();
+    }
 }
