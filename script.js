@@ -1,59 +1,68 @@
-// ГАРАНТИРОВАННОЕ ПЕРЕКЛЮЧЕНИЕ
 function startApp() {
     const user = document.getElementById('username').value;
-    const pass = document.getElementById('pass').value;
+    if (user.length < 3) return alert("Ник слишком короткий!");
 
-    // Проверка на длину ника
-    if (user.length < 3) {
-        alert("Ник Tellme должен быть не короче 3 символов!");
-        return;
-    }
-
-    // Скрываем регистрацию
     document.getElementById('auth-screen').style.display = 'none';
-    
-    // Показываем соцсеть
     document.getElementById('app-screen').style.display = 'flex';
     
-    // Переносим данные в настройки
-    document.getElementById('u-change').value = user;
-
-    console.log("Tellme успешно загружен. Приятного общения!");
+    // Обновляем ник в шторке
+    document.getElementById('user-display-nick').innerText = user;
 }
 
+// ФУНКЦИЯ КОПИРОВАНИЯ
+function copyToClipboard() {
+    const nick = document.getElementById('user-display-nick').innerText;
+    navigator.clipboard.writeText(nick).then(() => {
+        alert("Юзернейм " + nick + " скопирован!");
+    });
+}
+
+// УПРАВЛЕНИЕ ТЕМАМИ
+function changeTheme(themeName) {
+    const body = document.getElementById('main-body');
+    body.className = ''; // Сброс всех классов
+    body.classList.add('theme-' + themeName);
+}
+
+// МОДАЛЬНЫЕ ОКНА КОНФИДЕНЦИАЛЬНОСТИ
+let currentTarget = '';
+function openModal(target) {
+    currentTarget = target;
+    document.getElementById('modal-title').innerText = 'Настройка ' + target;
+    document.getElementById('privacy-modal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('privacy-modal').style.display = 'none';
+}
+
+function setPrivacy(type) {
+    alert('Статус ' + currentTarget + ' изменен на: ' + (type === 'public' ? 'Публичный' : 'Скрытый'));
+    closeModal();
+}
+
+// ОТКРЫТИЕ ШТОРКИ
 function openSettings() {
-    document.getElementById('messages-view').style.display = 'none';
-    document.getElementById('settings-view').style.display = 'block';
+    document.getElementById('settings-drawer').classList.add('open');
 }
 
 function closeSettings() {
-    document.getElementById('settings-view').style.display = 'none';
-    document.getElementById('messages-view').style.display = 'block';
+    document.getElementById('settings-drawer').classList.remove('remove'); // Ошибка в твоем старом коде
+    document.getElementById('settings-drawer').classList.remove('open');
 }
 
 function sendMsg() {
-    const input = document.getElementById('m-input');
-    const history = document.getElementById('chat-history');
-    if (input.value.trim() !== "") {
-        const msg = document.createElement('div');
-        msg.className = "bubble";
-        msg.style.marginLeft = "auto";
-        msg.style.background = "#fff";
-        msg.style.color = "#8E2DE2";
-        msg.style.marginTop = "10px";
-        msg.textContent = input.value;
-        history.appendChild(msg);
-        input.value = "";
-        history.scrollTop = history.scrollHeight;
-    }
-}
-
-function saveData() {
-    const checkNick = document.getElementById('u-change').value;
-    if(checkNick.length < 3) {
-        alert("Слишком короткий ник!");
-    } else {
-        alert("Ваш профиль в Tellme обновлен!");
-        closeSettings();
+    const inp = document.getElementById('m-input');
+    const box = document.getElementById('chat-history');
+    if(inp.value.trim() !== "") {
+        const d = document.createElement('div');
+        d.className = 'bubble';
+        d.style.marginLeft = 'auto';
+        d.style.background = '#fff';
+        d.style.color = '#8E2DE2';
+        d.innerText = inp.value;
+        box.appendChild(d);
+        inp.value = "";
+        box.scrollTop = box.scrollHeight;
     }
 }
