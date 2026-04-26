@@ -1,34 +1,49 @@
+// ГЛАВНАЯ ФУНКЦИЯ ПЕРЕХОДА
 function startApp() {
     const user = document.getElementById('username').value;
-    if (user.length < 3) return alert("Ник слишком короткий!");
+    
+    if (user.length < 3) {
+        alert("Ник слишком короткий!");
+        return;
+    }
 
+    // Скрываем регистрацию и показываем приложение
     document.getElementById('auth-screen').style.display = 'none';
     document.getElementById('app-screen').style.display = 'flex';
     
-    // Обновляем ник в шторке
+    // Применяем ник везде
     document.getElementById('user-display-nick').innerText = user;
 }
 
-// ФУНКЦИЯ КОПИРОВАНИЯ
+// КОПИРОВАНИЕ НИКА
 function copyToClipboard() {
     const nick = document.getElementById('user-display-nick').innerText;
     navigator.clipboard.writeText(nick).then(() => {
-        alert("Юзернейм " + nick + " скопирован!");
+        alert("Ник " + nick + " скопирован!");
     });
 }
 
-// УПРАВЛЕНИЕ ТЕМАМИ
+// УПРАВЛЕНИЕ ШТОРКОЙ
+function openSettings() {
+    document.getElementById('settings-drawer').classList.add('open');
+}
+
+function closeSettings() {
+    document.getElementById('settings-drawer').classList.remove('open');
+}
+
+// СМЕНА ТЕМ
 function changeTheme(themeName) {
     const body = document.getElementById('main-body');
-    body.className = ''; // Сброс всех классов
+    body.className = ''; 
     body.classList.add('theme-' + themeName);
 }
 
-// МОДАЛЬНЫЕ ОКНА КОНФИДЕНЦИАЛЬНОСТИ
-let currentTarget = '';
+// МОДАЛКА КОНФИДЕНЦИАЛЬНОСТИ
+let currentSetting = "";
 function openModal(target) {
-    currentTarget = target;
-    document.getElementById('modal-title').innerText = 'Настройка ' + target;
+    currentSetting = target;
+    document.getElementById('modal-title').innerText = "Настройка " + target;
     document.getElementById('privacy-modal').style.display = 'flex';
 }
 
@@ -36,24 +51,15 @@ function closeModal() {
     document.getElementById('privacy-modal').style.display = 'none';
 }
 
-function setPrivacy(type) {
-    alert('Статус ' + currentTarget + ' изменен на: ' + (type === 'public' ? 'Публичный' : 'Скрытый'));
+function setPrivacy(val) {
+    alert(currentSetting + " теперь в режиме: " + (val === 'public' ? "Публичный" : "Скрытый"));
     closeModal();
 }
 
-// ОТКРЫТИЕ ШТОРКИ
-function openSettings() {
-    document.getElementById('settings-drawer').classList.add('open');
-}
-
-function closeSettings() {
-    document.getElementById('settings-drawer').classList.remove('remove'); // Ошибка в твоем старом коде
-    document.getElementById('settings-drawer').classList.remove('open');
-}
-
+// ОТПРАВКА СООБЩЕНИЙ
 function sendMsg() {
     const inp = document.getElementById('m-input');
-    const box = document.getElementById('chat-history');
+    const history = document.getElementById('chat-history');
     if(inp.value.trim() !== "") {
         const d = document.createElement('div');
         d.className = 'bubble';
@@ -61,8 +67,8 @@ function sendMsg() {
         d.style.background = '#fff';
         d.style.color = '#8E2DE2';
         d.innerText = inp.value;
-        box.appendChild(d);
+        history.appendChild(d);
         inp.value = "";
-        box.scrollTop = box.scrollHeight;
+        history.scrollTop = history.scrollHeight;
     }
 }
