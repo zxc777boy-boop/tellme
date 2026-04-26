@@ -1,106 +1,111 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
 
 :root {
-    /* Фиолетово-розовый градиент для фона */
-    --bg-gradient: linear-gradient(135deg, #8E2DE2 0%, #F000B8 100%);
-    /* Голубо-желтый градиент для логотипа */
-    --logo-gradient: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 50%, #f7ff00 100%);
+    /* Фиолетово-розовый фон */
+    --main-bg: linear-gradient(135deg, #8E2DE2 0%, #F000B8 100%);
+    /* Голубо-желтый градиент для лого */
+    --logo-color: linear-gradient(90deg, #00d2ff 0%, #f7ff00 100%);
 }
+
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
     font-family: 'Montserrat', sans-serif;
     height: 100vh;
+    width: 100vw;
+    background: var(--main-bg);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--bg-gradient);
-    transition: 0.5s;
+    overflow: hidden;
 }
 
-/* ЛОГОТИП С ГРАДИЕНТОМ */
-.logo-text {
-    font-size: 4rem;
+/* ЛОГОТИП СЛИТНО И ЦВЕТНОЙ */
+.brand-logo {
+    font-size: 4.5rem;
     font-weight: 900;
-    margin-bottom: 30px;
-    background: var(--logo-gradient);
+    margin-bottom: 25px;
+    background: var(--logo-color);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    letter-spacing: -3px;
     text-align: center;
 }
 
-.auth-card {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(20px);
+.glass-card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(25px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 50px;
-    border-radius: 30px;
-    width: 400px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    border-radius: 40px;
+    width: 420px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
 }
 
-input, textarea {
+.input-fields input {
     width: 100%;
-    padding: 12px;
+    padding: 15px;
     margin: 10px 0;
-    border-radius: 10px;
-    border: none;
-    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    color: white;
     outline: none;
 }
 
-.main-btn {
+.input-fields input::placeholder { color: rgba(255,255,255,0.6); }
+
+/* ИСПРАВЛЕННАЯ КНОПКА */
+.action-btn {
     width: 100%;
-    padding: 15px;
+    padding: 18px;
     border: none;
-    border-radius: 10px;
-    background: #fff;
+    border-radius: 15px;
+    background: #ffffff;
     color: #8E2DE2;
-    font-weight: bold;
-    font-size: 1.1rem;
+    font-weight: 800;
+    font-size: 1.2rem;
     cursor: pointer;
-    margin-top: 15px;
-    transition: 0.3s;
+    margin-top: 20px;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.main-btn:hover { background: #f0f0f0; transform: scale(1.02); }
+.action-btn:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
 /* ИНТЕРФЕЙС СОЦСЕТИ */
-.app-container {
-    width: 95vw;
-    height: 90vh;
+.main-app {
+    width: 96vw;
+    height: 92vh;
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(30px);
-    border-radius: 20px;
+    backdrop-filter: blur(40px);
+    border-radius: 30px;
     display: flex;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255,255,255,0.15);
 }
 
-.sidebar {
-    width: 300px;
-    background: rgba(255, 255, 255, 0.1);
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+.mac-sidebar {
+    width: 320px;
+    background: rgba(255,255,255,0.05);
+    border-right: 1px solid rgba(255,255,255,0.1);
     display: flex;
     flex-direction: column;
-    padding: 15px;
 }
 
-.chat-area { flex-grow: 1; position: relative; color: white; }
+.chat-viewport { flex-grow: 1; position: relative; color: white; }
 
-.avatar, .profile-pic {
+.avatar-circle, .large-avatar {
     width: 50px; height: 50px;
-    background: var(--logo-gradient);
+    background: var(--logo-color);
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold; color: #333;
 }
 
-.profile-pic { width: 100px; height: 100px; margin: 0 auto 20px; font-size: 2rem; }
+.chat-item { padding: 15px; display: flex; align-items: center; cursor: pointer; }
+.chat-item.active { background: rgba(255,255,255,0.15); }
+.nick { display: block; font-weight: 700; }
 
-.settings-panel {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); padding: 40px;
-}
+.history { height: 60vh; overflow-y: auto; padding: 20px; }
+.bubble { background: rgba(255,255,255,0.2); padding: 10px 18px; border-radius: 18px; max-width: 70%; }
