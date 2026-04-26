@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TellMe | Messenger</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="auth-screen" class="full-screen">
+    <div class="auth-card">
+        <h1 class="logo-text">Tell me</h1>
+        <div class="input-group">
+            <input type="email" placeholder="Почта" id="reg-email">
+            <input type="text" placeholder="@username (мин. 3 симв.)" id="reg-user">
+            <input type="password" placeholder="Пароль" id="reg-pass">
+            <input type="password" placeholder="Повтор пароля" id="reg-pass-confirm">
+        </div>
+        <button class="auth-btn" onclick="goToApp()">Войти в мир</button>
+    </div>
+</div>
+
+<div id="app-screen" class="app-container" style="display: none;">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <input type="text" id="search-input" placeholder="Поиск людей..." oninput="searchUsers()">
+        </div>
+        <div class="chat-list" id="chat-list">
+            <div class="chat-item active">
+                <div class="avatar">TM</div>
+                <div class="chat-info">
+                    <span class="name">TellMe Support</span>
+                    <span class="last-msg">Добро пожаловать!</span>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-footer">
+            <button class="icon-btn" onclick="showSettings()">⚙️ Настройки</button>
+        </div>
+    </aside>
+
+    <main class="chat-window">
+        <div id="chat-view" class="view-panel">
+            <div class="chat-header">
+                <h2 id="current-chat-name">TellMe Support</h2>
+            </div>
+            <div class="messages" id="messages-container">
+                <div class="msg received">Привет! Это твой новый мессенджер TellMe.</div>
+            </div>
+            <div class="message-input-area">
+                <input type="text" id="msg-input" placeholder="Напишите сообщение...">
+                <button onclick="sendMessage()">Отправить</button>
+            </div>
+        </div>
+
+        <div id="settings-view" class="view-panel" style="display: none;">
+            <div class="settings-header">
+                <h2>Настройки профиля</h2>
+                <button class="close-btn" onclick="hideSettings()">✕</button>
+            </div>
+            <div class="settings-content">
+                <div class="profile-section">
+                    <div class="big-avatar" id="main-avatar">?</div>
+                    <button class="change-photo">Сменить фото</button>
+                    
+                    <div class="edit-inputs">
+                        <label>Юзернейм</label>
+                        <input type="text" id="edit-username" placeholder="@username">
+                        <label>О себе</label>
+                        <textarea id="edit-bio" placeholder="Расскажите о себе..."></textarea>
+                        <button class="save-btn" onclick="saveProfile()">Сохранить изменения</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
