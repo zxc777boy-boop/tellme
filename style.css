@@ -1,61 +1,96 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap');
 
-/* ЦВЕТОВЫЕ ТЕМЫ */
-.theme-default { --main-bg: linear-gradient(135deg, #8E2DE2 0%, #F000B8 100%); --glass: rgba(255,255,255,0.12); --text: #fff; }
-.theme-pink { --main-bg: linear-gradient(135deg, #FF9A9E 0%, #FAD0C4 100%); --glass: rgba(255,255,255,0.3); --text: #333; }
-.theme-blue { --main-bg: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%); --glass: rgba(255,255,255,0.2); --text: #fff; }
-.theme-dark { --main-bg: #121212; --glass: rgba(255,255,255,0.05); --text: #fff; }
-.theme-white { --main-bg: #f0f0f2; --glass: rgba(0,0,0,0.05); --text: #222; }
+/* ТЕМЫ ОФОРМЛЕНИЯ */
+.theme-default { --main-bg: linear-gradient(135deg, #8E2DE2 0%, #F000B8 100%); --mac-glass: rgba(255,255,255,0.1); --text: #fff; --acc: #8E2DE2; }
+.theme-pink { --main-bg: linear-gradient(135deg, #FF9A9E 0%, #FAD0C4 100%); --mac-glass: rgba(255,255,255,0.4); --text: #333; --acc: #F000B8; }
+.theme-blue { --main-bg: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%); --mac-glass: rgba(255,255,255,0.25); --text: #fff; --acc: #00d2ff; }
+.theme-dark { --main-bg: #1a1a1d; --mac-glass: rgba(255,255,255,0.05); --text: #fff; --acc: #00d2ff; }
+.theme-white { --main-bg: #f5f5f7; --mac-glass: rgba(0,0,0,0.05); --text: #222; --acc: #8E2DE2; }
 
 :root {
     --logo-gradient: linear-gradient(90deg, #00d2ff 0%, #f7ff00 100%);
+    --mac-input-bg: rgba(255, 255, 255, 0.1);
 }
 
 * { box-sizing: border-box; }
-body { margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; height: 100vh; background: var(--main-bg); transition: 0.5s ease; color: var(--text); overflow: hidden; }
+body { margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; height: 100vh; background: var(--main-bg); transition: 0.6s ease; color: var(--text); overflow: hidden; }
 
-/* РЕГИСТРАЦИЯ */
-.full-display { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: fixed; z-index: 10; }
+/* РЕГИСТРАЦИЯ (Сохранена) */
+.full-display { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: fixed; z-index: 20; }
 .auth-card { 
     background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(25px); 
-    padding: 50px; border-radius: 40px; width: 420px; text-align: center;
-    border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+    padding: 60px; border-radius: 40px; width: 420px; text-align: center;
+    border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 40px 80px rgba(0,0,0,0.3);
 }
+.brand-logo { font-size: 5rem; font-weight: 900; background: var(--logo-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -4px; margin: 0 0 40px 0; }
+.input-fields input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: inherit; outline: none; }
+.action-btn { width: 100%; padding: 20px; border: none; border-radius: 15px; background: #fff; color: #8E2DE2; font-weight: 800; font-size: 1.2rem; cursor: pointer; margin-top: 25px; transition: 0.3s; }
+.action-btn:hover { transform: scale(1.03); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
-.brand-logo { font-size: 4.5rem; font-weight: 900; background: var(--logo-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -3px; margin: 0 0 30px 0; }
+/* ПРИЛОЖЕНИЕ (Визуал macOS) */
+.main-app { width: 96vw; height: 92vh; background: var(--mac-glass); backdrop-filter: blur(40px); border-radius: 35px; border: 1px solid rgba(255,255,255,0.1); margin: 4vh auto; display: flex; position: relative; overflow: hidden; box-shadow: 0 50px 100px rgba(0,0,0,0.3); }
 
-.input-fields input { width: 100%; padding: 15px; margin: 8px 0; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: inherit; outline: none; }
-.action-btn { width: 100%; padding: 18px; border: none; border-radius: 15px; background: #fff; color: #8E2DE2; font-weight: 800; font-size: 1.1rem; cursor: pointer; margin-top: 20px; transition: 0.3s; }
-.action-btn:hover { transform: scale(1.03); }
+.mac-sidebar { width: 320px; background: rgba(0,0,0,0.1); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; }
+.sidebar-header { padding: 20px; display: flex; align-items: center; gap: 15px; }
+.settings-icon-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: inherit; opacity: 0.8; transition: 0.2s; }
+.settings-icon-btn:hover { opacity: 1; transform: rotate(15deg); }
 
-/* ПРИЛОЖЕНИЕ */
-.main-app { width: 96vw; height: 92vh; background: var(--glass); backdrop-filter: blur(40px); border-radius: 35px; border: 1px solid rgba(255,255,255,0.1); margin: 4vh auto; display: flex; position: relative; overflow: hidden; }
+/* НОВЫЙ ПОИСК */
+.search-wrapper { flex-grow: 1; position: relative; }
+.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 0.8rem; opacity: 0.5; }
+#search-input { width: 100%; padding: 10px 10px 10px 35px; border-radius: 10px; border: none; background: rgba(255, 255, 255, 0.1); color: inherit; outline: none; font-size: 0.9rem; }
+#search-input:focus { background: rgba(255, 255, 255, 0.15); }
 
-.mac-sidebar { width: 300px; background: rgba(0,0,0,0.1); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; }
-.sidebar-top { padding: 20px; display: flex; gap: 10px; }
-.settings-icon-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: inherit; }
+/* ЧАТ ПАНЕЛЬ */
+.chat-list { flex-grow: 1; overflow-y: auto; padding: 10px; }
+.chat-item { padding: 15px; display: flex; align-items: center; cursor: pointer; border-radius: 15px; transition: 0.2s; }
+.chat-item.active { background: rgba(255,255,255,0.1); }
+.avatar-circle { width: 50px; height: 50px; background: var(--logo-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #333; margin-right: 15px; box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
+.nick { font-weight: 700; color: white; display: block; }
+.text-preview { color: rgba(255,255,255,0.5); font-size: 0.8rem; }
 
-/* ШТОРКА */
-.settings-drawer { position: absolute; top: 0; left: -340px; width: 340px; height: 100%; background: rgba(20,20,20,0.98); z-index: 100; transition: 0.4s; padding: 25px; overflow-y: auto; color: #fff; }
-.settings-drawer.open { left: 0; }
-.copy-nick-wrapper { cursor: pointer; margin-top: 10px; }
-.copy-nick-wrapper span { font-weight: 800; font-size: 1.3rem; display: block; color: #00d2ff; }
-
-.theme-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-.t-btn { padding: 10px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; }
-.t-pink { background: #FF9A9E; } .t-blue { background: #2193b0; color: #fff; } .t-dark { background: #333; color: #fff; } .t-white { background: #eee; }
-
-/* МОДАЛКА */
-.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 500; display: flex; align-items: center; justify-content: center; }
-.modal-content { background: #222; padding: 30px; border-radius: 20px; text-align: center; color: #fff; }
-.modal-btns { display: flex; gap: 10px; margin-top: 20px; }
-.modal-btns button { flex: 1; padding: 10px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
-.pub-btn { background: #28a745; color: #fff; } .priv-btn { background: #dc3545; color: #fff; }
-
-/* ЧАТ */
+/* ЧАТ ОКНО */
 .chat-viewport { flex-grow: 1; display: flex; flex-direction: column; }
-.top-bar { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-.history { flex-grow: 1; padding: 20px; overflow-y: auto; }
-.bubble { background: rgba(255,255,255,0.1); padding: 12px; border-radius: 15px; margin-bottom: 10px; max-width: 70%; }
-.input-row { padding: 20px; display: flex; gap: 10px; }
-.input-row input { flex-grow: 1; padding: 12px; border-radius: 10px; border: none; background: rgba(255,255,255,0.1); color: inherit; }
+.top-bar { padding: 20px 30px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.top-bar h2 { margin: 0; font-size: 1.4rem; }
+.history { flex-grow: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+.bubble { padding: 12px 18px; border-radius: 18px; background: rgba(255,255,255,0.1); max-width: 70%; line-height: 1.4; }
+
+/* КРУГЛАЯ ОТПРАВКА */
+.input-row { padding: 20px 30px; display: flex; gap: 15px; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); }
+#m-input { flex-grow: 1; padding: 15px; border-radius: 12px; border: none; background: rgba(255,255,255,0.1); color: inherit; outline: none; }
+.round-send-btn { width: 50px; height: 50px; border-radius: 50%; border: none; background: #fff; color: #8E2DE2; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.round-send-btn:hover { background: rgba(255,255,255,0.9); transform: scale(1.05) rotate(-10deg); }
+.arrow-icon { font-size: 1.4rem; font-weight: 900; }
+
+/* ШТОРКА НАСТРОЕК (macOS Дизайн) */
+.settings-drawer { position: absolute; top: 0; left: -340px; width: 340px; height: 100%; background: rgba(20,20,20,0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); z-index: 100; transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1); padding: 25px; overflow-y: auto; color: #fff; box-shadow: 20px 0 60px rgba(0,0,0,0.4); }
+.settings-drawer.open { left: 0; }
+.drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.close-drawer { background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; }
+
+/* Верстка элементов внутри шторки */
+.profile-main { text-align: center; margin-bottom: 30px; }
+.large-avatar { width: 100px; height: 100px; background: var(--logo-gradient); border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #333; margin-bottom: 15px; }
+.nick-row { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.nick-row span { font-weight: 800; font-size: 1.3rem; color: #00d2ff; }
+.edit-icon-btn { background: none; border: none; cursor: pointer; opacity: 0.6; }
+
+.settings-section { margin-bottom: 25px; }
+.settings-section h4 { text-transform: uppercase; font-size: 0.8rem; opacity: 0.5; letter-spacing: 1px; margin-bottom: 10px; }
+textarea#bio-change { width: 100%; height: 80px; padding: 12px; border-radius: 10px; border: none; background: rgba(255,255,255,0.05); color: white; resize: none; outline: none; }
+.mac-save-btn { border: none; background: rgba(255,255,255,0.1); color: white; padding: 8px 15px; border-radius: 8px; cursor: pointer; margin-top: 10px; width: 100%; transition: 0.2s; }
+.mac-save-btn:hover { background: rgba(255,255,255,0.2); }
+
+/* Тематические кружки */
+.theme-picker { display: flex; gap: 15px; justify-content: center; }
+.theme-opt { width: 35px; height: 35px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: 0.2s; }
+.theme-opt:hover { transform: scale(1.1); }
+.theme-opt.active { border-color: #fff; }
+.pink-opt { background: #FF9A9E; } .blue-opt { background: #2193b0; } .dark-opt { background: #333; } .white-opt { background: #eee; }
+
+/* Меню конфиденциальности */
+.mac-menu { background: rgba(255,255,255,0.05); border-radius: 12px; }
+.mac-menu button { width: 100%; border: none; background: none; color: white; padding: 15px; display: flex; justify-content: space-between; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.mac-menu button:last-child { border-bottom: none; }
+.mac-menu button span { opacity: 0.4; }
