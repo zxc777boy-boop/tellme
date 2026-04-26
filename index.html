@@ -71,7 +71,7 @@
             <div class="form-group">
                 <label>О себе</label>
                 <textarea id="bio-change" placeholder="Расскажите о себе..."></textarea>
-                <button class="save-btn" onclick="saveData()">Сохранить описание</button>
+                <button class="save-btn" onclick="saveData()">Сохранить</button>
             </div>
         </div>
     </div>
@@ -79,14 +79,14 @@
     <aside class="mac-sidebar">
         <div class="sidebar-top">
             <button class="settings-icon-btn" onclick="openSettings()">⚙️</button>
-            <input type="text" id="search-input" placeholder="Поиск по Tellme...">
+            <input type="text" id="search-input" placeholder="Поиск...">
         </div>
         <div class="chat-list" id="chats">
             <div class="chat-item active">
                 <div class="avatar-circle">TM</div>
                 <div class="chat-meta">
                     <span class="nick">Tellme Support</span>
-                    <span class="text-preview">Вы успешно вошли!</span>
+                    <span class="text-preview">Добро пожаловать!</span>
                 </div>
             </div>
         </div>
@@ -95,10 +95,10 @@
     <section class="chat-viewport">
         <div class="top-bar"><h2>Tellme Support</h2></div>
         <div class="history" id="chat-history">
-            <div class="bubble received">Добро пожаловать в Tellme! Нажми на шестерёнку, чтобы сменить тему или скрыть данные.</div>
+            <div class="bubble received">Поздравляем! Теперь ты в системе. Попробуй изменить тему или профиль.</div>
         </div>
         <div class="input-row">
-            <input type="text" id="m-input" placeholder="Напишите сообщение...">
+            <input type="text" id="m-input" placeholder="Сообщение...">
             <button class="send-btn" onclick="sendMsg()">></button>
         </div>
     </section>
