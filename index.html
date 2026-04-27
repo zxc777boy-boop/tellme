@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tellme | Твой мир</title>
+    <title>Tellme</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body id="main-body" class="theme-default">
@@ -11,8 +11,7 @@
 <div id="custom-modal" class="modal-overlay" style="display: none;">
     <div class="glass-card modal-window">
         <h3 id="modal-header">Настройка</h3>
-        <div id="modal-content-area">
-            </div>
+        <div id="modal-content-area" class="lang-scroll-list"></div>
         <button class="modal-close-btn" onclick="closeCustomModal()" data-lang="close">Закрыть</button>
     </div>
 </div>
@@ -21,9 +20,10 @@
     <div class="glass-card auth-card">
         <h1 class="brand-logo">Tellme</h1>
         <div class="input-fields">
-            <input type="email" id="email" placeholder="Почта" value="zxc777boy@gmail.com">
-            <input type="text" id="username" placeholder="@username" value="@click">
-            <input type="password" id="pass" placeholder="Пароль">
+            <input type="email" id="email" placeholder="zxc777boy@gmail.com">
+            <input type="text" id="username" placeholder="@click">
+            <input type="password" id="pass" placeholder="••••••">
+            <input type="password" id="pass-confirm" placeholder="••••••">
         </div>
         <button class="action-btn" onclick="startApp()" data-lang="login_btn">Войти в мир</button>
     </div>
@@ -32,10 +32,9 @@
 <div id="app-screen" class="main-app" style="display: none;">
     <div id="settings-drawer" class="settings-drawer">
         <div class="drawer-header">
-            <h3 data-lang="settings_title">Настройки</h3>
-            <button onclick="closeSettings()">✕</button>
+            <h3 data-lang="settings_title">Профиль</h3>
+            <button class="close-drawer" onclick="closeSettings()">✕</button>
         </div>
-        
         <div class="settings-body">
             <div class="profile-main">
                 <div class="large-avatar">?</div>
@@ -43,34 +42,34 @@
                     <span id="user-display-nick">@username</span>
                     <button class="edit-btn" onclick="editUsername()">✏️</button>
                 </div>
-                <button class="add-acc-btn" onclick="showAddAccount()" data-lang="add_account">+ Добавить аккаунт</button>
+                <button class="add-acc-btn" onclick="addAccount()" data-lang="add_account">+ Добавить аккаунт</button>
             </div>
 
             <div class="settings-section">
-                <h4 data-lang="bio_label">Описание</h4>
-                <textarea id="bio-change" placeholder="..."></textarea>
+                <h4 data-lang="bio_label">ОПИСАНИЕ</h4>
+                <textarea id="bio-change" placeholder="Расскажите о себе..."></textarea>
                 <button class="mac-save-btn" onclick="saveData()" data-lang="save_btn">Сохранить</button>
             </div>
 
             <div class="settings-section">
-                <h4 data-lang="themes_label">Темы</h4>
+                <h4 data-lang="themes_label">ТЕМЫ</h4>
                 <div class="theme-picker">
-                    <button class="theme-opt pink-opt" onclick="changeTheme('pink')"></button>
-                    <button class="theme-opt blue-opt" onclick="changeTheme('blue')"></button>
-                    <button class="theme-opt dark-opt" onclick="changeTheme('dark')"></button>
-                    <button class="theme-opt white-opt" onclick="changeTheme('white')"></button>
+                    <div class="theme-opt pink-opt" onclick="changeTheme('pink')"></div>
+                    <div class="theme-opt blue-opt" onclick="changeTheme('blue')"></div>
+                    <div class="theme-opt dark-opt" onclick="changeTheme('dark')"></div>
+                    <div class="theme-opt white-opt" onclick="changeTheme('white')"></div>
                 </div>
             </div>
 
             <div class="settings-section">
-                <h4 data-lang="privacy_label">Конфиденциальность</h4>
+                <h4 data-lang="privacy_label">КОНФИДЕНЦИАЛЬНОСТЬ</h4>
                 <div class="mac-menu">
-                    <button onclick="showPrivacyMenu()" data-lang="privacy_btn">Настроить скрытие <span>></span></button>
+                    <button onclick="showPrivacyMenu()" data-lang="privacy_btn">Скрыть данные <span>></span></button>
                 </div>
             </div>
 
             <div class="settings-section">
-                <h4 data-lang="lang_label">Язык / Language</h4>
+                <h4 data-lang="lang_label">ЯЗЫК / LANGUAGE</h4>
                 <div class="mac-menu">
                     <button onclick="showLanguageMenu()"><span id="current-lang-name">Русский</span> <span>></span></button>
                 </div>
@@ -98,9 +97,7 @@
 
     <section class="chat-viewport">
         <div class="top-bar"><h2>Tellme Support</h2></div>
-        <div class="history" id="chat-history">
-            <div class="bubble received" data-lang="chat_hint">Визуал обновлен! Проверь настройки языка и конфиденциальности.</div>
-        </div>
+        <div class="history" id="chat-history"></div>
         <div class="input-row">
             <input type="text" id="m-input" placeholder="Сообщение..." data-lang-placeholder="input_placeholder">
             <button class="round-send-btn" onclick="sendMsg()">></button>
