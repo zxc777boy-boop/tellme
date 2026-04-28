@@ -1,80 +1,89 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap');
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
-body { height: 100vh; overflow: hidden; transition: 0.5s; position: relative; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+body { height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 
-/* ТЕМЫ И УЗОРЫ */
-.theme-pink { background: linear-gradient(135deg, #ff9a9e, #fad0c4); --acc: #ff7b7b; }
-.theme-pink .bg-pattern { background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 20px 20px; opacity: 0.2; }
+/* ТЕМЫ И ПАТТЕРНЫ */
+.theme-pink { background: #ff9a9e; --accent: #ff6b6b; }
+.theme-pink .bg-pattern { background-image: radial-gradient(rgba(255,255,255,0.3) 1.5px, transparent 1.5px); background-size: 24px 24px; }
 
-.theme-blue { background: linear-gradient(135deg, #4facfe, #00f2fe); --acc: #2d8cf0; }
+.theme-blue { background: #4facfe; --accent: #007aff; }
 .theme-blue .bg-pattern { background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px); }
 
-.theme-dark { background: #1a1a1d; color: white; --acc: #00f2fe; }
-.theme-dark .bg-pattern { background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20L0 40h40L20 20z' fill='%23ffffff' fill-opacity='0.03'/%3E%3C/svg%3E"); }
+.theme-dark { background: #1c1c1e; color: white; --accent: #0a84ff; }
+.theme-dark .bg-pattern { background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20L0 40h40L20 20z' fill='%23fff' fill-opacity='0.02'/%3E%3C/svg%3E"); }
 
-.bg-pattern { position: absolute; inset: 0; z-index: -1; }
+.theme-white { background: #f5f5f7; color: #1d1d1f; --accent: #007aff; }
+.theme-white .bg-pattern { background-image: radial-gradient(#d2d2d7 1px, transparent 1.5px); background-size: 30px 30px; }
 
-.glass { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; }
-.screen { display: none; height: 100vh; width: 100%; align-items: center; justify-content: center; padding: 20px; }
+.bg-pattern { position: fixed; inset: 0; z-index: -1; }
+
+/* ОКНО В СТИЛЕ MAC */
+.mac-window { width: 1000px; height: 680px; background: rgba(255,255,255,0.1); backdrop-filter: blur(50px); border-radius: 20px; border: 1px solid rgba(255,255,255,0.3); position: relative; display: flex; box-shadow: 0 50px 100px rgba(0,0,0,0.4); overflow: hidden; }
+
+.traffic-lights { position: absolute; top: 18px; left: 18px; display: flex; gap: 8px; z-index: 1001; }
+.traffic-lights span { width: 12px; height: 12px; border-radius: 50%; }
+.t-red { background: #ff5f56; } .t-yellow { background: #ffbd2e; } .t-green { background: #27c93f; }
+
+.glass { background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(25px); }
+
+/* ЭКРАНЫ */
+.screen { display: none; width: 100%; height: 100%; position: relative; }
 .screen.active { display: flex; }
 
-/* КРАСИВАЯ АВТОРИЗАЦИЯ */
-.auth-card { width: 380px; padding: 40px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
-.logo { font-size: 3.5rem; font-weight: 800; color: white; margin-bottom: 30px; text-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-.auth-form input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 12px; border: none; background: rgba(255,255,255,0.2); color: white; outline: none; transition: 0.3s; }
-.auth-form input::placeholder { color: rgba(255,255,255,0.6); }
-.auth-form input:focus { background: rgba(255,255,255,0.4); }
+/* АВТОРИЗАЦИЯ */
+.auth-box { margin: auto; width: 360px; text-align: center; }
+.mac-logo { font-size: 3.5rem; font-weight: 700; color: white; margin-bottom: 30px; text-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+.mac-inputs input { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; outline: none; }
+.mac-btn-blue { width: 100%; padding: 14px; background: var(--accent); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 1rem; }
+.mac-btn-blue:hover { opacity: 0.9; }
+.mac-toggle-link { margin-top: 20px; color: white; font-size: 0.9rem; cursor: pointer; }
 
-.btn-enter { width: 100%; padding: 15px; border-radius: 12px; border: none; background: white; color: var(--acc); font-weight: 800; cursor: pointer; margin-top: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-.toggle-link { margin-top: 20px; color: white; font-size: 0.9rem; cursor: pointer; opacity: 0.9; }
-.toggle-link b { border-bottom: 1px solid white; margin-left: 5px; }
-
-/* ШТОРКА (DRAWER) */
-.drawer { position: fixed; left: -400px; top: 0; width: 340px; height: 100%; z-index: 1000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding: 30px; color: white; border-radius: 0 30px 30px 0; }
-.drawer.open { left: 0; }
+/* ШТОРКА (SIDEBAR) */
+.mac-drawer { position: absolute; left: -380px; top: 0; width: 340px; height: 100%; z-index: 2000; transition: 0.5s cubic-bezier(0.2, 1, 0.2, 1); padding: 60px 25px 25px; color: white; border-right: 1px solid rgba(255,255,255,0.2); }
+.mac-drawer.open { left: 0; }
+.mac-close-btn { background: none; border: none; color: white; font-size: 1.4rem; cursor: pointer; }
 .drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-.close-drawer { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
 
-/* КРУЖОЧКИ ТЕМ */
-.theme-circles { display: flex; gap: 15px; margin: 20px 0; }
-.circle { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; border: 2px solid white; transition: 0.2s; }
-.circle:hover { transform: scale(1.2); }
-.c-pink { background: #ff9a9e; } .c-blue { background: #4facfe; } .c-dark { background: #333; }
+/* ТЕМЫ-КРУЖОЧКИ */
+.theme-row { display: flex; gap: 15px; margin: 15px 0 25px; }
+.circle-theme { width: 32px; height: 32px; border-radius: 50%; border: 2px solid white; cursor: pointer; transition: 0.2s; }
+.circle-theme:hover { transform: scale(1.1); }
 
 /* ПРОФИЛЬ В ШТОРКЕ */
-.prof-ava { width: 80px; height: 80px; background: #eee; border-radius: 50%; margin: 0 auto 15px; overflow: hidden; }
-.prof-nick { font-weight: 800; font-size: 1.2rem; text-align: center; }
-.prof-bio { font-size: 0.85rem; opacity: 0.8; text-align: center; margin-bottom: 15px; min-height: 20px; }
-.bio-input-group { display: flex; gap: 5px; margin-bottom: 20px; }
-.bio-input-group input { flex: 1; padding: 8px; border-radius: 8px; border: none; background: rgba(255,255,255,0.1); color: white; }
-.save-btn { padding: 5px 10px; border-radius: 8px; border: none; background: var(--acc); color: white; cursor: pointer; }
+.mac-ava { width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+.mac-bio-box { margin: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+.mac-bio-input { background: rgba(255,255,255,0.1); border: none; padding: 8px; border-radius: 6px; color: white; width: 70%; }
+.mac-bio-save { padding: 8px 12px; background: var(--accent); border: none; border-radius: 6px; color: white; cursor: pointer; }
 
-.bottom-btns { position: absolute; bottom: 30px; width: calc(100% - 60px); display: flex; flex-direction: column; gap: 10px; }
-.btn-add-acc { background: rgba(255,255,255,0.15); border: none; color: white; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; }
-.btn-exit { background: #ff4d4d; border: none; color: white; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 800; }
+.drawer-bottom { position: absolute; bottom: 25px; left: 25px; right: 25px; display: flex; flex-direction: column; gap: 10px; }
+.mac-btn-ghost { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 12px; border-radius: 10px; cursor: pointer; }
+.mac-btn-red { background: #ff3b30; color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: 700; }
 
-/* ЧАТ */
-#app-screen { padding: 10px; gap: 10px; }
-.app-sidebar { width: 320px; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
-.sidebar-top { padding: 20px; display: flex; gap: 12px; }
-.chat-item { padding: 15px; display: flex; gap: 12px; cursor: pointer; border-radius: 15px; margin: 0 10px 5px; transition: 0.2s; }
+/* ЧАТ ИНТЕРФЕЙС */
+.mac-sidebar { width: 280px; height: 100%; border-right: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; }
+.sidebar-top { padding: 60px 20px 20px; display: flex; flex-direction: column; gap: 15px; }
+.mac-search { background: rgba(255,255,255,0.1); border: none; padding: 10px; border-radius: 8px; color: white; font-size: 0.85rem; }
+.chat-item { padding: 12px 15px; margin: 2px 10px; border-radius: 10px; cursor: pointer; display: flex; gap: 12px; align-items: center; }
 .chat-item.active { background: rgba(255,255,255,0.2); }
-.chat-window { flex: 1; height: 100%; display: flex; flex-direction: column; position: relative; }
-.chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-.chat-input-area { display: flex; padding: 15px; gap: 10px; align-items: center; margin-top: 10px; }
+
+.mac-chat-area { flex: 1; display: flex; flex-direction: column; position: relative; }
+.chat-header { padding: 22px 30px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.chat-history { flex: 1; padding: 25px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; }
+.mac-input-row { margin: 20px; padding: 10px 20px; border-radius: 15px; display: flex; gap: 15px; align-items: center; }
+#msg-input { flex: 1; background: none; border: none; outline: none; color: white; font-size: 1rem; }
 
 /* ЭМОДЗИ ШТОРКА */
-.emoji-drawer { position: absolute; bottom: 85px; left: 15px; width: 300px; height: 350px; display: none; flex-direction: column; z-index: 100; overflow: hidden; padding: 10px; }
-.emoji-drawer.open { display: flex; }
-.emoji-tabs { display: flex; justify-content: space-around; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.emoji-grid { flex: 1; overflow-y: auto; display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; padding-top: 10px; font-size: 1.5rem; }
-.emoji-grid span { cursor: pointer; text-align: center; transition: 0.1s; }
+.emoji-popover { position: absolute; bottom: 85px; left: 20px; width: 300px; height: 350px; display: none; flex-direction: column; border-radius: 18px; z-index: 100; padding: 12px; }
+.emoji-popover.active { display: flex; }
+.emoji-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; font-size: 1.6rem; padding-top: 10px; }
+.emoji-grid span { cursor: pointer; text-align: center; transition: 0.2s; }
 .emoji-grid span:hover { transform: scale(1.3); }
 
-/* МОДАЛКА */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; display: flex; align-items: center; justify-content: center; }
-.modal-window { width: 320px; padding: 30px; text-align: center; color: white; }
-.modal-scroll { max-height: 200px; overflow-y: auto; margin: 20px 0; display: flex; flex-direction: column; gap: 10px; }
-.modal-item { padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; cursor: pointer; }
-.modal-item.active { background: var(--acc); }
+/* МОДАЛКИ ЯЗЫКА */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 3000; display: flex; align-items: center; justify-content: center; }
+.modal-window { width: 350px; padding: 30px; border-radius: 20px; color: white; text-align: center; }
+.mac-scroll::-webkit-scrollbar { width: 4px; }
+.mac-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+.lang-item { padding: 12px; margin: 5px 0; background: rgba(255,255,255,0.05); border-radius: 8px; cursor: pointer; }
+.lang-item.active { background: var(--accent); }
