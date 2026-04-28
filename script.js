@@ -1,142 +1,170 @@
-let isRegMode = false;
-let currentLanguage = 'ru';
-let userProfile = { nick: "@Сын_Числа_Пи", bio: "Программирую на Tellme", ava: "🍏" };
+let isReg = false;
+let currentLang = 'ru';
+// Имя пользователя согласно вашим предпочтениям
+let userData = { nick: "@Сын_Числа_Пи", bio: "Программирую на Tellme" };
 
-const dict = {
-    ru: { login: "Войти", reg: "Регистрация", noAcc: "Нет аккаунта? | <b>Зарегистрироваться</b>", hasAcc: "Есть аккаунт? | <b>Войти</b>", settings: "Настройки", profile: "Профиль", save: "Сохранить", exit: "Выйти" },
-    ua: { login: "Увійти", reg: "Реєстрація", noAcc: "Немає акаунту? | <b>Зареєструватися</b>", hasAcc: "Є акаунт? | <b>Увійти</b>", settings: "Налаштування", profile: "Профіль", save: "Зберегти", exit: "Вийти" },
-    en: { login: "Login", reg: "Register", noAcc: "No account? | <b>Register</b>", hasAcc: "Have account? | <b>Login</b>", settings: "Settings", profile: "Profile", save: "Save", exit: "Logout" }
+const langs = {
+    ru: { auth: "Авторизоваться", reg: "Создать аккаунт", noAcc: "Нет аккаунта? | <b>Зарегистрироваться</b>", hasAcc: "Есть аккаунт? | <b>Войти</b>", set: "Настройки", prof: "Мой Профиль" },
+    ua: { auth: "Увійти", reg: "Реєстрація", noAcc: "Немає акаунту? | <b>Зареєструватися</b>", hasAcc: "Є акаунт? | <b>Увійти</b>", set: "Налаштування", prof: "Профіль" },
+    en: { auth: "Login", reg: "Register", noAcc: "No account? | <b>Register</b>", hasAcc: "Have account? | <b>Login</b>", set: "Settings", prof: "Profile" }
 };
 
-const emojis = {
-    smiles: ["😊","😂","🥰","😎","🤔","🥳","😭","😤","🤯","😴","😇","🤡"],
-    food: ["🍎","🍔","🍕","🍦","🍩","🍣","🍓","☕"],
-    flags: ["🇺🇦","🏳️","🏴‍☠️","🏁","🚩","🇺🇸","🇬🇧"]
+const emojiData = {
+    smile: ["😊", "😂", "🥰", "😎", "🤔", "🥳", "😭", "😤", "🤯", "😴", "😇", "🤡", "💀", "👻", "🔥", "✨"],
+    food: ["🍎", "🍕", "🍔", "🍦", "🍩", "🍓", "🍣", "☕"],
+    flag: ["🇺🇦", "🚩", "🏁", "🏴‍☠️", "🏳️", "🇺🇸", "🇬🇧"]
 };
 
-// ИНИЦИАЛИЗАЦИЯ ВХОДА
+// ИНИЦИАЛИЗАЦИЯ ФОРМЫ
 function renderAuth() {
-    const fields = document.getElementById('auth-fields');
-    const toggle = document.getElementById('auth-toggle');
+    const form = document.getElementById('auth-form');
+    const toggle = document.getElementById('toggle-link');
     const btn = document.getElementById('main-auth-btn');
-    const t = dict[currentLanguage];
+    const t = langs[currentLang];
 
-    if (isRegMode) {
-        fields.innerHTML = `
-            <input type="email" placeholder="Email">
-            <input type="text" id="reg-nick" placeholder="Юзернейм">
+    if (isReg) {
+        form.innerHTML = `
+            <input type="email" placeholder="Электронная почта">
+            <input type="text" id="reg-nick" placeholder="Придумайте никнейм">
             <input type="password" placeholder="Пароль">
             <input type="password" placeholder="Повторите пароль">
         `;
         btn.innerText = t.reg;
-        toggle.innerHTML = t.noAcc;
-        toggle.onclick = () => { isRegMode = false; renderAuth(); };
+        toggle.innerHTML = t.hasAcc;
+        toggle.onclick = () => { isReg = false; renderAuth(); };
     } else {
-        fields.innerHTML = `
-            <input type="email" placeholder="Email">
+        form.innerHTML = `
+            <input type="email" placeholder="Почта">
             <input type="password" placeholder="Пароль">
         `;
-        btn.innerText = t.login;
-        toggle.innerHTML = t.hasAcc;
-        toggle.onclick = () => { isRegMode = true; renderAuth(); };
+        btn.innerText = t.auth;
+        toggle.innerHTML = t.noAcc;
+        toggle.onclick = () => { isReg = true; renderAuth(); };
     }
 }
 
-// ОТКРЫТИЕ ШТОРКИ
-function openDrawer(type) {
-    const dr = document.getElementById('drawer');
-    const title = document.getElementById('drawer-header-title');
-    const body = document.getElementById('drawer-content');
-    const t = dict[currentLanguage];
+// ШТОРКА
+function openSettings(type) {
+    const drawer = document.getElementById('drawer');
+    const body = document.getElementById('drawer-body');
+    const title = document.getElementById('drawer-title');
+    const t = langs[currentLang];
 
-    if (type === 'settings') {
-        title.innerText = t.settings;
+    if (type === 'reg') {
+        title.innerText = t.set;
         body.innerHTML = `
-            <p style="opacity:0.6; font-size:0.8rem">ВЫБЕРИТЕ ТЕМУ</p>
-            <div class="theme-row">
-                <div class="circle-theme" style="background:#ff9a9e" onclick="setTheme('pink')"></div>
-                <div class="circle-theme" style="background:#4facfe" onclick="setTheme('blue')"></div>
-                <div class="circle-theme" style="background:#333" onclick="setTheme('dark')"></div>
-                <div class="circle-theme" style="background:#eee" onclick="setTheme('white')"></div>
+            <p style="opacity:0.5; font-size:0.75rem; text-transform:uppercase; letter-spacing:1px">Выберите тему</p>
+            <div class="theme-circles">
+                <div class="circle c-pink" onclick="setTheme('pink')"></div>
+                <div class="circle c-blue" onclick="setTheme('blue')"></div>
+                <div class="circle c-dark" onclick="setTheme('dark')"></div>
             </div>
-            <p style="opacity:0.6; font-size:0.8rem">ЯЗЫК СИСТЕМЫ</p>
-            <button class="mac-btn-ghost" style="width:100%; margin-top:10px" onclick="openLangModal()">Язык: ${currentLanguage.toUpperCase()}</button>
+            <p style="opacity:0.5; font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-top:30px">Интерфейс</p>
+            <button class="btn-add-acc" style="width:100%; margin-top:10px" onclick="openLangModal()">Язык: ${currentLang.toUpperCase()}</button>
         `;
     } else {
-        title.innerText = t.profile;
+        title.innerText = t.prof;
         body.innerHTML = `
-            <div class="mac-ava">${userProfile.ava}</div>
-            <h3 style="text-align:center">${userProfile.nick}</h3>
-            <p id="bio-text" style="text-align:center; opacity:0.7; margin:10px 0">${userProfile.bio}</p>
-            <div class="mac-bio-box" style="text-align:center">
-                <input type="text" id="bio-inp" placeholder="О себе..." class="mac-bio-input">
-                <button class="mac-bio-save" onclick="saveBio()">ОК</button>
+            <div class="prof-ava"></div>
+            <div class="prof-nick">${userData.nick}</div>
+            <div id="bio-display" class="prof-bio">${userData.bio}</div>
+            
+            <div class="bio-input-group" style="display:flex; gap:10px; margin-bottom:30px">
+                <input type="text" id="new-bio" placeholder="Изменить статус..." style="flex:1; background:rgba(255,255,255,0.1); border:none; padding:10px; border-radius:10px; color:white;">
+                <button class="save-btn" onclick="saveBio()" style="background:var(--acc); border:none; color:white; padding:0 15px; border-radius:10px; cursor:pointer;">ОК</button>
             </div>
-            <p style="opacity:0.6; font-size:0.8rem">СМЕНИТЬ ТЕМУ</p>
-            <div class="theme-row">
-                <div class="circle-theme" style="background:#ff9a9e" onclick="setTheme('pink')"></div>
-                <div class="circle-theme" style="background:#4facfe" onclick="setTheme('blue')"></div>
-                <div class="circle-theme" style="background:#333" onclick="setTheme('dark')"></div>
-                <div class="circle-theme" style="background:#eee" onclick="setTheme('white')"></div>
+
+            <p style="opacity:0.5; font-size:0.75rem; text-transform:uppercase; letter-spacing:1px">Внешний вид</p>
+            <div class="theme-circles">
+                <div class="circle c-pink" onclick="setTheme('pink')"></div>
+                <div class="circle c-blue" onclick="setTheme('blue')"></div>
+                <div class="circle c-dark" onclick="setTheme('dark')"></div>
             </div>
-            <div class="drawer-bottom">
-                <button class="mac-btn-ghost" onclick="openModal('Конфиденциальность', 'Ваши данные зашифрованы сквозным методом.')">Конфиденциальность</button>
-                <button class="mac-btn-ghost">+ Добавить аккаунт</button>
-                <button class="mac-btn-red" onclick="location.reload()">${t.exit}</button>
+
+            <div class="bottom-btns" style="margin-top:30px; display:flex; flex-direction:column; gap:10px">
+                <button class="btn-add-acc" onclick="openModal('Безопасность', 'Ваши сообщения зашифрованы сквозным методом.')">Конфиденциальность</button>
+                <button class="btn-add-acc">+ Добавить аккаунт</button>
+                <button class="btn-exit" onclick="location.reload()">Выйти из системы</button>
             </div>
         `;
     }
-    dr.classList.add('open');
+    drawer.classList.add('open');
 }
 
 function closeDrawer() { document.getElementById('drawer').classList.remove('open'); }
 function setTheme(t) { document.body.className = 'theme-' + t; }
 
 function saveBio() {
-    const val = document.getElementById('bio-inp').value;
-    if(val) { userProfile.bio = val; document.getElementById('bio-text').innerText = val; }
+    const val = document.getElementById('new-bio').value;
+    if (val) {
+        userData.bio = val;
+        document.getElementById('bio-display').innerText = val;
+        document.getElementById('new-bio').value = "";
+    }
 }
 
-// ЯЗЫКИ И МОДАЛКИ
+// МОДАЛКА ЯЗЫКОВ
 function openLangModal() {
-    const list = ['ru', 'ua', 'en', 'de', 'fr', 'es', 'it', 'pl', 'tr', 'ja'];
-    let html = list.map(l => `<div class="lang-item ${currentLanguage===l?'active':''}" onclick="currentLanguage='${l}'; openLangModal()">${l.toUpperCase()}</div>`).join('');
-    openModal("Выберите язык", `<div style="max-height:200px; overflow-y:auto">${html}</div>`);
+    let list = "";
+    const names = {ru: "Русский", ua: "Українська", en: "English"};
+    Object.keys(langs).forEach(l => {
+        list += `<div class="modal-item ${currentLang === l ? 'active' : ''}" style="padding:15px; margin-bottom:5px; border-radius:10px; cursor:pointer; background:rgba(255,255,255,0.05)" onclick="currentLang='${l}'; openLangModal()">${names[l]}</div>`;
+    });
+    openModal("Выберите язык", list);
 }
 
 function openModal(title, content) {
     document.getElementById('modal-title').innerText = title;
-    document.getElementById('modal-body').innerHTML = content;
+    document.getElementById('modal-content').innerHTML = content;
     document.getElementById('modal-overlay').style.display = 'flex';
 }
-function applyModal() { renderAuth(); closeModal(); }
+
+function applyModal() { 
+    renderAuth(); 
+    closeModal(); 
+    if(document.getElementById('drawer').classList.contains('open')) {
+        const type = document.getElementById('drawer-title').innerText === langs[currentLang].prof ? 'profile' : 'reg';
+        openSettings(type);
+    }
+}
 function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; }
 
 // ЧАТ И ЭМОДЗИ
-function toggleEmoji() { document.getElementById('emoji-drawer').classList.toggle('active'); }
+function toggleEmoji() { document.getElementById('emoji-drawer').classList.toggle('open'); }
 function filterEmoji(cat) {
-    const grid = document.getElementById('emoji-grid');
-    grid.innerHTML = emojis[cat].map(e => `<span onclick="addEmoji('${e}')">${e}</span>`).join('');
+    const list = document.getElementById('emoji-list');
+    list.innerHTML = "";
+    emojiData[cat].forEach(e => {
+        list.innerHTML += `<span style="cursor:pointer" onclick="addEmoji('${e}')">${e}</span>`;
+    });
 }
 function addEmoji(e) { document.getElementById('msg-input').value += e; }
 
-function handleAuth() {
-    const nick = document.getElementById('reg-nick')?.value;
-    if(nick) userProfile.nick = nick.startsWith('@') ? nick : '@' + nick;
-    document.getElementById('screen-auth').classList.remove('active');
-    document.getElementById('screen-app').classList.add('active');
-    renderChatList();
+function sendMsg() {
+    const inp = document.getElementById('msg-input');
+    if (!inp.value.trim()) return;
+    const box = document.getElementById('chat-box');
+    box.innerHTML += `<div style="align-self:flex-end; background:rgba(255,255,255,0.2); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.2); color:white; padding:12px 18px; border-radius:18px 18px 0 18px; font-weight:500; max-width:80%; box-shadow:0 4px 15px rgba(0,0,0,0.05)">${inp.value}</div>`;
+    inp.value = "";
+    box.scrollTop = box.scrollHeight;
 }
 
-function renderChatList() {
+const testChats = [
+    { id: 1, name: "Tellme Support", last: "Вы успешно вошли!" },
+    { id: 2, name: "Саня [Друг]", last: "Как там проект?" }
+];
+
+function renderChats() {
     const list = document.getElementById('chat-list');
-    const testData = [{n:"Tellme Support", m:"Добро пожаловать!"}, {n:"Саня [Друг]", m:"Стиль macOS просто пушка!"}];
-    list.innerHTML = testData.map((c, i) => `
-        <div class="chat-item ${i===0?'active':''}" onclick="selectChat('${c.n}', this)">
-            <div style="width:40px;height:40px;background:rgba(255,255,255,0.2);border-radius:50%"></div>
-            <div><b>${c.n}</b><p style="font-size:0.7rem; opacity:0.5">${c.m}</p></div>
-        </div>
-    `).join('');
+    list.innerHTML = "";
+    testChats.forEach(c => {
+        list.innerHTML += `
+            <div class="chat-item ${c.id === 1 ? 'active' : ''}" style="display:flex; align-items:center; gap:15px; padding:15px; border-radius:18px; cursor:pointer; margin-bottom:5px" onclick="selectChat('${c.name}', this)">
+                <div style="width:45px; height:45px; background:rgba(255,255,255,0.2); border-radius:15px"></div>
+                <div><b style="display:block; font-size:0.95rem">${c.name}</b><p style="font-size:0.75rem; opacity:0.5">${c.last}</p></div>
+            </div>
+        `;
+    });
 }
 
 function selectChat(name, el) {
@@ -145,15 +173,14 @@ function selectChat(name, el) {
     document.getElementById('active-chat-name').innerText = name;
 }
 
-function sendMsg() {
-    const inp = document.getElementById('msg-input');
-    if(!inp.value.trim()) return;
-    const box = document.getElementById('chat-box');
-    box.innerHTML += `<div style="align-self:flex-end; background:var(--accent); color:white; padding:10px 14px; border-radius:15px 15px 2px 15px; font-size:0.9rem; max-width:75%">${inp.value}</div>`;
-    inp.value = "";
-    box.scrollTop = box.scrollHeight;
+function login() {
+    const nick = document.getElementById('reg-nick')?.value;
+    if (nick) userData.nick = nick.startsWith('@') ? nick : '@' + nick;
+    document.getElementById('auth-screen').classList.remove('active');
+    document.getElementById('app-screen').classList.add('active');
+    renderChats();
 }
 
-// Запуск
-filterEmoji('smiles');
+document.getElementById('msg-input').onkeydown = (e) => { if (e.key === 'Enter') sendMsg(); };
+filterEmoji('smile');
 renderAuth();
