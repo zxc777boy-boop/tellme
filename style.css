@@ -1,52 +1,80 @@
-:root { --pink: #ff9a9e; --blue: #4facfe; --dark: #1a1a1a; --white: #ffffff; --glass: rgba(255, 255, 255, 0.2); }
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap');
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
+body { height: 100vh; overflow: hidden; transition: 0.5s; position: relative; }
 
-body { height: 100vh; overflow: hidden; transition: background 0.5s; position: relative; }
+/* ТЕМЫ И УЗОРЫ */
+.theme-pink { background: linear-gradient(135deg, #ff9a9e, #fad0c4); --acc: #ff7b7b; }
+.theme-pink .bg-pattern { background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 20px 20px; opacity: 0.2; }
 
-/* Темы */
-.theme-pink { background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); }
-.theme-blue { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-.theme-dark { background: #121212; color: white; --glass: rgba(255, 255, 255, 0.05); }
-.theme-white { background: #f0f0f0; color: #333; --glass: rgba(0, 0, 0, 0.05); }
+.theme-blue { background: linear-gradient(135deg, #4facfe, #00f2fe); --acc: #2d8cf0; }
+.theme-blue .bg-pattern { background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px); }
 
-.pattern-overlay { position: absolute; inset: 0; opacity: 0.1; background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 20px 20px; pointer-events: none; }
+.theme-dark { background: #1a1a1d; color: white; --acc: #00f2fe; }
+.theme-dark .bg-pattern { background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20L0 40h40L20 20z' fill='%23ffffff' fill-opacity='0.03'/%3E%3C/svg%3E"); }
 
-.screen { display: none; height: 100vh; width: 100%; align-items: center; justify-content: center; position: relative; }
+.bg-pattern { position: absolute; inset: 0; z-index: -1; }
+
+.glass { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; }
+.screen { display: none; height: 100vh; width: 100%; align-items: center; justify-content: center; padding: 20px; }
 .screen.active { display: flex; }
 
-.glass { background: var(--glass); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); border-radius: 25px; }
+/* КРАСИВАЯ АВТОРИЗАЦИЯ */
+.auth-card { width: 380px; padding: 40px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+.logo { font-size: 3.5rem; font-weight: 800; color: white; margin-bottom: 30px; text-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.auth-form input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 12px; border: none; background: rgba(255,255,255,0.2); color: white; outline: none; transition: 0.3s; }
+.auth-form input::placeholder { color: rgba(255,255,255,0.6); }
+.auth-form input:focus { background: rgba(255,255,255,0.4); }
 
-/* Авторизация */
-.auth-card { width: 350px; padding: 40px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-.brand { font-size: 3rem; font-weight: 900; color: white; margin-bottom: 20px; }
-input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 12px; border: none; background: rgba(255,255,255,0.3); outline: none; }
-.auth-actions { display: flex; gap: 10px; margin-top: 20px; }
-.btn-main { flex: 2; padding: 14px; background: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; color: #ff8a8a; }
-.btn-sub { flex: 1; background: none; border: 1px solid white; color: white; border-radius: 12px; cursor: pointer; }
-.gear-trigger { position: absolute; top: 25px; left: 25px; background: none; border: none; font-size: 2rem; cursor: pointer; color: white; z-index: 100; }
+.btn-enter { width: 100%; padding: 15px; border-radius: 12px; border: none; background: white; color: var(--acc); font-weight: 800; cursor: pointer; margin-top: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.toggle-link { margin-top: 20px; color: white; font-size: 0.9rem; cursor: pointer; opacity: 0.9; }
+.toggle-link b { border-bottom: 1px solid white; margin-left: 5px; }
 
-/* Шторка */
-.drawer { position: fixed; left: -350px; top: 0; width: 320px; height: 100%; background: rgba(20,20,20,0.9); backdrop-filter: blur(20px); z-index: 1000; transition: 0.4s; color: white; padding: 30px; }
+/* ШТОРКА (DRAWER) */
+.drawer { position: fixed; left: -400px; top: 0; width: 340px; height: 100%; z-index: 1000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding: 30px; color: white; border-radius: 0 30px 30px 0; }
 .drawer.open { left: 0; }
-.drawer-header { display: flex; justify-content: space-between; margin-bottom: 30px; }
-.drawer-body button { width: 100%; padding: 12px; margin: 5px 0; border-radius: 10px; border: none; background: rgba(255,255,255,0.1); color: white; text-align: left; cursor: pointer; }
+.drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.close-drawer { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
 
-/* Приложение */
-#screen-app { padding: 10px; gap: 10px; }
-.app-sidebar { width: 300px; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
-.app-sidebar-header { padding: 15px; display: flex; gap: 10px; }
-.chat-list { flex: 1; overflow-y: auto; }
-.chat-item { padding: 15px; display: flex; gap: 12px; cursor: pointer; transition: 0.2s; }
-.chat-item.active { background: rgba(255,255,255,0.2); border-radius: 15px; }
-.chat-ava { width: 45px; height: 45px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #333; font-weight: bold; }
+/* КРУЖОЧКИ ТЕМ */
+.theme-circles { display: flex; gap: 15px; margin: 20px 0; }
+.circle { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; border: 2px solid white; transition: 0.2s; }
+.circle:hover { transform: scale(1.2); }
+.c-pink { background: #ff9a9e; } .c-blue { background: #4facfe; } .c-dark { background: #333; }
 
-.chat-window { flex: 1; display: flex; flex-direction: column; height: 100%; }
-.chat-top-bar { padding: 15px 25px; margin-bottom: 10px; }
-.chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-.chat-input-row { display: flex; padding: 10px; gap: 10px; align-items: center; margin-top: 10px; }
-.send-btn { width: 45px; height: 45px; border-radius: 50%; border: none; background: white; color: #ff8a8a; font-weight: bold; cursor: pointer; }
+/* ПРОФИЛЬ В ШТОРКЕ */
+.prof-ava { width: 80px; height: 80px; background: #eee; border-radius: 50%; margin: 0 auto 15px; overflow: hidden; }
+.prof-nick { font-weight: 800; font-size: 1.2rem; text-align: center; }
+.prof-bio { font-size: 0.85rem; opacity: 0.8; text-align: center; margin-bottom: 15px; min-height: 20px; }
+.bio-input-group { display: flex; gap: 5px; margin-bottom: 20px; }
+.bio-input-group input { flex: 1; padding: 8px; border-radius: 8px; border: none; background: rgba(255,255,255,0.1); color: white; }
+.save-btn { padding: 5px 10px; border-radius: 8px; border: none; background: var(--acc); color: white; cursor: pointer; }
 
-/* Модалка */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; display: flex; align-items: center; justify-content: center; }
-.modal-window { width: 300px; padding: 25px; text-align: center; color: white; }
+.bottom-btns { position: absolute; bottom: 30px; width: calc(100% - 60px); display: flex; flex-direction: column; gap: 10px; }
+.btn-add-acc { background: rgba(255,255,255,0.15); border: none; color: white; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; }
+.btn-exit { background: #ff4d4d; border: none; color: white; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 800; }
+
+/* ЧАТ */
+#app-screen { padding: 10px; gap: 10px; }
+.app-sidebar { width: 320px; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+.sidebar-top { padding: 20px; display: flex; gap: 12px; }
+.chat-item { padding: 15px; display: flex; gap: 12px; cursor: pointer; border-radius: 15px; margin: 0 10px 5px; transition: 0.2s; }
+.chat-item.active { background: rgba(255,255,255,0.2); }
+.chat-window { flex: 1; height: 100%; display: flex; flex-direction: column; position: relative; }
+.chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.chat-input-area { display: flex; padding: 15px; gap: 10px; align-items: center; margin-top: 10px; }
+
+/* ЭМОДЗИ ШТОРКА */
+.emoji-drawer { position: absolute; bottom: 85px; left: 15px; width: 300px; height: 350px; display: none; flex-direction: column; z-index: 100; overflow: hidden; padding: 10px; }
+.emoji-drawer.open { display: flex; }
+.emoji-tabs { display: flex; justify-content: space-around; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.emoji-grid { flex: 1; overflow-y: auto; display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; padding-top: 10px; font-size: 1.5rem; }
+.emoji-grid span { cursor: pointer; text-align: center; transition: 0.1s; }
+.emoji-grid span:hover { transform: scale(1.3); }
+
+/* МОДАЛКА */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; display: flex; align-items: center; justify-content: center; }
+.modal-window { width: 320px; padding: 30px; text-align: center; color: white; }
+.modal-scroll { max-height: 200px; overflow-y: auto; margin: 20px 0; display: flex; flex-direction: column; gap: 10px; }
+.modal-item { padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; cursor: pointer; }
+.modal-item.active { background: var(--acc); }
