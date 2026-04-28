@@ -1,80 +1,99 @@
-// Переводы на 10 языков
-const i18n = {
-    ru: { login_action: "Войти", reg_btn_text: "Регистрация", settings_nav: "Настройки", profile_title: "Профиль", themes_label: "Темы", lang_label: "Язык", save: "Сохранить", hide_name: "Скрыть имя", search_placeholder: "Поиск...", input_placeholder: "Сообщение...", edit_bio_label: "О себе", privacy_label: "Приватность" },
-    ua: { login_action: "Увійти", reg_btn_text: "Реєстрація", settings_nav: "Налаштування", profile_title: "Профіль", themes_label: "Теми", lang_label: "Мова", save: "Зберегти", hide_name: "Приховати ім'я", search_placeholder: "Пошук...", input_placeholder: "Повідомлення...", edit_bio_label: "Про себе", privacy_label: "Приватність" },
-    en: { login_action: "Login", reg_btn_text: "Register", settings_nav: "Settings", profile_title: "Profile", themes_label: "Themes", lang_label: "Language", save: "Save", hide_name: "Hide Name", search_placeholder: "Search...", input_placeholder: "Message...", edit_bio_label: "Bio", privacy_label: "Privacy" }
-    // ... (остальные 7 языков по аналогии)
-};
+let isRegMode = false;
+let user = { nick: "@username", bio: "Описания пока нет..." };
 
-// Переключение шторок
-function toggleSidebar(id) {
-    document.getElementById(id).classList.toggle('active');
-}
+// ПЕРЕКЛЮЧЕНИЕ РЕГИСТРАЦИИ
+function toggleMode(toReg) {
+    isRegMode = toReg;
+    const inputs = document.getElementById('auth-inputs');
+    const mainBtn = document.getElementById('btn-primary');
+    const toggleTxt = document.getElementById('mode-toggle');
 
-// Вход в приложение
-function enterApp() {
-    document.getElementById('auth-screen').style.display = 'none';
-    document.getElementById('app-screen').style.display = 'flex';
-}
-
-// Смена темы
-function changeTheme(name) {
-    document.body.className = 'theme-' + name;
-    document.querySelectorAll('.theme-opt').forEach(opt => opt.classList.remove('active'));
-    document.querySelector(`.${name}-opt`).classList.add('active');
-}
-
-// Переключение чатов (Тестовые данные)
-const chatDatabase = {
-    support: { name: "Tellme Support", msg: "Мы всегда на связи!" },
-    sanya: { name: "Саня [Друг]", msg: "Бро, когда в Minecraft?" },
-    team: { name: "Команда Tellme", msg: "Версия 2.0 запущена!" }
-};
-
-function switchChat(id, el) {
-    const data = chatDatabase[id];
-    document.getElementById('active-chat-name').innerText = data.name;
-    document.getElementById('chat-messages').innerHTML = `<div class="msg system">${data.msg}</div>`;
-    
-    document.querySelectorAll('.chat-item').forEach(item => item.classList.remove('active'));
-    el.classList.add('active');
-}
-
-// Валидация ника
-function validateNick(input) {
-    const error = document.getElementById('nick-error');
-    if (!input.value.startsWith('@')) {
-        error.style.display = 'block';
-        input.style.color = '#ff4d4d';
+    if(isRegMode) {
+        inputs.innerHTML = `
+            <input type="email" placeholder="Email">
+            <input type="text" id="reg-nick" placeholder="@username">
+            <input type="password" placeholder="Пароль">
+        `;
+        mainBtn.innerText = "Создать аккаунт";
+        toggleTxt.innerText = "Есть аккаунт? Войти";
+        toggleTxt.onclick = () => toggleMode(false);
     } else {
-        error.style.display = 'none';
-        input.style.color = 'white';
+        inputs.innerHTML = `
+            <input type="email" placeholder="Email">
+            <input type="password" placeholder="Пароль">
+        `;
+        mainBtn.innerText = "Войти";
+        toggleTxt.innerText = "Нет аккаунта? Зарегистрироваться";
+        toggleTxt.onclick = () => toggleMode(true);
     }
 }
 
-// Отправка сообщений
+// ВХОД
+function processAuth() {
+    const nickVal = document.getElementById('reg-nick')?.value;
+    if(nickVal) user.nick = nickVal.startsWith('@') ? nickVal : '@' + nickVal;
+    
+    document.getElementById('screen-auth').classList.remove('active');
+    document.getElementById('screen-app').classList.add('active');
+}
+
+// УПРАВЛЕНИЕ ШТОРКОЙ
+function openDrawer(type) {
+    const drawer = document.getElementById('main-drawer');
+    const content = document.getElementById('drawer-content');
+    const title = document.getElementById('drawer-title');
+
+    if(type === 'settings') {
+        title.innerText = "Настройки";
+        content.innerHTML = `
+            <p style="font-size:0.7rem; opacity:0.5; margin-bottom:10px;">ВНЕШНИЙ ВИД</p>
+            <button onclick="setTheme('pink')">Розовая тема</button>
+            <button onclick="setTheme('blue')">Синяя тема</button>
+            <button onclick="setTheme('dark')">Темная тема</button>
+            <button onclick="setTheme('white')">Светлая тема</button>
+            <p style="font-size:0.7rem; opacity:0.5; margin:15px 0 10px;">ЯЗЫК</p>
+            <button onclick="openModal('Языки', 'RU, UA, EN, DE, FR, ES, IT, PL, TR, JP')">Сменить язык</button>
+        `;
+    } else {
+        title.innerText = "Профиль";
+        content.innerHTML = `
+            <div style="text-align:center; margin-bottom:20px;">
+                <div style="width:70px; height:70px; background:#444; border-radius:50%; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:1.5rem">?</div>
+                <h3>${user.nick}</h3>
+                <p style="font-size:0.8rem; opacity:0.7">${user.bio}</p>
+            </div>
+            <button onclick="user.bio=prompt('О себе:', user.bio); openDrawer('profile')">Изменить описание</button>
+            <button onclick="openModal('Приватность', 'Скрыть номер: ВКЛ')">Конфиденциальность</button>
+            <button onclick="location.reload()" style="color:#ff4d4d">Выйти</button>
+        `;
+    }
+    drawer.classList.add('open');
+}
+
+function closeDrawer() { document.getElementById('main-drawer').classList.remove('open'); }
+
+function setTheme(t) { document.body.className = 'theme-' + t; }
+
+// ЧАТ
 function sendMessage() {
-    const input = document.getElementById('msg-input');
-    if (input.value.trim()) {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = 'msg user-msg';
-        msgDiv.style = "background: rgba(255,255,255,0.2); padding: 10px; border-radius: 10px; margin: 5px; align-self: flex-end;";
-        msgDiv.innerText = input.value;
-        document.getElementById('chat-messages').appendChild(msgDiv);
-        input.value = '';
-    }
+    const inp = document.getElementById('msg-input');
+    if(!inp.value.trim()) return;
+    const box = document.getElementById('chat-box');
+    box.innerHTML += `<div style="align-self:flex-end; background:white; color:#333; padding:10px 15px; border-radius:15px; font-weight:bold; max-width:80%;">${inp.value}</div>`;
+    inp.value = "";
+    box.scrollTop = box.scrollHeight;
 }
 
-// Приватность (Вкл/Выкл)
-function togglePriv(el) {
-    el.classList.toggle('on');
+function switchChat(chat, el) {
+    document.querySelectorAll('.chat-item').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('active-chat-name').innerText = chat === 'support' ? 'Tellme Support' : 'Саня [Друг]';
 }
 
-// Эмодзи
-function toggleEmoji() {
-    const p = document.getElementById('emoji-picker');
-    p.style.display = p.style.display === 'none' ? 'block' : 'none';
+// МОДАЛКИ
+function openModal(t, b) {
+    document.getElementById('modal-title').innerText = t;
+    document.getElementById('modal-body').innerText = b;
+    document.getElementById('modal-overlay').style.display = 'flex';
 }
-function addEmoji(e) {
-    document.getElementById('msg-input').value += e;
-}
+function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; }
