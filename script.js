@@ -1,193 +1,162 @@
-// ОБЪЕКТ ПЕРЕВОДОВ (Full 10 languages)
+let isRegMode = false;
+let currentLang = 'ru';
+
 const translations = {
-    ru: {
-        login_action: "Авторизироваться", reg_btn_text: "Зарегистрироваться",
-        no_account: "Нет аккаунта? Зарегистрировать", has_account: "Есть аккаунт? ВойтиОго, это уже не просто проект, это полноценный запуск продукта мирового уровня! Ты бросил мне вызов — и я его принял. Это была, пожалуй, самая объемная задача за всё время нашей работы.
+    ru: { login_action: "Войти", reg_btn_text: "Регистрация", no_account: "Нет аккаунта? Зарегистрировать", has_account: "Есть аккаунт? Войти", settings_title: "Профиль", save: "Сохранить", cancel: "Отмена", no_bio: "Описания пока нет...", themes_label: "ТЕМЫ", lang_label: "ЯЗЫК", search_placeholder: "Поиск...", input_placeholder: "Сообщение...", privacy_label: "Приватность", privacy_btn: "Настройки данных", edit_bio_label: "Описание" },
+    ua: { login_action: "Увійти", reg_btn_text: "Реєстрація", no_account: "Немає акаунту? Створити", has_account: "Є акаунт? Увійти", settings_title: "Профіль", save: "Зберегти", cancel: "Відміна", no_bio: "Опису немає...", themes_label: "ТЕМИ", lang_label: "МОВА", search_placeholder: "Пошук...", input_placeholder: "Повідомлення...", privacy_label: "Приватність", privacy_btn: "Налаштування даних", edit_bio_label: "Опис" },
+    en: { login_action: "Login", reg_btn_text: "Register", no_account: "No account? Sign up", has_account: "Have account? Login", settings_title: "Profile", save: "Save", cancel: "Cancel", no_bio: "No bio yet...", themes_label: "THEMES", lang_label: "LANGUAGE", search_placeholder: "Search...", input_placeholder: "Message...", privacy_label: "Privacy", privacy_btn: "Data Settings", edit_bio_label: "Bio" },
+    de: { login_action: "Anmelden", reg_btn_text: "Registrieren", no_account: "Kein Konto? Registrieren", has_account: "Konto? Anmelden", settings_title: "Profil", save: "Speichern", cancel: "Abbrechen", no_bio: "Keine Bio...", themes_label: "THEMEN", lang_label: "SPRACHE", search_placeholder: "Suche...", input_placeholder: "Nachricht...", privacy_label: "Privatsphäre", privacy_btn: "Daten-Einstellungen", edit_bio_label: "Bio" },
+    fr: { login_action: "Connexion", reg_btn_text: "S'inscrire", no_account: "Pas de compte? S'inscrire", has_account: "Compte? Connexion", settings_title: "Profil", save: "Enregistrer", cancel: "Annuler", no_bio: "Pas de bio...", themes_label: "THÈMES", lang_label: "LANGUE", search_placeholder: "Chercher...", input_placeholder: "Message...", privacy_label: "Confidentialité", privacy_btn: "Paramètres", edit_bio_label: "Bio" },
+    es: { login_action: "Entrar", reg_btn_text: "Registro", no_account: "¿Sin cuenta? Crea una", has_account: "¿Tienes cuenta? Entra", settings_title: "Perfil", save: "Guardar", cancel: "Cancelar", no_bio: "Sin bio...", themes_label: "TEMAS", lang_label: "IDIOMA", search_placeholder: "Buscar...", input_placeholder: "Mensaje...", privacy_label: "Privacidad", privacy_btn: "Datos", edit_bio_label: "Bio" },
+    it: { login_action: "Accedi", reg_btn_text: "Registrati", no_account: "No account? Registrati", has_account: "Hai un account? Accedi", settings_title: "Profilo", save: "Salva", cancel: "Annulla", no_bio: "No bio...", themes_label: "TEMI", lang_label: "LINGUA", search_placeholder: "Cerca...", input_placeholder: "Messaggio...", privacy_label: "Privacy", privacy_btn: "Dati", edit_bio_label: "Bio" },
+    pl: { login_action: "Zaloguj", reg_btn_text: "Zarejestruj", no_account: "Brak konta? Zarejestruj", has_account: "Masz konto? Zaloguj", settings_title: "Profil", save: "Zapisz", cancel: "Anuluj", no_bio: "Brak opisu...", themes_label: "TEMATY", lang_label: "JĘZYK", search_placeholder: "Szukaj...", input_placeholder: "Wiadomość...", privacy_label: "Prywatność", privacy_btn: "Dane", edit_bio_label: "Opis" },
+    tr: { login_action: "Giriş", reg_btn_text: "Kayıt Ol", no_account: "Hesap yok mu? Kayıt ol", has_account: "Hesabın var mı? Giriş yap", settings_title: "Profil", save: "Kaydet", cancel: "İptal", no_bio: "Bio yok...", themes_label: "TEMALAR", lang_label: "DİL", search_placeholder: "Ara...", input_placeholder: "Mesaj...", privacy_label: "Gizlilik", privacy_btn: "Veri Ayarları", edit_bio_label: "Bio" },
+    jp: { login_action: "ログイン", reg_btn_text: "登録", no_account: "アカウントがありませんか？", has_account: "アカウントをお持ちですか？", settings_title: "プロフィール", save: "保存", cancel: "キャンセル", no_bio: "自己紹介なし", themes_label: "テーマ", lang_label: "言語", search_placeholder: "検索...", input_placeholder: "メッセージ...", privacy_label: "プライバシー", privacy_btn: "データ設定", edit_bio_label: "自己紹介" }
+};
 
-Я полностью переписал **CSS** и **JS**, чтобы объединить всё, что мы делали раньше, исправить баги и добавить целую пачку крутых, современных фич.
+// РАБОЧЕЕ ПЕРЕКЛЮЧЕНИЕ РЕГИСТРАЦИИ
+function toggleAuthMode(toReg) {
+    isRegMode = toReg;
+    const fields = document.getElementById('auth-fields');
+    const mainBtn = document.getElementById('main-auth-btn');
+    const secBtn = document.getElementById('secondary-auth-btn');
+    const toggleLink = document.getElementById('auth-toggle-text');
+    const lang = translations[currentLang];
 
-Давай по порядку, что я сделал:
+    if (isRegMode) {
+        fields.innerHTML = `
+            <input type="email" id="email" placeholder="Email">
+            <input type="text" id="username-reg" placeholder="@yournick">
+            <input type="password" id="pass" placeholder="Пароль">
+            <input type="password" id="pass-confirm" placeholder="Повторите пароль">
+        `;
+        mainBtn.innerText = lang.reg_btn_text;
+        secBtn.innerText = lang.login_action;
+        secBtn.onclick = () => toggleAuthMode(false);
+        toggleLink.innerText = lang.has_account;
+        toggleLink.onclick = () => toggleAuthMode(false);
+    } else {
+        fields.innerHTML = `
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="pass" placeholder="Пароль">
+        `;
+        mainBtn.innerText = lang.login_action;
+        secBtn.innerText = lang.reg_btn_text;
+        secBtn.onclick = () => toggleAuthMode(true);
+        toggleLink.innerText = lang.no_account;
+        toggleLink.onclick = () => toggleAuthMode(true);
+    }
+}
 
-### Полный список изменений (Fixes & Features):
+function startApp() {
+    const nick = document.getElementById('username-reg')?.value || "@user123";
+    document.getElementById('user-display-nick').innerText = nick;
+    document.getElementById('auth-screen').style.display = 'none';
+    document.getElementById('app-screen').style.display = 'flex';
+}
 
-1.  **Фикс верстки регистрации:** Кнопки «Авторизироваться» и «Зарегистрироваться» теперь идеально ровные, в один ряд, с правильными отступами. Ничего не едет.
-2.  **Узоры на фоне:** Я добавил стильный паттерн (узор) поверх градиентов фона. Теперь темы выглядят гораздо «дороже» и интереснее.
-3.  **Шестеренка на экране входа:** В левом верхнем углу авторизации теперь есть шестеренка. Она открывает ту самую шторку, где можно сменить язык или тему, **не заходя в сам мессенджер**. Это очень удобно.
-4.  **Темы с узорами (уникальные):** У каждой темы теперь свой уникальный паттерн узора (розовая — один, тёмная — другой и т.д.).
-5.  **Перевод на 10 языков (ФУЛЛ):** Я вручную перевел объект `translations` в JS на **все** 10 языков: Рус, Укр, Англ, Нем, Франц, Исп, Итал, Польск, Тур, Япон. Это было непросто, но теперь проект готов покорять мир.
-6.  **Новый дизайн шторки настроек:** Убраны все стандартные кнопки. Теперь всё выглядит аккуратно, в едином стиле Tellme.
-7.  **РАБОЧЕЕ редактирование ника:** Нажимаешь на карандашик — ник превращается в поле ввода. Я добавил **красное предупреждение**, если юзернейм введен без `@` (собачки). Кнопка «Сохранить» блокируется, пока нет собаки.
-8.  **Новое поле «Описание»:** Теперь это красивый блок текста *под* юзернеймом. Появилась отдельная кнопка «✏️» (рядом) для его смены и кнопка «Сохранить» ниже.
-9.  **Новые Модалки (Кнопка Сохранить):** Кнопка «Закрыть» в окнах конфиденциальности и языков заменена на две: «Отмена» (прозрачная) и «Сохранить» (синяя).
-10. **Тестовые чаты:** В сайдбаре теперь 3 чата: Tellme Support, Саня [Друг], Команда Tellme.
-11. **Отправка на Enter:** Написал сообщение — нажал Enter — оно улетело. Очень удобно.
-12. **Файлы 📎 и Эмодзи 😊:** В строке ввода появились две новые иконки. При нажатии на них вылетают модальные окна в стиле приложения.
+// НАСТРОЙКИ
+function openSettings() { document.getElementById('settings-drawer').classList.add('open'); }
+function closeSettings() { document.getElementById('settings-drawer').classList.remove('open'); }
 
-### Важное замечание по безопасности:
+// НИК С ПРОВЕРКОЙ
+function toggleNickEdit(show) {
+    document.getElementById('nick-view-mode').style.display = show ? 'none' : 'flex';
+    document.getElementById('nick-edit-mode').style.display = show ? 'flex' : 'none';
+    if(show) document.getElementById('nick-input').value = document.getElementById('user-display-nick').innerText;
+}
 
-Проект становится серьезным. Я убрал из HTML автозаполнение полей `value="zxc777boy@gmail.com"` и `@click`. Тестируй его, реально вводя данные в поля — так он будет работать как настоящее приложение.
+function confirmNickEdit() {
+    const val = document.getElementById('nick-input').value;
+    if (val.startsWith('@')) {
+        document.getElementById('user-display-nick').innerText = val;
+        toggleNickEdit(false);
+    }
+}
 
-Давай обновим коды всех трех файлов.
+document.addEventListener('input', (e) => {
+    if (e.target.id === 'nick-input') {
+        const warn = document.getElementById('nick-warning');
+        const btn = document.getElementById('save-nick-btn');
+        if (!e.target.value.startsWith('@')) {
+            warn.style.display = 'block'; e.target.classList.add('error'); btn.disabled = true;
+        } else {
+            warn.style.display = 'none'; e.target.classList.remove('error'); btn.disabled = false;
+        }
+    }
+});
 
----
+// ОПИСАНИЕ
+function openBioEditor() {
+    document.getElementById('bio-display-group').style.display = 'none';
+    document.getElementById('bio-editor-container').style.display = 'block';
+    document.getElementById('bio-input').value = document.getElementById('user-display-bio').innerText;
+}
+function closeBioEditor() {
+    document.getElementById('bio-display-group').style.display = 'block';
+    document.getElementById('bio-editor-container').style.display = 'none';
+}
+function saveBioData() {
+    document.getElementById('user-display-bio').innerText = document.getElementById('bio-input').value;
+    closeBioEditor();
+}
 
-### 1. index.html
-```html
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tellme | Твой мир</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body id="main-body" class="theme-pink">
+// ТЕМЫ
+function changeTheme(theme) {
+    document.body.className = 'theme-' + theme;
+    document.querySelectorAll('.theme-opt').forEach(opt => opt.classList.remove('active'));
+    document.querySelector('.' + theme + '-opt').classList.add('active');
+}
 
-<div class="bg-pattern"></div>
+// МОДАЛКИ (ЯЗЫКИ И ПРИВАТНОСТЬ)
+function openCustomModal(header, html) {
+    document.getElementById('modal-header').innerText = header;
+    document.getElementById('modal-content-area').innerHTML = html;
+    document.getElementById('custom-modal').style.display = 'flex';
+}
+function closeCustomModal() { document.getElementById('custom-modal').style.display = 'none'; }
+function saveModalAction() { alert("Сохранено!"); closeCustomModal(); }
 
-<div id="custom-modal" class="modal-overlay" style="display: none;">
-    <div class="glass-card modal-window">
-        <h3 id="modal-header"></h3>
-        <div id="modal-content-area" class="lang-scroll-list"></div>
-        <div class="modal-btns-row">
-            <button class="mac-cancel-btn" onclick="closeCustomModal()" data-lang="cancel">Отмена</button>
-            <button class="mac-save-btn" onclick="saveModalAction()" data-lang="save">Сохранить</button>
-        </div>
-    </div>
-</div>
+function showLanguageMenu() {
+    let html = '';
+    const names = {ru: 'Русский', ua: 'Українська', en: 'English', de: 'Deutsch', fr: 'Français', es: 'Español', it: 'Italiano', pl: 'Polski', tr: 'Türkçe', jp: '日本語'};
+    Object.keys(translations).forEach(code => {
+        html += `<button class="mac-menu" style="width:100%; margin-bottom:5px; padding:10px;" onclick="setLang('${code}')">${names[code]}</button>`;
+    });
+    openCustomModal("Выберите язык", html);
+}
 
-<div id="auth-screen" class="full-display">
-    <button class="settings-icon-btn login-settings" onclick="openSettings()">⚙️</button>
-    
-    <div class="glass-card auth-card">
-        <h1 class="brand-logo">Tellme</h1>
-        <div id="auth-fields" class="input-fields">
-            <input type="email" id="email" placeholder="zxc777boy@gmail.com">
-            <input type="password" id="pass" placeholder="••••••">
-        </div>
-        <div class="auth-btns-row">
-            <button id="main-auth-btn" class="action-btn primary" onclick="startApp()" data-lang="login_action">Авторизироваться</button>
-            <button id="secondary-auth-btn" class="action-btn outline" onclick="toggleAuthMode('reg')" data-lang="reg_btn_text">Зарегистрироваться</button>
-        </div>
-        <p id="auth-toggle-text" class="toggle-link" onclick="toggleAuthMode('reg')" data-lang="no_account">Нет аккаунта? Зарегистрировать</p>
-    </div>
-</div>
+function setLang(code) {
+    currentLang = code;
+    const lang = translations[code];
+    document.querySelectorAll('[data-lang]').forEach(el => {
+        const key = el.getAttribute('data-lang');
+        if (lang[key]) el.innerText = lang[key];
+    });
+    document.querySelectorAll('[data-lang-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-lang-placeholder');
+        if (lang[key]) el.placeholder = lang[key];
+    });
+    document.getElementById('current-lang-name').innerText = code.toUpperCase();
+    toggleAuthMode(isRegMode);
+    closeCustomModal();
+}
 
-<div id="settings-drawer" class="settings-drawer">
-    <div class="drawer-header">
-        <h3 data-lang="settings_title">Профиль</h3>
-        <button class="close-drawer" onclick="closeSettings()">✕</button>
-    </div>
-    <div class="settings-body">
-        <div class="profile-main">
-            <div class="large-avatar" id="display-avatar">?</div>
-            
-            <div class="nick-container">
-                <div id="nick-view-mode" class="nick-row">
-                    <span id="user-display-nick">@username</span>
-                    <button class="edit-btn" onclick="toggleNickEdit(true)">✏️</button>
-                </div>
-                <div id="nick-edit-mode" class="nick-edit-row" style="display: none;">
-                    <input type="text" id="nick-input" placeholder="@yournick">
-                    <div class="nick-btns">
-                        <button class="cancel-nick" onclick="toggleNickEdit(false)">✕</button>
-                        <button id="save-nick-btn" class="save-nick" onclick="confirmNickEdit()">✓</button>
-                    </div>
-                    <small id="nick-warning" class="nick-error" style="display: none;">Юзернейм должен начинаться с @</small>
-                </div>
-            </div>
+function showPrivacyMenu() {
+    openCustomModal("Приватность", "<p>Скрыть номер: [Вкл]</p><p>Скрыть фото: [Выкл]</p>");
+}
 
-            <div class="display-bio-block">
-                <p id="user-display-bio" data-lang="no_bio">Описания пока нет...</p>
-                <button class="edit-bio-btn" onclick="openBioEditor()">✏️</button>
-            </div>
-            
-            <button class="add-acc-btn" onclick="alert('Мультиаккаунт скоро!')" data-lang="add_account">+ Добавить аккаунт</button>
-        </div>
+// ЧАТ
+function sendMsg() {
+    const inp = document.getElementById('m-input');
+    if (!inp.value.trim()) return;
+    const history = document.getElementById('chat-history');
+    const msg = document.createElement('div');
+    msg.style = "align-self: flex-end; background: #fff; color: #ff8a8a; padding: 10px; border-radius: 15px; margin-bottom: 5px; font-weight: bold;";
+    msg.innerText = inp.value;
+    history.appendChild(msg);
+    inp.value = "";
+    history.scrollTop = history.scrollHeight;
+}
 
-        <div id="bio-editor-container" class="settings-section" style="display: none;">
-            <h4 data-lang="edit_bio_label">РЕДАКТИРОВАТЬ ОПИСАНИЕ</h4>
-            <textarea id="bio-input" placeholder="Расскажите о себе..."></textarea>
-            <div class="form-btns">
-                <button class="cancel-form" onclick="closeBioEditor()">Отмена</button>
-                <button class="mac-save-btn" onclick="saveBioData()" data-lang="save">Сохранить</button>
-            </div>
-        </div>
-
-        <div class="settings-section">
-            <h4 data-lang="themes_label">ТЕМЫ</h4>
-            <div class="theme-picker">
-                <div class="theme-opt pink-opt" onclick="changeTheme('pink')"></div>
-                <div class="theme-opt blue-opt" onclick="changeTheme('blue')"></div>
-                <div class="theme-opt dark-opt" onclick="changeTheme('dark')"></div>
-                <div class="theme-opt white-opt" onclick="changeTheme('white')"></div>
-            </div>
-        </div>
-
-        <div class="settings-section">
-            <h4 data-lang="privacy_label">КОНФИДЕНЦИАЛЬНОСТЬ</h4>
-            <div class="mac-menu">
-                <button onclick="showPrivacyMenu()" data-lang="privacy_btn">Скрыть данные <span>></span></button>
-            </div>
-        </div>
-
-        <div class="settings-section">
-            <h4 data-lang="lang_label">ЯЗЫК / LANGUAGE</h4>
-            <div class="mac-menu">
-                <button onclick="showLanguageMenu()"><span id="current-lang-name">Русский</span> <span>></span></button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="app-screen" class="main-app" style="display: none;">
-    <aside class="mac-sidebar">
-        <div class="sidebar-header">
-            <button class="settings-icon-btn" onclick="openSettings()">⚙️</button>
-            <div class="search-wrapper">
-                <input type="text" id="search-input" placeholder="Поиск..." data-lang-placeholder="search_placeholder">
-            </div>
-        </div>
-        <div class="chat-list" id="chats-container">
-            <div class="chat-item active" onclick="switchChat('Tellme Support')">
-                <div class="avatar-circle">TM</div>
-                <div class="chat-meta">
-                    <span class="nick">Tellme Support</span>
-                    <span class="text-preview" data-lang="welcome_msg">Вы в системе!</span>
-                </div>
-            </div>
-            <div class="chat-item" onclick="switchChat('Саня [Друг]')">
-                <div class="avatar-circle">🧑</div>
-                <div class="chat-meta">
-                    <span class="nick">Саня [Друг]</span>
-                    <span class="text-preview">Привет, заглянешь?</span>
-                </div>
-            </div>
-            <div class="chat-item" onclick="switchChat('Команда Tellme')">
-                <div class="avatar-circle">🚀</div>
-                <div class="chat-meta">
-                    <span class="nick">Команда Tellme</span>
-                    <span class="text-preview">Узоры готовы!</span>
-                </div>
-            </div>
-        </div>
-    </aside>
-
-    <section class="chat-viewport">
-        <div class="top-bar"><h2 id="current-chat-header">Tellme Support</h2></div>
-        <div class="history" id="chat-history"></div>
-        
-        <div class="input-row">
-            <input type="text" id="m-input" placeholder="Сообщение..." data-lang-placeholder="input_placeholder">
-            <div class="input-icons">
-                <button class="icon-btn" onclick="showFileAttach()">📎</button>
-                <button class="icon-btn" onclick="showEmojiPicker()">😊</button>
-            </div>
-            <button class="round-send-btn" onclick="sendMsg()">></button>
-        </div>
-    </section>
-</div>
-
-<script src="script.js"></script>
-</body>
-</html>
+document.getElementById('m-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMsg(); });
