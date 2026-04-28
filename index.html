@@ -10,83 +10,135 @@
 
 <div class="bg-pattern"></div>
 
-<div id="custom-modal" class="modal-overlay" style="display: none;">
-    <div class="glass-card modal-window">
-        <h3 id="modal-header"></h3>
-        <div id="modal-content-area" class="lang-scroll-list"></div>
-        <div class="modal-btns-row">
-            <button class="mac-cancel-btn" onclick="closeCustomModal()" data-lang="cancel">Отмена</button>
-            <button class="mac-save-btn" onclick="saveModalAction()" data-lang="save">Сохранить</button>
-        </div>
-    </div>
-</div>
-
-<div id="settings-drawer" class="settings-drawer">
-    <div class="drawer-header">
-        <h3 data-lang="settings_title">Профиль</h3>
-        <button class="close-drawer" onclick="closeSettings()">✕</button>
-    </div>
-    <div class="settings-body mac-settings" id="drawer-dynamic-content">
-        </div>
-</div>
-
 <div id="auth-screen" class="full-display">
-    <button class="settings-icon-btn login-settings" onclick="openSettings('auth')">⚙️</button>
+    <button class="settings-icon-btn login-gear" onclick="toggleSidebar('settings-sidebar')">⚙️</button>
     
     <div class="glass-card auth-card">
         <h1 class="brand-logo">Tellme</h1>
         <div id="auth-fields" class="input-fields">
-            <input type="email" id="email" placeholder="zxc777boy@gmail.com">
-            <input type="password" id="pass" placeholder="••••••">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="pass" placeholder="Пароль">
         </div>
         <div class="auth-btns-row">
-            <button id="main-auth-btn" class="action-btn primary" onclick="startApp()" data-lang="login_action">Авторизироваться</button>
-            <button id="secondary-auth-btn" class="action-btn outline" onclick="toggleAuthMode('reg')" data-lang="reg_btn_text">Зарегистрироваться</button>
+            <button id="main-auth-btn" class="action-btn primary" onclick="enterApp()" data-lang="login_action">Войти</button>
+            <button id="secondary-auth-btn" class="action-btn outline" onclick="toggleAuthMode(true)" data-lang="reg_btn_text">Регистрация</button>
         </div>
-        <p id="auth-toggle-text" class="toggle-link" onclick="toggleAuthMode('reg')" data-lang="no_account">Нет аккаунта? Зарегистрировать</p>
+    </div>
+</div>
+
+<div id="settings-sidebar" class="sidebar-drawer">
+    <div class="drawer-header">
+        <h2 data-lang="settings_nav">Настройки</h2>
+        <button class="close-drawer" onclick="toggleSidebar('settings-sidebar')">✕</button>
+    </div>
+    <div class="drawer-body">
+        <div class="sidebar-section">
+            <label data-lang="themes_label">Темы</label>
+            <div class="theme-picker">
+                <div class="theme-opt pink-opt active" onclick="changeTheme('pink')"></div>
+                <div class="theme-opt blue-opt" onclick="changeTheme('blue')"></div>
+                <div class="theme-opt dark-opt" onclick="changeTheme('dark')"></div>
+                <div class="theme-opt white-opt" onclick="changeTheme('white')"></div>
+            </div>
+        </div>
+        <div class="sidebar-section">
+            <label data-lang="lang_label">Язык</label>
+            <select class="mac-select" onchange="changeLanguage(this.value)">
+                <option value="ru">Русский</option>
+                <option value="ua">Українська</option>
+                <option value="en">English</option>
+                <option value="de">Deutsch</option>
+                <option value="fr">Français</option>
+                <option value="es">Español</option>
+                <option value="it">Italiano</option>
+                <option value="pl">Polski</option>
+                <option value="tr">Türkçe</option>
+                <option value="jp">日本語</option>
+            </select>
+        </div>
     </div>
 </div>
 
 <div id="app-screen" class="main-app" style="display: none;">
-    <aside class="mac-sidebar">
-        <div class="sidebar-header">
-            <button class="settings-icon-btn" onclick="openSettings('app')">⚙️</button>
-            <div class="search-wrapper">
-                <input type="text" id="search-input" placeholder="Поиск..." data-lang-placeholder="search_placeholder">
-            </div>
+    <aside class="app-sidebar">
+        <div class="sidebar-top">
+            <button class="menu-btn" onclick="toggleSidebar('profile-sidebar')">☰</button>
+            <input type="text" class="search-bar" placeholder="Поиск..." data-lang-placeholder="search_placeholder">
         </div>
-        <div class="chat-list" id="chats-container">
-            <div class="chat-item active" onclick="switchChat('Tellme Support')">
-                <div class="avatar-circle">TM</div>
-                <div class="chat-meta">
-                    <span class="nick">Tellme Support</span>
-                    <span class="text-preview" data-lang="welcome_msg">Вы в системе!</span>
-                </div>
+        <div class="chat-list">
+            <div class="chat-item active" onclick="switchChat('support', this)">
+                <div class="chat-ava">TM</div>
+                <div class="chat-info"><b>Tellme Support</b><p>Online</p></div>
             </div>
-            <div class="chat-item" onclick="switchChat('Саня [Друг]')">
-                <div class="avatar-circle">🧑</div>
-                <div class="chat-meta"><span class="nick">Саня [Друг]</span><span class="text-preview">Придешь сегодня?</span></div>
+            <div class="chat-item" onclick="switchChat('sanya', this)">
+                <div class="chat-ava">👦</div>
+                <div class="chat-info"><b>Саня [Друг]</b><p>Как дела?</p></div>
             </div>
-            <div class="chat-item" onclick="switchChat('Команда Tellme')">
-                <div class="avatar-circle">🚀</div>
-                <div class="chat-meta"><span class="nick">Команда Tellme</span><span class="text-preview">Новые узоры готовы!</span></div>
+            <div class="chat-item" onclick="switchChat('team', this)">
+                <div class="chat-ava">🚀</div>
+                <div class="chat-info"><b>Команда Tellme</b><p>Фиксы готовы!</p></div>
             </div>
         </div>
     </aside>
 
-    <section class="chat-viewport">
-        <div class="top-bar"><h2 id="current-chat-header">Tellme Support</h2></div>
-        <div class="history" id="chat-history"></div>
-        
-        <div class="input-row">
-            <input type="text" id="m-input" placeholder="Сообщение..." data-lang-placeholder="input_placeholder">
-            <div class="input-icons">
-                <button class="icon-btn" onclick="showFileAttach()">📎</button>
-                <button class="icon-btn" onclick="showEmojiPicker()">😊</button>
-            </div>
-            <button class="round-send-btn" onclick="sendMsg()">></button>
+    <main class="chat-window">
+        <div class="chat-header">
+            <h2 id="active-chat-name">Tellme Support</h2>
         </div>
-    </section>
+        <div class="chat-messages" id="chat-messages">
+            <div class="msg system">Добро пожаловать!</div>
+        </div>
+        <div class="chat-input-zone">
+            <button class="tool-btn" onclick="document.getElementById('file-up').click()">📎</button>
+            <input type="file" id="file-up" hidden onchange="handleFile(this)">
+            <input type="text" id="msg-input" placeholder="Сообщение..." data-lang-placeholder="input_placeholder">
+            <button class="tool-btn" onclick="toggleEmoji()">😊</button>
+            <button class="send-btn" onclick="sendMessage()">></button>
+        </div>
+        <div id="emoji-picker" class="emoji-pop" style="display:none;">
+            <span onclick="addEmoji('😊')">😊</span> <span onclick="addEmoji('😂')">😂</span> <span onclick="addEmoji('❤️')">❤️</span> <span onclick="addEmoji('🔥')">🔥</span>
+        </div>
+    </main>
+
+    <div id="profile-sidebar" class="sidebar-drawer">
+        <div class="drawer-header">
+            <h2 data-lang="profile_title">Профиль</h2>
+            <button class="close-drawer" onclick="toggleSidebar('profile-sidebar')">✕</button>
+        </div>
+        <div class="drawer-body">
+            <div class="profile-main">
+                <div class="big-avatar">?</div>
+                <div class="nick-edit-zone">
+                    <input type="text" id="user-nick-input" value="@username" oninput="validateNick(this)">
+                    <p id="nick-error" class="error-text" style="display:none;">Ник должен начинаться с @</p>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <label data-lang="edit_bio_label">О себе</label>
+                <textarea id="user-bio" placeholder="Расскажите о себе..."></textarea>
+                <button class="save-small-btn" onclick="saveBio()" data-lang="save">Сохранить</button>
+            </div>
+
+            <div class="sidebar-section">
+                <label data-lang="privacy_label">Конфиденциальность</label>
+                <div class="priv-toggle" onclick="togglePriv(this)">
+                    <span data-lang="hide_name">Скрыть имя</span>
+                    <div class="toggle-track"><div class="toggle-thumb"></div></div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <label data-lang="themes_label">Темы</label>
+                <div class="theme-picker">
+                    <div class="theme-opt pink-opt" onclick="changeTheme('pink')"></div>
+                    <div class="theme-opt blue-opt" onclick="changeTheme('blue')"></div>
+                    <div class="theme-opt dark-opt" onclick="changeTheme('dark')"></div>
+                    <div class="theme-opt white-opt" onclick="changeTheme('white')"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="script.js"></script>
