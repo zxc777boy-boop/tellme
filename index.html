@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tellme | Full Pro</title>
+    <title>Tellme | Redesigned</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="theme-pink">
-
-<div class="bg-pattern"></div>
+<body class="theme-dark"> <div class="bg-pattern"></div>
 
 <button id="gear-btn" class="settings-gear" onclick="openSettings('reg')">⚙️</button>
 
@@ -69,7 +67,7 @@
         <div class="chat-input-area">
             <button class="icon-btn" onclick="toggleEmoji()">😊</button>
             <button class="icon-btn" onclick="document.getElementById('hidden-file').click()">📎</button>
-            <input type="text" id="msg-input" placeholder="Написать сообщение...">
+            <input type="text" id="msg-input" autocomplete="off" placeholder="Написать сообщение...">
             <button class="send-btn" onclick="sendMsg()">➤</button>
         </div>
     </main>
