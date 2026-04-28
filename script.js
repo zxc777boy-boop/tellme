@@ -1,183 +1,89 @@
-let isReg = false;
-let currentLang = 'ru';
-let userData = { nick: "@Сын_Числа_Пи", bio: "Программирую на Tellme" };
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap');
 
-const langs = {
-    ru: { auth: "Войти", reg: "Регистрация", noAcc: "Нет аккаунта? | <b>Зарегистрироваться</b>", hasAcc: "Есть аккаунт? | <b>Войти</b>", set: "Настройки", prof: "Профиль" },
-    ua: { auth: "Увійти", reg: "Реєстрація", noAcc: "Немає акаунту? | <b>Зареєструватися</b>", hasAcc: "Є акаунт? | <b>Увійти</b>", set: "Налаштування", prof: "Профіль" },
-    en: { auth: "Login", reg: "Register", noAcc: "No account? | <b>Register</b>", hasAcc: "Have account? | <b>Login</b>", set: "Settings", prof: "Profile" }
-    // ... можно добавить еще 7 языков аналогично
-};
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+body { height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 
-const emojiData = {
-    smile: ["😊", "😂", "🥰", "😎", "🤔", "🥳", "😭", "😤", "🤯", "😴", "😇", "🤡", "💀", "👻", "🔥", "✨"],
-    food: ["🍎", "🍕", "🍔", "🍦", "🍩", "🍓", "🍣", "☕"],
-    flag: ["🇺🇦", "🚩", "🏁", "🏴‍☠️", "🏳️", "🇺🇸", "🇬🇧"]
-};
+/* ТЕМЫ И ПАТТЕРНЫ */
+.theme-pink { background: #ff9a9e; --accent: #ff6b6b; }
+.theme-pink .bg-pattern { background-image: radial-gradient(rgba(255,255,255,0.3) 1.5px, transparent 1.5px); background-size: 24px 24px; }
 
-// ИНИЦИАЛИЗАЦИЯ ФОРМЫ
-function renderAuth() {
-    const form = document.getElementById('auth-form');
-    const toggle = document.getElementById('toggle-link');
-    const btn = document.getElementById('main-auth-btn');
-    const t = langs[currentLang];
+.theme-blue { background: #4facfe; --accent: #007aff; }
+.theme-blue .bg-pattern { background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px); }
 
-    if (isReg) {
-        form.innerHTML = `
-            <input type="email" placeholder="Почта">
-            <input type="text" id="reg-nick" placeholder="Юзернейм">
-            <input type="password" placeholder="Пароль">
-            <input type="password" placeholder="Повторите пароль">
-        `;
-        btn.innerText = t.reg;
-        toggle.innerHTML = t.hasAcc;
-        toggle.onclick = () => { isReg = false; renderAuth(); };
-    } else {
-        form.innerHTML = `
-            <input type="email" placeholder="Почта">
-            <input type="password" placeholder="Пароль">
-        `;
-        btn.innerText = t.auth;
-        toggle.innerHTML = t.noAcc;
-        toggle.onclick = () => { isReg = true; renderAuth(); };
-    }
-}
+.theme-dark { background: #1c1c1e; color: white; --accent: #0a84ff; }
+.theme-dark .bg-pattern { background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20L0 40h40L20 20z' fill='%23fff' fill-opacity='0.02'/%3E%3C/svg%3E"); }
 
-// ШТОРКА
-function openSettings(type) {
-    const drawer = document.getElementById('drawer');
-    const body = document.getElementById('drawer-body');
-    const title = document.getElementById('drawer-title');
-    const t = langs[currentLang];
+.theme-white { background: #f5f5f7; color: #1d1d1f; --accent: #007aff; }
+.theme-white .bg-pattern { background-image: radial-gradient(#d2d2d7 1px, transparent 1.5px); background-size: 30px 30px; }
 
-    if (type === 'reg') {
-        title.innerText = t.set;
-        body.innerHTML = `
-            <p style="opacity:0.6; font-size:0.8rem">ТЕМЫ</p>
-            <div class="theme-circles">
-                <div class="circle c-pink" onclick="setTheme('pink')"></div>
-                <div class="circle c-blue" onclick="setTheme('blue')"></div>
-                <div class="circle c-dark" onclick="setTheme('dark')"></div>
-            </div>
-            <p style="opacity:0.6; font-size:0.8rem; margin-top:20px">ЯЗЫК</p>
-            <button class="btn-add-acc" style="width:100%; margin-top:10px" onclick="openLangModal()">Выбрать язык (${currentLang.toUpperCase()})</button>
-        `;
-    } else {
-        title.innerText = t.prof;
-        body.innerHTML = `
-            <div class="prof-ava"></div>
-            <div class="prof-nick">${userData.nick}</div>
-            <div id="bio-display" class="prof-bio">${userData.bio}</div>
-            <div class="bio-input-group">
-                <input type="text" id="new-bio" placeholder="Новое описание...">
-                <button class="save-btn" onclick="saveBio()">ОК</button>
-            </div>
-            <p style="opacity:0.6; font-size:0.8rem">ТЕМЫ</p>
-            <div class="theme-circles">
-                <div class="circle c-pink" onclick="setTheme('pink')"></div>
-                <div class="circle c-blue" onclick="setTheme('blue')"></div>
-                <div class="circle c-dark" onclick="setTheme('dark')"></div>
-            </div>
-            <button class="btn-add-acc" style="width:100%; margin-bottom:10px" onclick="openModal('Конфиденциальность', 'Все данные защищены')">Конфиденциальность</button>
-            <div class="bottom-btns">
-                <button class="btn-add-acc">+ Добавить аккаунт</button>
-                <button class="btn-exit" onclick="location.reload()">Выйти</button>
-            </div>
-        `;
-    }
-    drawer.classList.add('open');
-}
+.bg-pattern { position: fixed; inset: 0; z-index: -1; }
 
-function closeDrawer() { document.getElementById('drawer').classList.remove('open'); }
+/* ОКНО В СТИЛЕ MAC */
+.mac-window { width: 1000px; height: 680px; background: rgba(255,255,255,0.1); backdrop-filter: blur(50px); border-radius: 20px; border: 1px solid rgba(255,255,255,0.3); position: relative; display: flex; box-shadow: 0 50px 100px rgba(0,0,0,0.4); overflow: hidden; }
 
-function setTheme(t) { document.body.className = 'theme-' + t; }
+.traffic-lights { position: absolute; top: 18px; left: 18px; display: flex; gap: 8px; z-index: 1001; }
+.traffic-lights span { width: 12px; height: 12px; border-radius: 50%; }
+.t-red { background: #ff5f56; } .t-yellow { background: #ffbd2e; } .t-green { background: #27c93f; }
 
-function saveBio() {
-    const val = document.getElementById('new-bio').value;
-    if (val) {
-        userData.bio = val;
-        document.getElementById('bio-display').innerText = val;
-    }
-}
+.glass { background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(25px); }
 
-// МОДАЛКА ЯЗЫКОВ
-function openLangModal() {
-    let list = "";
-    Object.keys(langs).forEach(l => {
-        list += `<div class="modal-item ${currentLang === l ? 'active' : ''}" onclick="currentLang='${l}'; openLangModal()">${l.toUpperCase()}</div>`;
-    });
-    openModal("Выберите язык", list);
-}
+/* ЭКРАНЫ */
+.screen { display: none; width: 100%; height: 100%; position: relative; }
+.screen.active { display: flex; }
 
-function openModal(title, content) {
-    document.getElementById('modal-title').innerText = title;
-    document.getElementById('modal-content').innerHTML = content;
-    document.getElementById('modal-overlay').style.display = 'flex';
-}
+/* АВТОРИЗАЦИЯ */
+.auth-box { margin: auto; width: 360px; text-align: center; }
+.mac-logo { font-size: 3.5rem; font-weight: 700; color: white; margin-bottom: 30px; text-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+.mac-inputs input { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; outline: none; }
+.mac-btn-blue { width: 100%; padding: 14px; background: var(--accent); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 1rem; }
+.mac-btn-blue:hover { opacity: 0.9; }
+.mac-toggle-link { margin-top: 20px; color: white; font-size: 0.9rem; cursor: pointer; }
 
-function applyModal() { 
-    renderAuth(); 
-    closeModal(); 
-    if(document.getElementById('drawer').classList.contains('open')) openSettings('reg');
-}
-function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; }
+/* ШТОРКА (SIDEBAR) */
+.mac-drawer { position: absolute; left: -380px; top: 0; width: 340px; height: 100%; z-index: 2000; transition: 0.5s cubic-bezier(0.2, 1, 0.2, 1); padding: 60px 25px 25px; color: white; border-right: 1px solid rgba(255,255,255,0.2); }
+.mac-drawer.open { left: 0; }
+.mac-close-btn { background: none; border: none; color: white; font-size: 1.4rem; cursor: pointer; }
+.drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
 
-// ЧАТ И ЭМОДЗИ
-function toggleEmoji() { document.getElementById('emoji-drawer').classList.toggle('open'); }
+/* ТЕМЫ-КРУЖОЧКИ */
+.theme-row { display: flex; gap: 15px; margin: 15px 0 25px; }
+.circle-theme { width: 32px; height: 32px; border-radius: 50%; border: 2px solid white; cursor: pointer; transition: 0.2s; }
+.circle-theme:hover { transform: scale(1.1); }
 
-function filterEmoji(cat) {
-    const list = document.getElementById('emoji-list');
-    list.innerHTML = "";
-    emojiData[cat].forEach(e => {
-        list.innerHTML += `<span onclick="addEmoji('${e}')">${e}</span>`;
-    });
-}
+/* ПРОФИЛЬ В ШТОРКЕ */
+.mac-ava { width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+.mac-bio-box { margin: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+.mac-bio-input { background: rgba(255,255,255,0.1); border: none; padding: 8px; border-radius: 6px; color: white; width: 70%; }
+.mac-bio-save { padding: 8px 12px; background: var(--accent); border: none; border-radius: 6px; color: white; cursor: pointer; }
 
-function addEmoji(e) { document.getElementById('msg-input').value += e; }
+.drawer-bottom { position: absolute; bottom: 25px; left: 25px; right: 25px; display: flex; flex-direction: column; gap: 10px; }
+.mac-btn-ghost { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 12px; border-radius: 10px; cursor: pointer; }
+.mac-btn-red { background: #ff3b30; color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: 700; }
 
-function sendMsg() {
-    const inp = document.getElementById('msg-input');
-    if (!inp.value.trim()) return;
-    const box = document.getElementById('chat-box');
-    box.innerHTML += `<div style="align-self:flex-end; background:white; color:#333; padding:12px; border-radius:15px; font-weight:600; max-width:80%">${inp.value}</div>`;
-    inp.value = "";
-    box.scrollTop = box.scrollHeight;
-}
+/* ЧАТ ИНТЕРФЕЙС */
+.mac-sidebar { width: 280px; height: 100%; border-right: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; }
+.sidebar-top { padding: 60px 20px 20px; display: flex; flex-direction: column; gap: 15px; }
+.mac-search { background: rgba(255,255,255,0.1); border: none; padding: 10px; border-radius: 8px; color: white; font-size: 0.85rem; }
+.chat-item { padding: 12px 15px; margin: 2px 10px; border-radius: 10px; cursor: pointer; display: flex; gap: 12px; align-items: center; }
+.chat-item.active { background: rgba(255,255,255,0.2); }
 
-// Переключение чатов
-const testChats = [
-    { id: 1, name: "Tellme Support", last: "Вы в системе!" },
-    { id: 2, name: "Саня [Друг]", last: "Придешь сегодня?" }
-];
+.mac-chat-area { flex: 1; display: flex; flex-direction: column; position: relative; }
+.chat-header { padding: 22px 30px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.chat-history { flex: 1; padding: 25px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; }
+.mac-input-row { margin: 20px; padding: 10px 20px; border-radius: 15px; display: flex; gap: 15px; align-items: center; }
+#msg-input { flex: 1; background: none; border: none; outline: none; color: white; font-size: 1rem; }
 
-function renderChats() {
-    const list = document.getElementById('chat-list');
-    list.innerHTML = "";
-    testChats.forEach(c => {
-        list.innerHTML += `
-            <div class="chat-item ${c.id === 1 ? 'active' : ''}" onclick="selectChat('${c.name}', this)">
-                <div style="width:40px; height:40px; background:#fff; border-radius:50%"></div>
-                <div><b>${c.name}</b><p style="font-size:0.7rem; opacity:0.6">${c.last}</p></div>
-            </div>
-        `;
-    });
-}
+/* ЭМОДЗИ ШТОРКА */
+.emoji-popover { position: absolute; bottom: 85px; left: 20px; width: 300px; height: 350px; display: none; flex-direction: column; border-radius: 18px; z-index: 100; padding: 12px; }
+.emoji-popover.active { display: flex; }
+.emoji-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; font-size: 1.6rem; padding-top: 10px; }
+.emoji-grid span { cursor: pointer; text-align: center; transition: 0.2s; }
+.emoji-grid span:hover { transform: scale(1.3); }
 
-function selectChat(name, el) {
-    document.querySelectorAll('.chat-item').forEach(i => i.classList.remove('active'));
-    el.classList.add('active');
-    document.getElementById('active-chat-name').innerText = name;
-}
-
-function login() {
-    const nick = document.getElementById('reg-nick')?.value;
-    if (nick) userData.nick = nick.startsWith('@') ? nick : '@' + nick;
-    document.getElementById('auth-screen').classList.remove('active');
-    document.getElementById('app-screen').classList.add('active');
-    renderChats();
-}
-
-// События
-document.getElementById('msg-input').onkeydown = (e) => { if (e.key === 'Enter') sendMsg(); };
-filterEmoji('smile');
-renderAuth();
+/* МОДАЛКИ ЯЗЫКА */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 3000; display: flex; align-items: center; justify-content: center; }
+.modal-window { width: 350px; padding: 30px; border-radius: 20px; color: white; text-align: center; }
+.mac-scroll::-webkit-scrollbar { width: 4px; }
+.mac-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+.lang-item { padding: 12px; margin: 5px 0; background: rgba(255,255,255,0.05); border-radius: 8px; cursor: pointer; }
+.lang-item.active { background: var(--accent); }
