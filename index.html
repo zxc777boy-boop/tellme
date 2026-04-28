@@ -3,80 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tellme | Full Edition</title>
+    <title>Tellme | Premium Edition</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="theme-pink">
 
-<div class="pattern-overlay"></div>
-
-<div id="main-drawer" class="drawer">
-    <div class="drawer-header">
-        <h2 id="drawer-title">Настройки</h2>
-        <button onclick="closeDrawer()" class="close-btn">✕</button>
-    </div>
-    <div id="drawer-content" class="drawer-body"></div>
-</div>
+<div class="bg-pattern"></div>
 
 <div id="modal-overlay" class="modal-overlay" style="display:none;">
     <div class="modal-window glass">
         <h3 id="modal-title"></h3>
-        <div id="modal-body"></div>
-        <button onclick="closeModal()" class="modal-close-btn">Закрыть</button>
+        <div id="modal-content" class="modal-scroll"></div>
+        <div class="modal-footer">
+            <button onclick="applyModal()" class="btn-action apply">Применить</button>
+            <button onclick="closeModal()" class="btn-action cancel">Закрыть</button>
+        </div>
     </div>
 </div>
 
-<div id="screen-auth" class="screen active">
-    <button class="gear-trigger" onclick="openDrawer('settings')">⚙️</button>
+<div id="drawer" class="drawer glass">
+    <div class="drawer-header">
+        <h2 id="drawer-title">Настройки</h2>
+        <button onclick="closeDrawer()" class="close-drawer">✕</button>
+    </div>
+    <div id="drawer-body" class="drawer-content"></div>
+</div>
+
+<div id="auth-screen" class="screen active">
+    <button class="settings-gear" onclick="openSettings('reg')">⚙️</button>
     <div class="auth-card glass">
-        <h1 class="brand">Tellme</h1>
-        <div id="auth-inputs">
-            <input type="email" placeholder="Email" id="auth-email">
-            <input type="password" placeholder="Пароль" id="auth-pass">
+        <h1 class="logo">Tellme</h1>
+        <div id="auth-form" class="auth-form">
+            </div>
+        <div class="auth-footer">
+            <button class="btn-enter" id="main-auth-btn" onclick="login()">Войти</button>
+            <div id="toggle-link" class="toggle-link"></div>
         </div>
-        <div class="auth-actions">
-            <button class="btn-main" id="btn-primary" onclick="processAuth()">Войти</button>
-            <button class="btn-sub" id="btn-secondary" onclick="toggleMode(true)">Регистрация</button>
-        </div>
-        <p id="mode-toggle" onclick="toggleMode(true)">Нет аккаунта? Зарегистрироваться</p>
     </div>
 </div>
 
-<div id="screen-app" class="screen">
+<div id="app-screen" class="screen">
     <aside class="app-sidebar glass">
-        <div class="app-sidebar-header">
-            <button class="burger-menu" onclick="openDrawer('profile')">☰</button>
+        <div class="sidebar-top">
+            <button class="burger" onclick="openSettings('profile')">☰</button>
             <input type="text" placeholder="Поиск..." class="search-input">
         </div>
-        <div class="chat-list">
-            <div class="chat-item active" onclick="switchChat('support', this)">
-                <div class="chat-ava">TM</div>
-                <div class="chat-details"><b>Support</b><p>Системный чат</p></div>
+        <div class="chat-list" id="chat-list">
             </div>
-            <div class="chat-item" onclick="switchChat('sanya', this)">
-                <div class="chat-ava">👦</div>
-                <div class="chat-details"><b>Саня [Друг]</b><p>Бро, зацени код!</p></div>
-            </div>
-        </div>
     </aside>
 
     <main class="chat-window">
-        <div class="chat-top-bar glass">
+        <div class="chat-header glass">
             <h2 id="active-chat-name">Tellme Support</h2>
         </div>
-        <div class="chat-messages" id="chat-box">
-            <div class="msg system">Приветствуем в Tellme! Ваша сессия активна.</div>
+        <div class="chat-messages" id="chat-box"></div>
+        
+        <div id="emoji-drawer" class="emoji-drawer glass">
+            <div class="emoji-tabs">
+                <button onclick="filterEmoji('smile')">😊</button>
+                <button onclick="filterEmoji('food')">🍎</button>
+                <button onclick="filterEmoji('flag')">🚩</button>
+            </div>
+            <div id="emoji-list" class="emoji-grid"></div>
         </div>
-        <div class="chat-input-row glass">
-            <button class="tool-btn" onclick="openModal('Эмодзи', '😊 😂 ❤️ 👍 🔥 🙌 ✨ 🚀')">😊</button>
-            <button class="tool-btn" onclick="document.getElementById('file-inp').click()">📎</button>
-            <input type="file" id="file-inp" style="display:none" onchange="alert('Файл выбран!')">
+
+        <div class="chat-input-area glass">
+            <button class="icon-btn" onclick="toggleEmoji()">😊</button>
+            <button class="icon-btn" onclick="triggerFile()">📎</button>
             <input type="text" id="msg-input" placeholder="Написать сообщение...">
-            <button class="send-btn" onclick="sendMessage()">></button>
+            <button class="send-btn" onclick="sendMsg()">➤</button>
         </div>
     </main>
 </div>
 
+<input type="file" id="hidden-file" style="display:none">
 <script src="script.js"></script>
 </body>
 </html>
