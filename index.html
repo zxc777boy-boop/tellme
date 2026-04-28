@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tellme</title>
+    <title>Tellme | Connect the World</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body id="main-body" class="theme-default">
@@ -19,17 +19,23 @@
 <div id="auth-screen" class="full-display">
     <div class="glass-card auth-card">
         <h1 class="brand-logo">Tellme</h1>
-        <div class="input-fields">
+        
+        <div id="auth-fields" class="input-fields">
             <input type="email" id="email" placeholder="zxc777boy@gmail.com">
-            <input type="text" id="username" placeholder="@click">
             <input type="password" id="pass" placeholder="••••••">
-            <input type="password" id="pass-confirm" placeholder="••••••">
         </div>
-        <button class="action-btn" onclick="startApp()" data-lang="login_btn">Войти в мир</button>
+
+        <div class="auth-buttons-row">
+            <button id="main-auth-btn" class="action-btn primary" onclick="startApp()" data-lang="login_action">Авторизироваться</button>
+            <button id="secondary-auth-btn" class="action-btn outline" onclick="toggleAuthMode('reg')" data-lang="reg_btn_text">Зарегистрироваться</button>
+        </div>
+        
+        <p id="auth-toggle-text" class="toggle-link" onclick="toggleAuthMode('reg')" data-lang="no_account">Нет аккаунта? Зарегистрировать</p>
     </div>
 </div>
 
 <div id="app-screen" class="main-app" style="display: none;">
+    
     <div id="settings-drawer" class="settings-drawer">
         <div class="drawer-header">
             <h3 data-lang="settings_title">Профиль</h3>
@@ -42,7 +48,7 @@
                     <span id="user-display-nick">@username</span>
                     <button class="edit-btn" onclick="editUsername()">✏️</button>
                 </div>
-                <button class="add-acc-btn" onclick="addAccount()" data-lang="add_account">+ Добавить аккаунт</button>
+                <button class="add-acc-btn" onclick="alert('Multi-account coming soon!')" data-lang="add_account">+ Добавить аккаунт</button>
             </div>
 
             <div class="settings-section">
@@ -97,7 +103,9 @@
 
     <section class="chat-viewport">
         <div class="top-bar"><h2>Tellme Support</h2></div>
-        <div class="history" id="chat-history"></div>
+        <div class="history" id="chat-history">
+            <div class="bubble received">Добро пожаловать в Tellme! Проверьте новые настройки и переключение языков.</div>
+        </div>
         <div class="input-row">
             <input type="text" id="m-input" placeholder="Сообщение..." data-lang-placeholder="input_placeholder">
             <button class="round-send-btn" onclick="sendMsg()">></button>
