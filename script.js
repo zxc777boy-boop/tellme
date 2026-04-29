@@ -50,7 +50,6 @@ function openSettings(mode) {
     const body = document.getElementById('drawer-body');
     const title = document.getElementById('drawer-title');
     const L = langs[currentLang];
-
     dr.classList.add('open');
 
     if (mode === 'reg') {
@@ -71,51 +70,23 @@ function openSettings(mode) {
             <div style="text-align:center; margin-bottom:20px">
                 <div style="width:80px; height:80px; background:rgba(255,255,255,0.1); border-radius:20px; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:2rem">👤</div>
                 <h3>${userData.nick}</h3>
-                <p style="opacity:0.6; font-size:0.9rem">${userData.bio}</p>
+                <p style="opacity:0.6">${userData.bio}</p>
             </div>
             <button class="btn-main" style="width:100%; margin-bottom:10px" onclick="openModal('nick')">${L.changeNick}</button>
-            <button class="btn-main" style="width:100%; background:rgba(255,255,255,0.1)">${L.addAcc}</button>
-            <button class="btn-main" style="width:100%; background:rgba(255,79,79,0.2); color:#ff4f4f; margin-top:20px" onclick="location.reload()">${L.exit}</button>
+            <button class="btn-main" style="width:100%; background:rgba(255,79,79,0.2); color:#ff4f4f" onclick="location.reload()">${L.exit}</button>
         `;
     }
 }
 
 function openModal(type) {
     activeModalType = type;
-    const modal = document.getElementById('modal-overlay');
+    document.getElementById('modal-overlay').style.display = 'flex';
     const content = document.getElementById('modal-content');
-    const title = document.getElementById('modal-title');
-    modal.style.display = 'flex';
-
     if (type === 'lang') {
-        title.innerText = "Выберите язык";
-        content.innerHTML = `
-            <div class="modal-item ${selectedTempLang==='ru'?'active':''}" onclick="tempSelectLang('ru', this)">Русский</div>
-            <div class="modal-item ${selectedTempLang==='ua'?'active':''}" onclick="tempSelectLang('ua', this)">Українська</div>
-            <div class="modal-item ${selectedTempLang==='en'?'active':''}" onclick="tempSelectLang('en', this)">English</div>
-        `;
+        content.innerHTML = `<div class="modal-item" onclick="tempSelectLang('ru', this)">Русский</div><div class="modal-item" onclick="tempSelectLang('ua', this)">Українська</div>`;
     } else if (type === 'nick') {
-        title.innerText = "Изменить ник";
-        content.innerHTML = `<input type="text" id="new-nick-input" class="search-input" style="width:100%; height:50px" value="${userData.nick}">`;
+        content.innerHTML = `<input type="text" id="new-nick" class="search-input" value="${userData.nick}">`;
     }
-}
-
-function tempSelectLang(l, el) {
-    selectedTempLang = l;
-    document.querySelectorAll('.modal-item').forEach(i => i.classList.remove('active'));
-    el.classList.add('active');
-}
-
-function applyModal() {
-    if (activeModalType === 'lang') {
-        currentLang = selectedTempLang;
-        renderAuth();
-    } else if (activeModalType === 'nick') {
-        const val = document.getElementById('new-nick-input').value;
-        if (val) userData.nick = val;
-    }
-    closeModal();
-    closeDrawer();
 }
 
 function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; }
@@ -132,8 +103,8 @@ function login() {
 function renderChats() {
     document.getElementById('chat-list').innerHTML = `
         <div class="chat-item active">
-            <div style="width:40px; height:40px; background:rgba(255,255,255,0.1); border-radius:10px; display:flex; align-items:center; justify-content:center">🤖</div>
-            <div><b>Tellme Support</b><p style="font-size:0.7rem; opacity:0.5">Система готова</p></div>
+            <div style="width:40px; height:40px; background:rgba(255,255,255,0.1); border-radius:10px"></div>
+            <div><b>Tellme Support</b><p style="font-size:0.7rem; opacity:0.5">Система активна</p></div>
         </div>
     `;
 }
