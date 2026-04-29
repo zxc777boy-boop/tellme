@@ -47,12 +47,29 @@ body { height: 100vh; overflow: hidden; transition: 0.5s; position: relative; co
     justify-content: flex-start; 
 }
 
-/* Убедись, что само окно чата забирает остаток ширины */
-.chat-window { 
-    flex: 1; 
-    display: flex; 
-    flex-direction: column; 
-    height: 100%; 
+/* Окно чата (добавляем отступ слева, чтобы отделить от списка) */
+.chat-window {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-left: 10px; /* Тот самый промежуток между колонками */
+}
+
+/* Заголовок чата (исправляем положение текста) */
+.chat-header {
+    padding: 20px 25px; /* Увеличиваем отступы внутри, чтобы текст не вылезал */
+    display: flex;
+    align-items: center;
+    border-radius: 20px; /* Закругляем, чтобы соответствовало стилю glass */
+    margin-bottom: 10px; /* Отступ от сообщений */
+}
+
+#active-chat-name {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 0; /* Убираем лишние внешние отступы */
 }
 .screen.active { display: flex; align-items: center; justify-content: center; }
 
