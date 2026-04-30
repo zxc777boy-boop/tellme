@@ -67,14 +67,21 @@
                 <div id="emoji-list" class="emoji-grid"></div>
             </div>
 
-            <div class="chat-input-area">
-                <button class="icon-btn" onclick="toggleEmoji()">😊</button>
-                <button class="icon-btn" onclick="document.getElementById('hidden-file').click()">📎</button>
-                <input type="text" id="msg-input" autocomplete="off" placeholder="Написать сообщение...">
-                <button class="send-btn" onclick="sendMsg()">➤</button>
-            </div>
-        </main>
+<div class="chat-input-area">
+    <button class="icon-btn" onclick="toggleEmoji()">😊</button>
+    <button class="icon-btn" onclick="document.getElementById('hidden-file').click()">📎</button>
+    <input type="text" id="msg-input" autocomplete="off" placeholder="Написать сообщение...">
+    
+    <!-- Контейнер для записи -->
+    <div class="recorder-container">
+        <button id="record-btn" class="icon-btn main-record-btn">🎤</button>
+        <div id="video-preview-container" class="video-preview-wrap">
+            <video id="video-preview" autoplay muted playsinline></video>
+        </div>
     </div>
+
+    <button class="send-btn" onclick="sendMsg()">➤</button>
+</div>
 
     <input type="file" id="hidden-file" style="display:none">
     <script src="script.js"></script>
