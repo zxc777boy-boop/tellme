@@ -187,3 +187,94 @@ function filterEmoji(cat) {
 document.getElementById('msg-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMsg(); });
 renderAuth();
 filterEmoji('smile');
+
+let mediaRecorder;
+let audioChunks = [];
+let mode = 'audio'; // 'audio' или 'video'
+let isRecording = false;
+let recordTimeout;
+
+const recordBtn = document.getElementById('record-btn');
+const videoPreview = document.getElementById('video-preview');
+const videoContainer = document.getElementById('video-preview-container');
+
+// 1. Смена режима по короткому клику
+recordBtn.addEventListener('click', () => {
+    if (isRecording) return;
+    mode = mode === 'audio' ? 'video' : 'audio';
+    recordBtn.innerText = mode === 'audio' ? '🎤' : '📷';
+});
+
+// 2. Логика зажатия (Long Press)
+recordBtn.addEventListener('mousedown', startHold);
+recordBtn.addEventListener('mouseup', endHold);
+recordBtn.addEventListener('mouseleave', endHold);
+
+// Для сенсорных экранов
+recordBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startHold(); });
+recordBtn.addEventListener('touchend', endHold);
+
+function startHold() {
+    recordTimeout = setTimeout(async () => {
+        isRecording = true;
+        recordBtn.classList.add('recording');
+        
+        const constraints = {
+            audio: true,
+            video: mode === 'video' ? { width: 300, height: 300, facingMode: "user" } : false
+        };
+
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            if (mode === 'video') {
+                videoContainer.style.display = 'block';
+                videoPreview.srcObject = stream;
+            }
+            
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+
+            mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
+            mediaRecorder.onstop = saveMedia;
+            mediaRecorder.start();
+        } catch (err) {
+            console.error("Ошибка доступа к медиа:", err);
+            stopRecordingUI();
+        }
+    }, 200); // Задержка, чтобы отличить клик от зажатия
+}
+
+function endHold() {
+    clearTimeout(recordTimeout);
+    if (isRecording) {
+        mediaRecorder.stop();
+        mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        stopRecordingUI();
+    }
+}
+
+function stopRecordingUI() {
+    isRecording = false;
+    recordBtn.classList.remove('recording');
+    videoContainer.style.display = 'none';
+    videoPreview.srcObject = null;
+}
+
+function saveMedia() {
+    const blob = new Blob(audioChunks, { type: mode === 'audio' ? 'audio/ogg' : 'video/webm' });
+    const url = URL.createObjectURL(blob);
+    const box = document.getElementById('chat-box');
+
+    if (mode === 'audio') {
+        box.innerHTML += `
+            <div style="align-self:flex-end; background:rgba(255,255,255,0.1); padding:10px; border-radius:15px; margin-bottom:10px">
+                <audio src="${url}" controls style="height:30px; width:200px"></audio>
+            </div>`;
+    } else {
+        box.innerHTML += `
+            <div style="align-self:flex-end; margin-bottom:10px">
+                <video src="${url}" autoplay loop muted style="width:150px; height:150px; border-radius:50%; object-fit:cover; border:2px solid var(--acc)"></video>
+            </div>`;
+    }
+    box.scrollTop = box.scrollHeight;
+}
