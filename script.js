@@ -189,92 +189,93 @@ renderAuth();
 filterEmoji('smile');
 
 let mediaRecorder;
-let audioChunks = [];
-let mode = 'audio'; // 'audio' или 'video'
+let chunks = [];
+let mode = 'audio'; 
 let isRecording = false;
-let recordTimeout;
 
 const recordBtn = document.getElementById('record-btn');
 const videoPreview = document.getElementById('video-preview');
 const videoContainer = document.getElementById('video-preview-container');
 
-// 1. Смена режима по короткому клику
+// Переключение иконок
 recordBtn.addEventListener('click', () => {
     if (isRecording) return;
     mode = mode === 'audio' ? 'video' : 'audio';
     recordBtn.innerText = mode === 'audio' ? '🎤' : '📷';
 });
 
-// 2. Логика зажатия (Long Press)
-recordBtn.addEventListener('mousedown', startHold);
-recordBtn.addEventListener('mouseup', endHold);
-recordBtn.addEventListener('mouseleave', endHold);
+// Функции начала и конца записи
+recordBtn.onmousedown = startRecording;
+recordBtn.onmouseup = stopRecording;
+recordBtn.onmouseleave = () => { if(isRecording) stopRecording(); };
 
-// Для сенсорных экранов
-recordBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startHold(); });
-recordBtn.addEventListener('touchend', endHold);
+async function startRecording() {
+    isRecording = true;
+    chunks = [];
+    
+    const constraints = {
+        audio: true, // Звук записывается ВСЕГДА (и для гс, и для кружков)
+        video: mode === 'video' ? { width: 400, height: 400, facingMode: "user" } : false
+    };
 
-function startHold() {
-    recordTimeout = setTimeout(async () => {
-        isRecording = true;
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        
+        if (mode === 'video') {
+            videoContainer.style.display = 'block';
+            videoPreview.srcObject = stream;
+        }
+
         recordBtn.classList.add('recording');
         
-        const constraints = {
-            audio: true,
-            video: mode === 'video' ? { width: 300, height: 300, facingMode: "user" } : false
-        };
-
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia(constraints);
-            if (mode === 'video') {
-                videoContainer.style.display = 'block';
-                videoPreview.srcObject = stream;
-            }
-            
-            mediaRecorder = new MediaRecorder(stream);
-            audioChunks = [];
-
-            mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
-            mediaRecorder.onstop = saveMedia;
-            mediaRecorder.start();
-        } catch (err) {
-            console.error("Ошибка доступа к медиа:", err);
-            stopRecordingUI();
-        }
-    }, 200); // Задержка, чтобы отличить клик от зажатия
-}
-
-function endHold() {
-    clearTimeout(recordTimeout);
-    if (isRecording) {
-        mediaRecorder.stop();
-        mediaRecorder.stream.getTracks().forEach(track => track.stop());
-        stopRecordingUI();
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = e => { if(e.data.size > 0) chunks.push(e.data); };
+        mediaRecorder.onstop = processMedia;
+        mediaRecorder.start();
+    } catch (err) {
+        console.error("Нет доступа:", err);
+        isRecording = false;
     }
 }
 
-function stopRecordingUI() {
-    isRecording = false;
+function stopRecording() {
+    if (!isRecording) return;
+    mediaRecorder.stop();
+    mediaRecorder.stream.getTracks().forEach(t => t.stop());
+    
     recordBtn.classList.remove('recording');
     videoContainer.style.display = 'none';
-    videoPreview.srcObject = null;
+    isRecording = false;
 }
 
-function saveMedia() {
-    const blob = new Blob(audioChunks, { type: mode === 'audio' ? 'audio/ogg' : 'video/webm' });
+function processMedia() {
+    if (chunks.length === 0) return; // Защита от пустого сообщения
+    
+    const blob = new Blob(chunks, { type: mode === 'audio' ? 'audio/ogg' : 'video/webm' });
     const url = URL.createObjectURL(blob);
     const box = document.getElementById('chat-box');
 
+    const msgWrapper = document.createElement('div');
+    msgWrapper.style.alignSelf = 'flex-end';
+    msgWrapper.style.marginBottom = '15px';
+
     if (mode === 'audio') {
-        box.innerHTML += `
-            <div style="align-self:flex-end; background:rgba(255,255,255,0.1); padding:10px; border-radius:15px; margin-bottom:10px">
-                <audio src="${url}" controls style="height:30px; width:200px"></audio>
-            </div>`;
+        msgWrapper.innerHTML = `<audio src="${url}" controls style="height:35px"></audio>`;
     } else {
-        box.innerHTML += `
-            <div style="align-self:flex-end; margin-bottom:10px">
-                <video src="${url}" autoplay loop muted style="width:150px; height:150px; border-radius:50%; object-fit:cover; border:2px solid var(--acc)"></video>
-            </div>`;
+        // Создаем кружок с функцией увеличения
+        const video = document.createElement('video');
+        video.src = url;
+        video.autoplay = true;
+        video.loop = true;
+        video.muted = false; // Звук теперь есть!
+        video.className = 'video-msg';
+        video.style.cssText = "width:150px; height:150px; border-radius:50%; object-fit:cover; border:3px solid var(--acc); cursor:pointer";
+        
+        // Увеличение при клике
+        video.onclick = () => video.classList.toggle('expanded');
+        msgWrapper.appendChild(video);
     }
+
+    box.appendChild(msgWrapper);
     box.scrollTop = box.scrollHeight;
 }
