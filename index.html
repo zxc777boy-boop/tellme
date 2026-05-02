@@ -50,18 +50,30 @@
             </div>
             <div class="chat-list" id="chat-list"></div>
         </aside>
-<!-- Оставь только ОДИН тег main -->
+        
 <main class="chat-window glass">
-    
-    <!-- Заголовок: оставляем тоже только ОДИН раз -->
+    <!-- Шапка с твоими новыми кнопками -->
     <div class="chat-header">
         <h2 id="active-chat-name">Tellme Support</h2>
         <div class="header-actions">
-            <button class="icon-btn" title="Поиск" onclick="toggleSearch()">🔍</button>
-            <button class="icon-btn" title="Позвонить" onclick="openCallModal()">📞</button>
-            <button class="icon-btn" title="Ещё">⋮</button>
+            <button class="icon-btn" onclick="toggleSearch()">🔍</button>
+            <button class="icon-btn" onclick="openCallModal()">📞</button>
+            <button class="icon-btn">⋮</button>
         </div>
     </div>
+
+    <!-- Поле для сообщений (занимает центр) -->
+    <div class="chat-messages" id="chat-box"></div>
+
+    <!-- Строка ввода (всегда внизу внутри main) -->
+    <div class="chat-input-area">
+        <button id="emoji-btn">😊</button>
+        <button id="attach-btn">📎</button>
+        <input type="text" id="msg-input" placeholder="Написать сообщение...">
+        <button id="voice-btn">🎤</button>
+        <button id="send-btn">➤</button>
+    </div>
+</main>
 
     <!-- Поле для сообщений — вернет чат на место -->
     <div class="chat-messages" id="chat-box"></div>
