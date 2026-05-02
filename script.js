@@ -325,3 +325,6 @@ function processMedia() {
     box.appendChild(msgWrapper);
     box.scrollTop = box.scrollHeight;
 }
+
+// Запуск рендера библиотеки при загрузке скрипта
+renderAllEmojis();
