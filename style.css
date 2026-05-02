@@ -136,12 +136,41 @@ body { height: 100vh; overflow: hidden; transition: 0.5s; position: relative; co
 .emoji-tabs button { background: none; border: none; font-size: 1.2rem; cursor: pointer; }
 .emoji-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(35px, 1fr)); /* Авто-подбор колонок */
-    gap: 8px;
-    height: 250px; /* Фиксированная высота */
-    overflow-y: auto; /* Прокрутка */
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); /* Крупные ячейки */
+    gap: 5px;
+    max-height: 300px; /* Ограничиваем высоту окна */
+    overflow-y: auto;  /* Включаем вертикальную прокрутку */
     padding: 10px;
-    font-size: 1.6rem;
+    background: rgba(0, 0, 0, 0.2); /* Легкий фон для контраста */
+    border-radius: 10px;
+    scrollbar-width: thin; /* Тонкий скролл для Firefox */
+    scrollbar-color: var(--acc) transparent;
+}
+
+/* Стилизация скроллбара для Chrome/Safari/Edge */
+.emoji-grid::-webkit-scrollbar {
+    width: 6px;
+}
+.emoji-grid::-webkit-scrollbar-thumb {
+    background-color: var(--acc);
+    border-radius: 10px;
+}
+
+/* Чтобы сами эмодзи были крупными и кликабельными */
+.emoji-item {
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    transition: transform 0.1s;
+    user-select: none;
+}
+
+.emoji-item:hover {
+    transform: scale(1.2);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
 }
 
 ::-webkit-scrollbar { width: 4px; }
