@@ -59,11 +59,18 @@ body { height: 100vh; overflow: hidden; transition: 0.5s; position: relative; co
 
 /* Заголовок чата (исправляем положение текста) */
 .chat-header {
-    padding: 20px 25px; /* Увеличиваем отступы внутри, чтобы текст не вылезал */
+    padding: 20px 25px;
     display: flex;
     align-items: center;
-    border-radius: 20px; /* Закругляем, чтобы соответствовало стилю glass */
-    margin-bottom: 10px; /* Отступ от сообщений */
+    justify-content: bwtween; /* Это растянет имя и кнопки по краям */
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 15px;
+    margin-left: auto; /* Гарантирует, что кнопки будут справа */
 }
 
 #active-chat-name {
