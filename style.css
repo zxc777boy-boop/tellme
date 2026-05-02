@@ -134,7 +134,15 @@ body { height: 100vh; overflow: hidden; transition: 0.5s; position: relative; co
 .emoji-drawer.open { display: flex; }
 .emoji-tabs { display: flex; justify-content: space-around; margin-bottom: 10px; }
 .emoji-tabs button { background: none; border: none; font-size: 1.2rem; cursor: pointer; }
-.emoji-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; overflow-y: auto; font-size: 1.5rem; }
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(35px, 1fr)); /* Авто-подбор колонок */
+    gap: 8px;
+    height: 250px; /* Фиксированная высота */
+    overflow-y: auto; /* Прокрутка */
+    padding: 10px;
+    font-size: 1.6rem;
+}
 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
