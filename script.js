@@ -10,12 +10,51 @@ const langs = {
     en: { auth: "Login", reg: "Register", noAcc: "No account? | <b>Register</b>", hasAcc: "Have account? | <b>Login</b>", set: "Settings", prof: "Profile", apply: "Apply", cancel: "Close", exit: "Logout", addAcc: "Add account", changeNick: "Change nick", notif: "Notifications", priv: "Privacy" }
 };
 
-const emojiData = {
-    smile: ["😊", "😂", "🥰", "😎", "🤔", "🥳", "😭", "😤", "🤯", "😴", "😇", "🤡", "🤡", "💀", "👻", "🔥", "✨", "❤️"],
-    nature: ["🌲", "🌵", "🌈", "🌊", "☀️", "🌙", "⭐", "🍀", "🍂", "🌪️"],
-    food: ["🍎", "🍕", "🍔", "🍦", "🍩", "🍓", "🍣", "☕", "🍺", "🥑"],
-    flag: ["🇺🇦", "🚩", "🏁", "🏴‍☠️", "🇺🇸", "🇬🇧", "🇩🇪", "🇵🇱"]
+// Группы эмодзи по диапазонам Unicode (самый простой способ получить ВСЕ)
+const emojiGroups = {
+    "😊": [0x1F600, 0x1F64F], // Смайлы
+    "🐱": [0x1F400, 0x1F4D3], // Животные и природа
+    "🍔": [0x1F32D, 0x1F37F], // Еда
+    "⚽": [0x1F3C2, 0x1F3F0], // Спорт/Активности
+    "🚗": [0x1F680, 0x1F6C5], // Путешествия
+    "💡": [0x1F4A1, 0x1F4A9], // Объекты
+    "🇺🇦": [0x1F1E6, 0x1F1FF]  // Флаги
 };
+
+function renderAllEmojis() {
+    const tabsContainer = document.querySelector('.emoji-tabs');
+    const list = document.getElementById('emoji-list');
+    
+    tabsContainer.innerHTML = ""; // Очищаем старые табы
+    
+    Object.keys(emojiGroups).forEach(icon => {
+        const btn = document.createElement('button');
+        btn.innerText = icon;
+        btn.onclick = () => loadCategory(emojiGroups[icon]);
+        tabsContainer.appendChild(btn);
+    });
+
+    // Загружаем первую категорию по умолчанию
+    loadCategory(emojiGroups["😊"]);
+}
+
+function loadCategory(range) {
+    const list = document.getElementById('emoji-list');
+    list.innerHTML = "";
+    
+    for (let i = range[0]; i <= range[1]; i++) {
+        const span = document.createElement('span');
+        span.innerHTML = `&#${i};`; // Декодируем Unicode в символ
+        span.style.cursor = "pointer";
+        span.onclick = () => {
+            document.getElementById('msg-input').value += span.innerText;
+        };
+        list.appendChild(span);
+    }
+}
+
+// Запускаем при загрузке
+renderAllEmojis();
 
 // РЕНДЕР АВТОРИЗАЦИИ
 function renderAuth() {
