@@ -57,36 +57,33 @@ body { height: 100vh; overflow: hidden; transition: 0.5s; position: relative; co
     margin-left: 10px; /* Тот самый промежуток между колонками */
 }
 
-/* Располагаем элементы в заголовке по краям */
 .chat-header {
-    display: flex; /* Включаем гибкий контейнер */
-    align-items: center; /* Центрируем по вертикали */
+    display: flex; /* Делаем заголовок гибким контейнером */
+    align-items: center; /* Центрируем текст и кнопки по вертикали */
     justify-content: space-between; /* Расталкиваем имя влево, кнопки вправо */
     padding: 15px 25px;
     width: 100%;
+    box-sizing: border-box; /* Чтобы паддинги не раздували ширину */
 }
 
-/* Контейнер для кнопок */
 .header-actions {
     display: flex;
     gap: 15px; /* Расстояние между иконками */
+    margin-left: auto; /* Дополнительная страховка, чтобы кнопки ушли вправо */
 }
 
-/* Сами кнопки (делаем их прозрачными и красивыми) */
+/* Стили для самих иконок-кнопок */
 .icon-btn {
     background: none;
     border: none;
     font-size: 20px;
     cursor: pointer;
-    transition: transform 0.2s ease;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: white;
+    transition: 0.2s;
 }
 
 .icon-btn:hover {
-    transform: scale(1.2); /* Увеличиваем при наведении */
+    transform: scale(1.2);
 }
 
 .header-actions {
