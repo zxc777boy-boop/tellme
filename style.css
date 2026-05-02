@@ -47,33 +47,66 @@ body { height: 100vh; overflow: hidden; transition: 0.5s; position: relative; co
     justify-content: flex-start; 
 }
 
-/* Основное окно чата */
+/* 1. Главное окно чата - растягиваем и центрируем */
 .chat-window {
-    flex: 1; /* Занимает всё свободное место справа от боковой панели */
-    display: flex;
-    flex-direction: column; /* Элементы идут сверху вниз: шапка -> чат -> ввод */
-    height: 100vh; /* Растягиваем на всю высоту экрана */
-    overflow: hidden;
-    position: relative;
-}
-
-/* Список сообщений */
-#chat-box {
-    flex: 1; /* Растягивается, выталкивая строку ввода вниз */
-    overflow-y: auto; /* Появляется скролл, если сообщений много */
-    padding: 20px;
+    flex: 1; 
     display: flex;
     flex-direction: column;
+    height: 100vh;
+    background: #1e1e1e; /* Твой темный фон */
+    position: relative;
+    overflow: hidden;
 }
 
-/* Строка ввода */
+/* 2. Шапка - фиксим кнопки и выравнивание */
+.chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 25px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.header-actions {
+    display: flex;
+    gap: 15px;
+}
+
+/* 3. Убираем тот самый белый фон у кнопок */
+.icon-btn {
+    background: none !important; /* Принудительно убираем фон */
+    border: none !important;     /* Убираем рамки */
+    outline: none;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    transition: 0.2s;
+}
+
+.icon-btn:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
+/* 4. Поле сообщений - возвращаем его в центр */
+#chat-box {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* 5. Строка ввода - прижимаем к низу */
 .chat-input-area {
     display: flex;
     align-items: center;
-    padding: 15px 25px;
-    background: rgba(255, 255, 255, 0.05); /* Легкий фон, чтобы отделялась */
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px 20px;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.02);
 }
+
 .chat-header {
     display: flex; /* Делаем заголовок гибким контейнером */
     align-items: center; /* Центрируем текст и кнопки по вертикали */
