@@ -52,17 +52,21 @@
         </aside>
 
         <main class="chat-window glass">
- <main class="chat-window glass">
+<main class="chat-window glass">
     <div class="chat-header">
         <h2 id="active-chat-name">Tellme Support</h2>
         
-        <!-- Вот этот блок отвечает за кнопки справа -->
+        <!-- Кнопки управления в отдельном контейнере -->
         <div class="header-actions">
-            <button class="icon-btn" onclick="toggleSearch()">🔍</button>
-            <button class="icon-btn" onclick="openCallModal()">📞</button>
-            <button class="icon-btn">⋮</button>
+            <button class="icon-btn" title="Поиск" onclick="toggleSearch()">🔍</button>
+            <button class="icon-btn" title="Позвонить" onclick="openCallModal()">📞</button>
+            <button class="icon-btn" title="Ещё">⋮</button>
         </div>
     </div>
+
+    <!-- Тот самый блок для сообщений, который мог пропасть -->
+    <div class="chat-messages" id="chat-box"></div>
+</main>
 
     <!-- ВАЖНО: этот блок должен быть СРАЗУ под хедером, чтобы чат не был пустым -->
     <div class="chat-messages" id="chat-box"></div>
