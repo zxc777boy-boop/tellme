@@ -6,115 +6,47 @@
     <title>Tellme | Redesigned Pro</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="theme-dark"> 
-    <div class="bg-pattern"></div>
-
-    <button id="gear-btn" class="settings-gear" onclick="openSettings('reg')">⚙️</button>
-
-    <div id="modal-overlay" class="modal-overlay" style="display:none;">
-        <div class="modal-window glass">
-            <h3 id="modal-title"></h3>
-            <div id="modal-content" class="modal-scroll"></div>
-            <div id="modal-error" class="error-msg"></div>
-            <div class="modal-footer">
-                <button id="modal-apply" onclick="applyModal()" class="btn-action apply">Применить</button>
-                <button id="modal-cancel" onclick="closeModal()" class="btn-action cancel">Закрыть</button>
+<body>
+    <div class="app-container">
+        <!-- Боковая панель (Sidebar) -->
+        <aside class="sidebar glass">
+            <div class="sidebar-header">
+                <button class="menu-btn">☰</button>
+                <input type="text" class="search-bar" placeholder="Поиск...">
             </div>
-        </div>
-    </div>
-
-    <div id="drawer" class="drawer glass">
-        <div class="drawer-header">
-            <h2 id="drawer-title">Настройки</h2>
-            <button onclick="closeDrawer()" class="close-drawer">✕</button>
-        </div>
-        <div id="drawer-body" class="drawer-content"></div>
-    </div>
-
-    <div id="auth-screen" class="screen active">
-        <div class="auth-card glass">
-            <h1 class="logo">Tellme</h1>
-            <div id="auth-form" class="auth-form"></div>
-            <div class="auth-footer">
-                <button class="btn-enter" id="main-auth-btn" onclick="login()">Войти</button>
-                <div id="toggle-link" class="toggle-link"></div>
+            <div class="chat-list">
+                <div class="chat-item active">
+                    <div class="chat-avatar">🤖</div>
+                    <div class="chat-info">
+                        <h3>Tellme Support</h3>
+                        <p>Система готова</p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-
-    <div id="app-screen" class="screen">
-        <aside class="app-sidebar glass">
-            <div class="sidebar-top">
-                <button class="burger" onclick="openSettings('profile')">☰</button>
-                <input type="text" placeholder="Поиск..." class="search-input">
-            </div>
-            <div class="chat-list" id="chat-list"></div>
         </aside>
-        
-<main class="chat-window glass">
-    <!-- Чистая шапка без лишних кнопок -->
-    <div class="chat-header">
-        <h2 id="active-chat-name">Tellme Support</h2>
+
+        <!-- Основное окно чата -->
+        <main class="chat-window glass">
+            <!-- Шапка чата -->
+            <div class="chat-header">
+                <h2 id="active-chat-name">Tellme Support</h2>
+                <!-- Сюда потом добавим кнопки, когда всё заработает -->
+            </div>
+
+            <!-- Область сообщений -->
+            <div class="chat-messages" id="chat-box">
+                <!-- Сообщения будут появляться здесь -->
+            </div>
+
+            <!-- Панель ввода сообщения -->
+            <div class="chat-input-area">
+                <button id="emoji-btn" class="input-action-btn">😊</button>
+                <button id="attach-btn" class="input-action-btn">📎</button>
+                <input type="text" id="msg-input" placeholder="Написать сообщение...">
+                <button id="voice-btn" class="input-action-btn">🎤</button>
+                <button id="send-btn" class="send-btn">➤</button>
+            </div>
+        </main>
     </div>
-
-    <!-- Поле для сообщений -->
-    <div class="chat-messages" id="chat-box"></div>
-
-    <!-- Твоя оригинальная строка ввода -->
-    <div class="chat-input-area">
-        <button id="emoji-btn">😊</button>
-        <button id="attach-btn">📎</button>
-        <input type="text" id="msg-input" placeholder="Написать сообщение...">
-        <button id="voice-btn">🎤</button>
-        <button id="send-btn">➤</button>
-    </div>
-</main>
-
-    <!-- Поле для сообщений — вернет чат на место -->
-    <div class="chat-messages" id="chat-box"></div>
-
-    <!-- Твой блок с вводом сообщения (input-area) должен быть здесь -->
-    
-</main> <!-- Не забудь закрыть main в самом конце -->
-
-    <!-- ВСТАВЬ ЭТО ЗДЕСЬ (вместо повторного заголовка) -->
-    <div class="chat-messages" id="chat-box"></div> 
-</main>
-
-    <!-- Тот самый блок для сообщений, который мог пропасть -->
-    <div class="chat-messages" id="chat-box"></div>
-</main>
-
-    <!-- ВАЖНО: этот блок должен быть СРАЗУ под хедером, чтобы чат не был пустым -->
-    <div class="chat-messages" id="chat-box"></div>
-
-    <!-- Дальше идет твоя область ввода сообщения -->
-</main>
-            
-<div id="emoji-drawer" class="emoji-drawer glass">
-    <div class="emoji-tabs">
-        <!-- ОСТАВЬ ПУСТЫМ. JavaScript сам добавит сюда новые вкладки -->
-    </div>
-    <div id="emoji-list" class="emoji-grid"></div>
-</div>
-
-<div class="chat-input-area">
-    <button class="icon-btn" onclick="toggleEmoji()">😊</button>
-    <button class="icon-btn" onclick="document.getElementById('hidden-file').click()">📎</button>
-    <input type="text" id="msg-input" autocomplete="off" placeholder="Написать сообщение...">
-    
-    <!-- Контейнер для записи -->
-    <div class="recorder-container">
-        <button id="record-btn" class="icon-btn main-record-btn">🎤</button>
-        <div id="video-preview-container" class="video-preview-wrap">
-            <video id="video-preview" autoplay muted playsinline></video>
-        </div>
-    </div>
-
-    <button class="send-btn" onclick="sendMsg()">➤</button>
-</div>
-
-    <input type="file" id="hidden-file" style="display:none">
-    <script src="script.js"></script>
 </body>
 </html>
