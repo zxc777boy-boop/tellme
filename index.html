@@ -50,17 +50,25 @@
             </div>
             <div class="chat-list" id="chat-list"></div>
         </aside>
-
+<!-- Оставь только ОДИН тег main -->
 <main class="chat-window glass">
+    
+    <!-- Заголовок: оставляем тоже только ОДИН раз -->
     <div class="chat-header">
         <h2 id="active-chat-name">Tellme Support</h2>
-        
         <div class="header-actions">
             <button class="icon-btn" title="Поиск" onclick="toggleSearch()">🔍</button>
             <button class="icon-btn" title="Позвонить" onclick="openCallModal()">📞</button>
             <button class="icon-btn" title="Ещё">⋮</button>
         </div>
-    </div> <!-- Закрыли заголовок -->
+    </div>
+
+    <!-- Поле для сообщений — вернет чат на место -->
+    <div class="chat-messages" id="chat-box"></div>
+
+    <!-- Твой блок с вводом сообщения (input-area) должен быть здесь -->
+    
+</main> <!-- Не забудь закрыть main в самом конце -->
 
     <!-- ВСТАВЬ ЭТО ЗДЕСЬ (вместо повторного заголовка) -->
     <div class="chat-messages" id="chat-box"></div> 
