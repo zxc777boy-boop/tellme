@@ -136,15 +136,12 @@ body { height: 100vh; overflow: hidden; transition: 0.5s; position: relative; co
 .emoji-tabs button { background: none; border: none; font-size: 1.2rem; cursor: pointer; }
 .emoji-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); /* Крупные ячейки */
-    gap: 5px;
-    max-height: 300px; /* Ограничиваем высоту окна */
-    overflow-y: auto;  /* Включаем вертикальную прокрутку */
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.2); /* Легкий фон для контраста */
-    border-radius: 10px;
-    scrollbar-width: thin; /* Тонкий скролл для Firefox */
-    scrollbar-color: var(--acc) transparent;
+    grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+    gap: 4px;
+    max-height: 280px; /* Высота самого окна со смайлами */
+    overflow-y: auto;  /* Вертикальный скролл */
+    padding: 8px;
+    scrollbar-width: thin;
 }
 
 /* Стилизация скроллбара для Chrome/Safari/Edge */
