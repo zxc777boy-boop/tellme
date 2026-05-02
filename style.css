@@ -57,14 +57,36 @@ body { height: 100vh; overflow: hidden; transition: 0.5s; position: relative; co
     margin-left: 10px; /* Тот самый промежуток между колонками */
 }
 
-/* Заголовок чата (исправляем положение текста) */
+/* Располагаем элементы в заголовке по краям */
 .chat-header {
-    padding: 20px 25px;
+    display: flex; /* Включаем гибкий контейнер */
+    align-items: center; /* Центрируем по вертикали */
+    justify-content: space-between; /* Расталкиваем имя влево, кнопки вправо */
+    padding: 15px 25px;
+    width: 100%;
+}
+
+/* Контейнер для кнопок */
+.header-actions {
+    display: flex;
+    gap: 15px; /* Расстояние между иконками */
+}
+
+/* Сами кнопки (делаем их прозрачными и красивыми) */
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    padding: 5px;
     display: flex;
     align-items: center;
-    justify-content: bwtween; /* Это растянет имя и кнопки по краям */
-    border-radius: 20px;
-    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    transform: scale(1.2); /* Увеличиваем при наведении */
 }
 
 .header-actions {
