@@ -40,15 +40,22 @@ function renderAllEmojis() {
 
 function loadCategory(range) {
     const list = document.getElementById('emoji-list');
-    list.innerHTML = "";
+    list.innerHTML = ""; // Очищаем сетку перед загрузкой новой категории
     
     for (let i = range[0]; i <= range[1]; i++) {
         const span = document.createElement('span');
-        span.innerHTML = `&#${i};`; // Декодируем Unicode в символ
+        // Превращаем код Unicode в реальный символ
+        span.innerHTML = `&#${i};`; 
+        span.className = 'emoji-item'; // Для стилей в CSS
         span.style.cursor = "pointer";
+        
+        // Логика клика: добавляем эмодзи в инпут
         span.onclick = () => {
-            document.getElementById('msg-input').value += span.innerText;
+            const input = document.getElementById('msg-input');
+            input.value += span.innerText;
+            input.focus(); // Возвращаем фокус на поле ввода
         };
+        
         list.appendChild(span);
     }
 }
