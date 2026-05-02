@@ -52,15 +52,23 @@
         </aside>
 
         <main class="chat-window glass">
- <div class="chat-header">
-    <h2 id="active-chat-name">Tellme Support</h2>
-    <!-- Новые кнопки управления -->
-    <div class="header-actions">
-        <button class="icon-btn" title="Поиск" onclick="toggleSearch()">🔍</button>
-        <button class="icon-btn" title="Позвонить" onclick="openCallModal()">📞</button>
-        <button class="icon-btn" title="Ещё">⋮</button>
+ <main class="chat-window glass">
+    <div class="chat-header">
+        <h2 id="active-chat-name">Tellme Support</h2>
+        
+        <!-- Вот этот блок отвечает за кнопки справа -->
+        <div class="header-actions">
+            <button class="icon-btn" onclick="toggleSearch()">🔍</button>
+            <button class="icon-btn" onclick="openCallModal()">📞</button>
+            <button class="icon-btn">⋮</button>
+        </div>
     </div>
-</div>
+
+    <!-- ВАЖНО: этот блок должен быть СРАЗУ под хедером, чтобы чат не был пустым -->
+    <div class="chat-messages" id="chat-box"></div>
+
+    <!-- Дальше идет твоя область ввода сообщения -->
+</main>
             
 <div id="emoji-drawer" class="emoji-drawer glass">
     <div class="emoji-tabs">
