@@ -47,19 +47,33 @@ body { height: 100vh; overflow: hidden; transition: 0.5s; position: relative; co
     justify-content: flex-start; 
 }
 
-/* Делаем так, чтобы сообщения занимали всё свободное место */
+/* Основное окно чата */
 .chat-window {
+    flex: 1; /* Занимает всё свободное место справа от боковой панели */
+    display: flex;
+    flex-direction: column; /* Элементы идут сверху вниз: шапка -> чат -> ввод */
+    height: 100vh; /* Растягиваем на всю высоту экрана */
+    overflow: hidden;
+    position: relative;
+}
+
+/* Список сообщений */
+#chat-box {
+    flex: 1; /* Растягивается, выталкивая строку ввода вниз */
+    overflow-y: auto; /* Появляется скролл, если сообщений много */
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    height: 100%;
 }
 
-#chat-box {
-    flex: 1; /* Растягивает блок сообщений, толкая ввод вниз */
-    overflow-y: auto;
-    padding: 20px;
+/* Строка ввода */
+.chat-input-area {
+    display: flex;
+    align-items: center;
+    padding: 15px 25px;
+    background: rgba(255, 255, 255, 0.05); /* Легкий фон, чтобы отделялась */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
-
 .chat-header {
     display: flex; /* Делаем заголовок гибким контейнером */
     align-items: center; /* Центрируем текст и кнопки по вертикали */
