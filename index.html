@@ -51,18 +51,20 @@
             <div class="chat-list" id="chat-list"></div>
         </aside>
 
-        <main class="chat-window glass">
 <main class="chat-window glass">
     <div class="chat-header">
         <h2 id="active-chat-name">Tellme Support</h2>
         
-        <!-- Кнопки управления в отдельном контейнере -->
         <div class="header-actions">
             <button class="icon-btn" title="Поиск" onclick="toggleSearch()">🔍</button>
             <button class="icon-btn" title="Позвонить" onclick="openCallModal()">📞</button>
             <button class="icon-btn" title="Ещё">⋮</button>
         </div>
-    </div>
+    </div> <!-- Закрыли заголовок -->
+
+    <!-- ВСТАВЬ ЭТО ЗДЕСЬ (вместо повторного заголовка) -->
+    <div class="chat-messages" id="chat-box"></div> 
+</main>
 
     <!-- Тот самый блок для сообщений, который мог пропасть -->
     <div class="chat-messages" id="chat-box"></div>
