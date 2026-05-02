@@ -47,14 +47,17 @@ body { height: 100vh; overflow: hidden; transition: 0.5s; position: relative; co
     justify-content: flex-start; 
 }
 
-/* Окно чата (добавляем отступ слева, чтобы отделить от списка) */
+/* Делаем так, чтобы сообщения занимали всё свободное место */
 .chat-window {
-    flex: 1;
-    height: 100%;
     display: flex;
     flex-direction: column;
-    position: relative;
-    margin-left: 10px; /* Тот самый промежуток между колонками */
+    height: 100%;
+}
+
+#chat-box {
+    flex: 1; /* Растягивает блок сообщений, толкая ввод вниз */
+    overflow-y: auto;
+    padding: 20px;
 }
 
 .chat-header {
