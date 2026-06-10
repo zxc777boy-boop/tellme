@@ -1,307 +1,359 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap');
-
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
-body { height: 100vh; overflow: hidden; transition: 0.5s; position: relative; color: white; background: #121214; }
-
-/* ТЕМЫ С УЗОРАМИ */
-.theme-pink { background: linear-gradient(135deg, #ff9a9e, #fad0c4); --acc: #ff7b7b; --btn-blue: #4facfe; }
-.theme-pink .bg-pattern { background-image: radial-gradient(rgba(255,255,255,0.3) 1px, transparent 1px); background-size: 20px 20px; }
-
-.theme-blue { background: linear-gradient(135deg, #4facfe, #00f2fe); --acc: #2d8cf0; --btn-blue: #007aff; }
-.theme-blue .bg-pattern { background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.05) 10px, rgba(255,255,255,0.05) 11px); }
-
-.theme-dark { background: #121214; --acc: #00f2fe; --btn-blue: #2d8cf0; }
-.theme-dark .bg-pattern { background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 30px 30px; }
-
-.theme-white { background: #e0e0e0; color: #333; --acc: #ff7b7b; --btn-blue: #4facfe; }
-.theme-white .bg-pattern { background-image: radial-gradient(at 0% 0%, rgba(0,0,0,0.05) 0, transparent 50%), radial-gradient(at 50% 0%, rgba(0,0,0,0.05) 0, transparent 50%); }
-.theme-white .glass { background: rgba(0, 0, 0, 0.05); border-color: rgba(0, 0, 0, 0.1); color: #333; }
-.theme-white input { color: #333 !important; }
-
-.bg-pattern { position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 1; }
-
-/* GLASS */
-.glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; }
-
-/* Общие правила для экранов */
-.screen { 
-    display: none; 
-    width: 100%; 
-    height: 100vh; 
-    position: absolute; 
-    top: 0; 
-    left: 0; 
+/* Базовые стили macOS окружения */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* Экран входа — центрируем карточку */
-#auth-screen.active { 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-}
-
-/* Экран приложения — растягиваем на весь экран */
-#app-screen.active { 
-    display: flex; 
-    align-items: stretch; /* Растягивает сайдбар и чат по вертикали */
-    justify-content: flex-start; 
-}
-
-.chat-window {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+body {
+    background: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564') no-repeat center center fixed;
+    background-size: cover;
     height: 100vh;
-    background: #1e1e1e;
-    position: relative;
-}
-
-.chat-header {
-    padding: 20px 25px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-#chat-box {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-}
-
-.chat-input-area {
     display: flex;
-    align-items: center;
-    padding: 15px 25px;
-    gap: 15px;
-    background: rgba(255, 255, 255, 0.05);
-}
-
-/* Убираем лишние стили кнопок, если они остались */
-.icon-btn {
-    display: none; 
-}
-/* 4. Поле сообщений - возвращаем его в центр */
-#chat-box {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-}
-
-/* 5. Строка ввода - прижимаем к низу */
-.chat-input-area {
-    display: flex;
-    align-items: center;
-    padding: 15px 20px;
-    gap: 10px;
-    background: rgba(255, 255, 255, 0.02);
-}
-
-.chat-header {
-    display: flex; /* Делаем заголовок гибким контейнером */
-    align-items: center; /* Центрируем текст и кнопки по вертикали */
-    justify-content: space-between; /* Расталкиваем имя влево, кнопки вправо */
-    padding: 15px 25px;
-    width: 100%;
-    box-sizing: border-box; /* Чтобы паддинги не раздували ширину */
-}
-
-.header-actions {
-    display: flex;
-    gap: 15px; /* Расстояние между иконками */
-    margin-left: auto; /* Дополнительная страховка, чтобы кнопки ушли вправо */
-}
-
-/* Стили для самих иконок-кнопок */
-.icon-btn {
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    color: white;
-    transition: 0.2s;
-}
-
-.icon-btn:hover {
-    transform: scale(1.2);
-}
-
-.header-actions {
-    display: flex;
-    gap: 15px;
-    margin-left: auto; /* Гарантирует, что кнопки будут справа */
-}
-
-#active-chat-name {
-    font-size: 1.2rem;
-    font-weight: 800;
-    margin: 0; /* Убираем лишние внешние отступы */
-}
-.screen.active { display: flex; align-items: center; justify-content: center; }
-
-.settings-gear { position: fixed; top: 20px; left: 20px; z-index: 1000; font-size: 24px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 10px; border-radius: 15px; cursor: pointer; color: inherit; transition: 0.3s; }
-.settings-gear:hover { transform: rotate(90deg); background: rgba(255,255,255,0.15); }
-
-.auth-card { width: 420px; padding: 50px; text-align: center; }
-.logo { font-size: 3.5rem; font-weight: 800; margin-bottom: 30px; letter-spacing: -2px; }
-
-.auth-form input, .modal-window input { width: 100%; padding: 16px; margin: 8px 0; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white; outline: none; }
-.error-msg { color: #ff4d4d; font-size: 0.8rem; margin-top: 5px; height: 1rem; }
-
-.btn-enter, .btn-action { width: 100%; padding: 16px; border-radius: 14px; border: none; background: var(--acc); color: white; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-.btn-action.blue-btn { background: var(--btn-blue); }
-.btn-action.cancel { background: rgba(255, 255, 255, 0.1); color: inherit; }
-
-.toggle-link { margin-top: 20px; cursor: pointer; font-size: 0.9rem; opacity: 0.7; }
-
-/* ЧАТ */
-.app-sidebar { width: 320px; display: flex; flex-direction: column; flex-shrink: 0; }
-.chat-window { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
-.sidebar-top { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-.burger { background: none; border: none; color: inherit; font-size: 1.5rem; cursor: pointer; width: fit-content; }
-.search-input { background: rgba(255,255,255,0.05); border: none; padding: 12px; border-radius: 12px; color: inherit; width: 100%; }
-.chat-list { flex: 1; overflow-y: auto; padding: 10px; }
-.chat-item { display: flex; align-items: center; gap: 15px; padding: 12px; border-radius: 18px; cursor: pointer; transition: 0.2s; margin-bottom: 5px; }
-.chat-item.active { background: rgba(255,255,255,0.1); }
-
-.chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-.chat-input-area { padding: 20px; display: flex; gap: 15px; align-items: center; background: rgba(0,0,0,0.05); }
-#msg-input { flex: 1; background: none; border: none; color: inherit; outline: none; }
-.icon-btn { background: none; border: none; font-size: 1.4rem; cursor: pointer; opacity: 0.6; }
-.send-btn { background: var(--acc); border: none; width: 45px; height: 45px; border-radius: 12px; color: white; cursor: pointer; }
-
-/* ШТОРКА */
-.drawer { position: fixed; left: -350px; top: 0; width: 320px; height: 100%; z-index: 1500; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding: 40px 25px; display: flex; flex-direction: column; }
-.drawer.open { left: 0; }
-.drawer-content { flex: 1; overflow-y: auto; }
-.close-drawer { background: none; border: none; color: inherit; font-size: 1.5rem; cursor: pointer; }
-
-/* ЭКСТРА ФУНКЦИИ В ШТОРКЕ */
-.extra-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
-.switch { position: relative; width: 40px; height: 20px; background: rgba(255,255,255,0.1); border-radius: 20px; cursor: pointer; }
-.switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; background: white; border-radius: 50%; transition: 0.3s; }
-.switch.on { background: var(--acc); }
-.switch.on::after { left: 22px; }
-
-/* МОДАЛКА */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); z-index: 5000; display: flex; align-items: center; justify-content: center; }
-.modal-window { width: 380px; padding: 30px; text-align: center; }
-.modal-scroll { max-height: 250px; overflow-y: auto; margin: 20px 0; }
-.modal-item { padding: 15px; margin-bottom: 8px; border-radius: 12px; cursor: pointer; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
-.modal-item.active { border-color: var(--acc); color: var(--acc); font-weight: bold; }
-
-/* ТЕМЫ КРУЖКИ */
-.theme-circles { display: flex; gap: 10px; justify-content: center; margin: 15px 0; }
-.circle { width: 35px; height: 35px; border-radius: 10px; cursor: pointer; border: 2px solid rgba(255,255,255,0.1); }
-.c-pink { background: #ff9a9e; } .c-blue { background: #4facfe; } .c-dark { background: #333; } .c-white { background: #fff; }
-
-/* ЭМОДЗИ */
-.emoji-drawer { position: absolute; bottom: 90px; left: 20px; width: 280px; height: 320px; display: none; flex-direction: column; padding: 10px; z-index: 100; }
-.emoji-drawer.open { display: flex; }
-.emoji-tabs { display: flex; justify-content: space-around; margin-bottom: 10px; }
-.emoji-tabs button { background: none; border: none; font-size: 1.2rem; cursor: pointer; }
-.emoji-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
-    gap: 4px;
-    max-height: 280px; /* Высота самого окна со смайлами */
-    overflow-y: auto;  /* Вертикальный скролл */
-    padding: 8px;
-    scrollbar-width: thin;
-}
-
-/* Стилизация скроллбара для Chrome/Safari/Edge */
-.emoji-grid::-webkit-scrollbar {
-    width: 6px;
-}
-.emoji-grid::-webkit-scrollbar-thumb {
-    background-color: var(--acc);
-    border-radius: 10px;
-}
-
-/* Чтобы сами эмодзи были крупными и кликабельными */
-.emoji-item {
-    font-size: 24px;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 5px;
-    transition: transform 0.1s;
+    align-items: center;
+    overflow: hidden;
+    transition: background 0.3s ease;
+}
+
+/* Эффект размытия окон (Glassmorphism) */
+.mac-window {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    overflow: hidden;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Окно настроек шире стандартного */
+#settings-window {
+    width: 650px;
+    height: 450px;
+}
+
+/* Шапка окна (Titlebar) */
+.mac-header {
+    height: 38px;
+    background: rgba(246, 246, 246, 0.9);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 0 12px;
     user-select: none;
 }
 
-.emoji-item:hover {
-    transform: scale(1.2);
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
+/* Кнопки управления окном (Светофор) */
+.mac-buttons {
+    display: flex;
+    gap: 8px;
+    position: absolute;
+    left: 12px;
 }
 
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
-
-/* Стили для записи */
-.recorder-container {
+.mac-buttons span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
     position: relative;
+    cursor: pointer;
+}
+
+.mac-buttons .close { background-color: #ff5f56; border: 0.5px solid #e0443e; }
+.mac-buttons .minimize { background-color: #ffbd2e; border: 0.5px solid #dea123; }
+.mac-buttons .expand { background-color: #27c93f; border: 0.5px solid #1aab29; }
+
+.mac-title {
+    width: 100%;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4a4a4a;
+}
+
+/* Контент окон авторизации/регистрации */
+.mac-content {
+    padding: 25px 30px;
+}
+
+.app-logo {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.logo-icon {
+    font-size: 40px;
+    margin-bottom: 5px;
+}
+
+.app-logo h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1d1d1f;
+}
+
+.app-logo p {
+    font-size: 13px;
+    color: #86868b;
+    margin-top: 4px;
+}
+
+/* Поля ввода (Inputs) */
+.input-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.input-group label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #515154;
+    padding-left: 2px;
+}
+
+.input-group input, 
+.input-group textarea,
+.mac-select {
+    padding: 7px 10px;
+    font-size: 13px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid #d1d1d6;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-group input:focus, 
+.input-group textarea:focus,
+.mac-select:focus {
+    border-color: #007aff;
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.25);
+}
+
+/* macOS Системные кнопки */
+.mac-btn {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background 0.15s;
+    outline: none;
+    margin-top: 10px;
+}
+
+.btn-blue {
+    background: linear-gradient(#007aff, #0063cc);
+    color: white;
+    border: none;
+}
+
+.btn-blue:hover { background: #0062cc; }
+.btn-blue:active { background: #0051a8; }
+
+.btn-light {
+    background: #ffffff;
+    color: #1d1d1f;
+}
+
+.btn-light:hover { background: #f5f5f7; }
+
+.mac-footer-links {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+.mac-footer-links a {
+    color: #007aff;
+    text-decoration: none;
+}
+
+/* --- СТИЛИ ДЛЯ ОКНА НАСТРОЕК (Sidebar Layout) --- */
+.mac-settings-container {
+    display: flex;
+    height: calc(100% - 38px);
+}
+
+.mac-sidebar {
+    width: 180px;
+    background: rgba(237, 237, 237, 0.6);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar-item {
+    padding: 6px 10px;
+    font-size: 13px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #3a3a3a;
     display: flex;
     align-items: center;
+    gap: 8px;
+    user-select: none;
 }
 
-/* Добавь это в конец style.css */
-
-/* Кнопка записи */
-.main-record-btn {
-    transition: all 0.3s ease;
-    cursor: pointer;
+.sidebar-item:hover {
+    background: rgba(0, 0, 0, 0.05);
 }
 
-/* Состояние при зажатии: красный фон и белый значок */
-.main-record-btn.recording {
-    background: #ff4d4d !important; /* Насыщенный красный */
-    color: white !important;
-    transform: scale(1.2);
+.sidebar-item.active {
+    background: #007aff;
+    color: white;
+}
+
+.mac-settings-content {
+    flex: 1;
+    padding: 20px 25px;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.settings-tab h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #1d1d1f;
+}
+
+/* Смена аватара */
+.avatar-picker {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.current-avatar {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    box-shadow: 0 0 15px rgba(255, 77, 77, 0.5);
+    background: #007aff;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
 }
 
-/* Контейнер предпросмотра кружка над кнопкой */
-.video-preview-wrap {
+.avatar-picker .mac-btn {
+    width: auto;
+    margin-top: 0;
+}
+
+/* Строки переключателей в настройках */
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.setting-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.setting-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1d1d1f;
+}
+
+.setting-desc {
+    font-size: 11px;
+    color: #86868b;
+}
+
+/* macOS Ползунок (Toggle Switch) */
+.mac-switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+}
+
+.mac-switch input { display: none; }
+
+.slider {
     position: absolute;
-    bottom: 80px; /* Появляется над строкой ввода */
-    right: 20px;
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid #ff4d4d;
-    display: none;
-    background: #000;
-    z-index: 2000;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-#video-preview {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transform: scaleX(-1); /* Зеркалим, чтобы видеть себя как в зеркале */
-}
-
-/* Стиль кружка в самом чате */
-.video-msg {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid var(--acc);
     cursor: pointer;
-    transition: transform 0.3s ease, border-radius 0.3s ease;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #e5e5ea;
+    transition: .2s;
+    border-radius: 20px;
 }
 
-/* Когда нажали на кружок в чате (увеличение) */
-.video-msg.expanded {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(2.5);
-    z-index: 9999;
-    border-radius: 20px; /* При увеличении становится чуть более квадратным */
-    box-shadow: 0 0 100px rgba(0,0,0,0.9);
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .2s;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
+
+input:checked + .slider {
+    background-color: #34c759;
+}
+
+input:checked + .slider:before {
+    transform: translateX(16px);
+}
+
+/* Вспомогательные классы */
+.hidden { display: none !important; }
+
+/* --- ТЁМНАЯ ТЕМА СИСТЕМЫ (Dark Mode) --- */
+body.dark-mode .mac-window {
+    background: rgba(30, 30, 30, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f5f5f7;
+}
+body.dark-mode .mac-header {
+    background: rgba(45, 45, 45, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+body.dark-mode .mac-title, 
+body.dark-mode .app-logo h2,
+body.dark-mode .setting-title,
+body.dark-mode .settings-tab h3 {
+    color: #ffffff;
+}
+body.dark-mode .input-group label { color: #b2b2b7; }
+body.dark-mode .mac-sidebar { background: rgba(40, 40, 40, 0.6); }
+body.dark-mode .sidebar-item { color: #cccccc; }
+body.dark-mode .sidebar-item:hover { background: rgba(255,255,255,0.05); }
+body.dark-mode .input-group input, 
+body.dark-mode .input-group textarea,
+body.dark-mode .mac-select {
+    background: rgba(50, 50, 50, 0.5);
+    border: 1px solid #48484a;
+    color: white;
+}
+body.dark-mode .btn-light {
+    background: #323236;
+    color: white;
+}
+body.dark-mode .btn-light:hover { background: #3a3a3c; }
