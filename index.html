@@ -3,50 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tellme | Redesigned Pro</title>
+    <title>Tell Me — macOS Style</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Боковая панель (Sidebar) -->
-        <aside class="sidebar glass">
-            <div class="sidebar-header">
-                <button class="menu-btn">☰</button>
-                <input type="text" class="search-bar" placeholder="Поиск...">
+
+    <div class="mac-window" id="auth-window">
+        <div class="mac-header">
+            <div class="mac-buttons">
+                <span class="close"></span>
+                <span class="minimize"></span>
+                <span class="expand"></span>
             </div>
-            <div class="chat-list">
-                <div class="chat-item active">
-                    <div class="chat-avatar">🤖</div>
-                    <div class="chat-info">
-                        <h3>Tellme Support</h3>
-                        <p>Система готова</p>
+            <div class="mac-title">Вход — Tell Me</div>
+        </div>
+        <div class="mac-content">
+            <div class="app-logo">
+                <div class="logo-icon">💬</div>
+                <h2>Войти в Tell Me</h2>
+            </div>
+            <form id="login-form" onsubmit="event.preventDefault();">
+                <div class="input-group">
+                    <label for="login-email">Email или логин</label>
+                    <input type="text" id="login-email" placeholder="example@tellme.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="login-password">Пароль</label>
+                    <input type="password" id="login-password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="mac-btn btn-blue">Войти</button>
+            </form>
+            <div class="mac-footer-links">
+                <span>Ещё нет аккаунта? <a href="#" onclick="switchWindow('auth-window', 'reg-window')">Создать</a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="mac-window hidden" id="reg-window">
+        <div class="mac-header">
+            <div class="mac-buttons">
+                <span class="close" onclick="switchWindow('reg-window', 'auth-window')"></span>
+                <span class="minimize"></span>
+                <span class="expand"></span>
+            </div>
+            <div class="mac-title">Регистрация — Tell Me</div>
+        </div>
+        <div class="mac-content">
+            <div class="app-logo">
+                <h2>Создать аккаунт</h2>
+                <p>Присоединяйся к общению без границ</p>
+            </div>
+            <form id="register-form" onsubmit="event.preventDefault();">
+                <div class="input-group">
+                    <label for="reg-username">Имя пользователя (ID)</label>
+                    <input type="text" id="reg-username" placeholder="nickname" required>
+                </div>
+                <div class="input-group">
+                    <label for="reg-email">Электронная почта</label>
+                    <input type="email" id="reg-email" placeholder="name@domain.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="reg-password">Пароль</label>
+                    <input type="password" id="reg-password" placeholder="Минимум 6 символов" required>
+                </div>
+                <button type="submit" class="mac-btn btn-blue">Зарегистрироваться</button>
+            </form>
+            <div class="mac-footer-links">
+                <span>Уже есть аккаунт? <a href="#" onclick="switchWindow('reg-window', 'auth-window')">Войти</a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="mac-window hidden" id="settings-window">
+        <div class="mac-header">
+            <div class="mac-buttons">
+                <span class="close" onclick="hideSettings()"></span>
+                <span class="minimize"></span>
+                <span class="expand"></span>
+            </div>
+            <div class="mac-title">Настройки системы</div>
+        </div>
+        <div class="mac-settings-container">
+            <div class="mac-sidebar">
+                <div class="sidebar-item active" onclick="switchTab('tab-profile')">
+                    <span class="icon">👤</span> Профиль
+                </div>
+                <div class="sidebar-item" onclick="switchTab('tab-privacy')">
+                    <span class="icon">🔒</span> Приватность
+                </div>
+                <div class="sidebar-item" onclick="switchTab('tab-appearance')">
+                    <span class="icon">🎨</span> Внешний вид
+                </div>
+            </div>
+            
+            <div class="mac-settings-content">
+                <div class="settings-tab active" id="tab-profile">
+                    <h3>Настройки профиля</h3>
+                    <div class="avatar-picker">
+                        <div class="current-avatar">TM</div>
+                        <button class="mac-btn btn-light">Изменить аватар</button>
+                    </div>
+                    <form id="profile-settings-form" onsubmit="event.preventDefault();">
+                        <div class="input-group">
+                            <label for="set-display-name">Отображаемое имя</label>
+                            <input type="text" id="set-display-name" value="User">
+                        </div>
+                        <div class="input-group">
+                            <label for="set-bio">О себе</label>
+                            <textarea id="set-bio" rows="3" placeholder="Расскажи о себе..."></textarea>
+                        </div>
+                        <button type="submit" class="mac-btn btn-blue">Сохранить изменения</button>
+                    </form>
+                </div>
+
+                <div class="settings-tab hidden" id="tab-privacy">
+                    <h3>Безопасность и приватность</h3>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span class="setting-title">Кто видит мои «кружочки»</span>
+                            <span class="setting-desc">Настройка приватности медиафайлов</span>
+                        </div>
+                        <select class="mac-select">
+                            <option>Все пользователи</option>
+                            <option>Только друзья</option>
+                            <option>Никто</option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span class="setting-title">Прием голосовых сообщений</span>
+                            <span class="setting-desc">Разрешить отправку аудио сообщений вам</span>
+                        </div>
+                        <label class="mac-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-tab hidden" id="tab-appearance">
+                    <h3>Внешний вид</h3>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span class="setting-title">Тёмная тема</span>
+                            <span class="setting-desc">Переключение оформления интерфейса</span>
+                        </div>
+                        <label class="mac-switch">
+                            <input type="checkbox" id="theme-toggle" onchange="toggleDarkTheme()">
+                            <span class="slider"></span>
+                        </label>
                     </div>
                 </div>
             </div>
-        </aside>
-
-        <!-- Основное окно чата -->
-        <main class="chat-window glass">
-            <!-- Шапка чата -->
-            <div class="chat-header">
-                <h2 id="active-chat-name">Tellme Support</h2>
-                <!-- Сюда потом добавим кнопки, когда всё заработает -->
-            </div>
-
-            <!-- Область сообщений -->
-            <div class="chat-messages" id="chat-box">
-                <!-- Сообщения будут появляться здесь -->
-            </div>
-
-            <!-- Панель ввода сообщения -->
-            <div class="chat-input-area">
-                <button id="emoji-btn" class="input-action-btn">😊</button>
-                <button id="attach-btn" class="input-action-btn">📎</button>
-                <input type="text" id="msg-input" placeholder="Написать сообщение...">
-                <button id="voice-btn" class="input-action-btn">🎤</button>
-                <button id="send-btn" class="send-btn">➤</button>
-            </div>
-        </main>
+        </div>
     </div>
+
+    <button class="mac-btn btn-light" id="test-settings-btn" onclick="showSettings()" style="position: absolute; bottom: 20px; right: 20px; z-index: 10;">🔧 Настройки</button>
+
+    <script src="script.js"></script>
 </body>
 </html>
